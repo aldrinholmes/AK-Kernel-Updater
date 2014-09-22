@@ -3,7 +3,6 @@ package hellscorekernelupdater.themike10452.lb.hellscorekernelupdater;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.net.Uri;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,6 +11,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -23,19 +24,46 @@ import java.util.regex.Pattern;
  */
 public class Tools {
 
-    private Context C;
-    private boolean cancelDownload;
-
     public static String INSTALLED_KERNEL_VERSION = "";
     private static Tools instance;
+    public boolean cancelDownload;
+    public boolean isDownloading;
+    public int downloadSize, downloadedSize;
+    public File lastDownloadedFile;
+    private Context C;
+
+    public Tools(Context context) {
+        C = context;
+        instance = this;
+    }
 
     public static Tools getInstance() {
         return instance;
     }
 
-    public Tools(Context context) {
-        C = context;
-        instance = this;
+    public static void setDefaultFont(Context context, String staticTypefaceFieldName, String fontAssetName) {
+        final Typeface regular = Typeface.createFromAsset(context.getAssets(), fontAssetName);
+        replaceFont(staticTypefaceFieldName, regular);
+    }
+
+    protected static void replaceFont(String staticTypefaceFieldName, final Typeface newTypeface) {
+        try {
+            final Field staticField = Typeface.class.getDeclaredField(staticTypefaceFieldName);
+            staticField.setAccessible(true);
+            staticField.set(null, newTypeface);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public String getFormattedKernelVersion() {
@@ -71,6 +99,12 @@ public class Tools {
 
     public boolean downloadFile(String httpURL, String destination, boolean useAndroidDownloadManager) {
 
+        cancelDownload = false;
+        downloadSize = 0;
+        downloadedSize = 0;
+
+        lastDownloadedFile = new File(destination);
+
         if (!useAndroidDownloadManager) {
 
             InputStream stream = null;
@@ -78,16 +112,15 @@ public class Tools {
             HttpURLConnection connection = null;
 
             try {
-                cancelDownload = false;
+
                 connection = (HttpURLConnection) new URL(httpURL).openConnection();
                 byte[] buffer = new byte[1024];
                 int bufferLength;
-                int totalSize, downloadedSize = 0;
-                totalSize = connection.getContentLength();
-
+                downloadSize = connection.getContentLength();
                 stream = connection.getInputStream();
                 outputStream = new FileOutputStream(new File(destination));
                 while ((bufferLength = stream.read(buffer)) > 0 && !cancelDownload) {
+                    isDownloading = true;
                     outputStream.write(buffer, 0, bufferLength);
                     downloadedSize += bufferLength;
                 }
@@ -96,6 +129,7 @@ public class Tools {
             } catch (IOException ee) {
                 return false;
             } finally {
+                isDownloading = false;
                 if (stream != null)
                     try {
                         stream.close();
@@ -112,31 +146,13 @@ public class Tools {
                     connection.disconnect();
             }
 
-            return true;
+            return !cancelDownload;
         } else {
 
             DownloadManager manager = (DownloadManager) C.getSystemService(Context.DOWNLOAD_SERVICE);
-            manager.enqueue(new DownloadManager.Request(Uri.parse(httpURL)));
+            //manager.enqueue(new DownloadManager.Request(Uri.parse(httpURL)));
 
             return true;
-        }
-    }
-
-
-    public static void setDefaultFont(Context context, String staticTypefaceFieldName, String fontAssetName) {
-        final Typeface regular = Typeface.createFromAsset(context.getAssets(), fontAssetName);
-        replaceFont(staticTypefaceFieldName, regular);
-    }
-
-    protected static void replaceFont(String staticTypefaceFieldName, final Typeface newTypeface) {
-        try {
-            final Field staticField = Typeface.class.getDeclaredField(staticTypefaceFieldName);
-            staticField.setAccessible(true);
-            staticField.set(null, newTypeface);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
         }
     }
 

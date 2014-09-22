@@ -5,7 +5,7 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "hellscorekernelupdater.themike10452.lb.hellscorekernelupdater"
+        applicationId "lb.themike10452.hellscorekernelupdater"
         minSdkVersion 19
         targetSdkVersion 20
         versionCode 1

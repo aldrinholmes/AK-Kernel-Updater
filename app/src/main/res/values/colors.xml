@@ -6,4 +6,5 @@
     <color name="card_separator">#e5e5e5</color>
     <color name="card_shadow">#dbdbdb</color>
     <color name="card_background">#ffffff</color>
+    <color name="myColor">#78909c</color>
 </resources>

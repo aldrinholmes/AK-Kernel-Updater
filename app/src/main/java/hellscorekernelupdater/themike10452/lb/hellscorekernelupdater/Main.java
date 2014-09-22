@@ -3,6 +3,7 @@ package hellscorekernelupdater.themike10452.lb.hellscorekernelupdater;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -10,8 +11,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -33,15 +37,17 @@ import java.util.Scanner;
  */
 public class Main extends Activity {
 
+    public static SharedPreferences preferences;
     private File HOST;
     private String DEVICE = Build.DEVICE;
     private String DEVICE_PART, CHANGELOG;
     private boolean DEVICE_SUPPORTED;
+    private Tools tools;
 
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         View v = super.onCreateView(name, context, attrs);
-        Tools.setDefaultFont(Main.this, "Roboto-Thin", "Roboto-Thin.ttf");
+        Tools.setDefaultFont(Main.this, "Roboto-Thin.ttf", "Roboto-Thin.ttf");
         return v;
     }
 
@@ -50,11 +56,12 @@ public class Main extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
         final Tools tools = new Tools(this);
+        this.tools = tools;
         HOST = new File(getFilesDir() + File.separator + "host");
 
-        SharedPreferences preferences = getSharedPreferences("Settings", MODE_MULTI_PROCESS);
-        if (preferences.getString(Keys.KEY_CURRENT_SOURCE, null) == null)
-            preferences.edit().putString(Keys.KEY_CURRENT_SOURCE, Keys.DEFAULT_SOURCE).apply();
+        preferences = getSharedPreferences("Settings", MODE_MULTI_PROCESS);
+
+        initSettings();
 
         final LinearLayout main = ((LinearLayout) findViewById(R.id.main));
 
@@ -84,10 +91,10 @@ public class Main extends Activity {
                     }
 
                     @Override
-                    protected void onPostExecute(Boolean aBoolean) {
-                        super.onPostExecute(aBoolean);
+                    protected void onPostExecute(Boolean downloadSuccessful) {
+                        super.onPostExecute(downloadSuccessful);
 
-                        if (!aBoolean) {
+                        if (!downloadSuccessful) {
                             return;
                         }
 
@@ -149,10 +156,14 @@ public class Main extends Activity {
                             public void onClick(View view) {
                                 final String link = getLatestDownloadLink();
                                 if (link != null) {
+                                    final boolean useAndroidDownloadManager = false;
+                                    if (!useAndroidDownloadManager) {
+                                        showProgressDialog();
+                                    }
                                     new AsyncTask<Void, Void, Void>() {
                                         @Override
                                         protected Void doInBackground(Void... voids) {
-                                            tools.downloadFile(link, Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + getLatestZipName(), true);
+                                            tools.downloadFile(link, preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, null) + getLatestZipName(), useAndroidDownloadManager);
                                             return null;
                                         }
                                     }.execute();
@@ -170,6 +181,26 @@ public class Main extends Activity {
             }
         }, 1000);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                onCreate(null);
+                return true;
+            case R.id.action_settings:
+                return true;
+        }
+        return false;
     }
 
     private AnimationSet getIntroSet(int duration, int startOffset) {
@@ -209,7 +240,7 @@ public class Main extends Activity {
     }
 
     private void getDevicePart() throws DeviceNotSupportedException {
-        Scanner s = null;
+        Scanner s;
         DEVICE_PART = "";
         CHANGELOG = "";
         try {
@@ -254,28 +285,39 @@ public class Main extends Activity {
             if (line.toLowerCase().contains(Keys.KEY_KERNEL_VERSION))
                 return line.split(":=")[1];
         }
+        s.close();
         return "Unavailable";
     }
 
     private String getLatestZipName() {
         String raw = null;
+        HttpURLConnection connection = null;
         try {
-            raw = ((HttpURLConnection) new URL(getLatestDownloadLink()).openConnection()).getHeaderField("Content-Disposition");
+            raw = (connection = (HttpURLConnection) new URL(getLatestDownloadLink()).openConnection()).getHeaderField("Content-Disposition");
         } catch (Exception e) {
+            if (connection != null)
+                connection.disconnect();
         }
 
         if (raw != null && raw.contains("=")) {
-            return raw.split("=")[1];
+            try {
+                if (raw.split("=")[1].contains(";"))
+                    return raw.split("=")[1].split(";")[0].replaceAll("\"", "");
+                else
+                    return raw.split("=")[1];
+            } finally {
+                Log.d("TAG", raw);
+                connection.disconnect();
+            }
         } else {
             Scanner s = new Scanner(DEVICE_PART);
             while (s.hasNextLine()) {
                 String line = s.nextLine();
                 if (line.toLowerCase().contains(Keys.KEY_KERNEL_ZIPNAME))
-                    if (line.toLowerCase().contains(".zip"))
-                        return line.split(":=")[1];
-                    else
-                        return line.split(":=")[1] + ".zip";
+                    return line.split(":=")[1];
+
             }
+            s.close();
             return "hC-latest.zip";
         }
     }
@@ -284,10 +326,74 @@ public class Main extends Activity {
         Scanner s = new Scanner(DEVICE_PART);
         while (s.hasNextLine()) {
             String line = s.nextLine();
-            if (line.contains(Keys.KEY_KERNEL_HTTPLINK))
+            if (line.contains(Keys.KEY_KERNEL_HTTPLINK)) {
+                s.close();
                 return line.split(":=")[1];
+            }
         }
+        s.close();
         return null;
     }
 
+    private void showProgressDialog() {
+        final CustomProgressDialog dialog = new CustomProgressDialog(this);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                tools.cancelDownload = true;
+            }
+        });
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(true);
+        dialog.setProgress((tools.downloadedSize / tools.downloadSize) * 100);
+        dialog.show();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (dialog.isShowing()) {
+                        while (!tools.isDownloading) {
+                            //just wait
+                        }
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                double done = tools.downloadedSize, total = tools.downloadSize;
+                                Double progress = (done / total) * 100;
+                                dialog.setIndeterminate(false);
+                                String done_mb = String.format("%.2g%n", total / Math.pow(2, 20)).trim();
+                                String total_mb = String.format("%.2g%n", done / Math.pow(2, 20)).trim();
+                                dialog.update(tools.lastDownloadedFile.getName(), done_mb, total_mb);
+                                dialog.setProgress(progress.intValue());
+                            }
+                        });
+
+                        if (!tools.isDownloading)
+                            break;
+
+                        Thread.sleep(500);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+    }
+
+    private void initSettings() {
+        if (preferences.getString(Keys.KEY_SETTINGS_SOURCE, null) == null)
+            preferences.edit().putString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE).apply();
+
+        if (preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, null) == null)
+            preferences.edit().putString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator).apply();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }
