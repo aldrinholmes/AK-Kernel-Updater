@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -55,6 +56,7 @@ public class Main extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
+        overridePendingTransition(R.anim.slide_in_ltr, R.anim.slide_out_ltr);
         final Tools tools = new Tools(this);
         this.tools = tools;
         HOST = new File(getFilesDir() + File.separator + "host");
@@ -198,6 +200,8 @@ public class Main extends Activity {
                 onCreate(null);
                 return true;
             case R.id.action_settings:
+                Intent i = new Intent(Main.this, Settings.class);
+                startActivity(i);
                 return true;
         }
         return false;

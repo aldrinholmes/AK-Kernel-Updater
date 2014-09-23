@@ -35,6 +35,8 @@ public class CustomProgressDialog extends Dialog {
     }
 
     public void setProgress(int percentage) {
+        if (percentage < 0)
+            return;
         progressBar.setProgress(percentage);
         PERCENTAGE.setText(percentage + "%");
     }

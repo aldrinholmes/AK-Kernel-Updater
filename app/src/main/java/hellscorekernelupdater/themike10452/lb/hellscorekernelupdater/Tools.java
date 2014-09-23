@@ -66,6 +66,14 @@ public class Tools {
         return bd.doubleValue();
     }
 
+    public static String getFileExtension(File f) {
+        try {
+            return f.getName().substring(f.getName().lastIndexOf("."));
+        } catch (StringIndexOutOfBoundsException e) {
+            return "";
+        }
+    }
+
     public String getFormattedKernelVersion() {
         String procVersionStr;
 
