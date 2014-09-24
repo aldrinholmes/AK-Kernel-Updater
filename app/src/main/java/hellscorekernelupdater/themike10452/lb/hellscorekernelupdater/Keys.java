@@ -6,6 +6,9 @@ package hellscorekernelupdater.themike10452.lb.hellscorekernelupdater;
 public class Keys {
     public static String KEY_SETTINGS_SOURCE = "_SOURCE";
     public static String KEY_SETTINGS_DOWNLOADLOCATION = "_DLLOCATION";
+    public static String KEY_SETTINGS_USEANDM = "_USEANDDM";
+    public static String KEY_SETTINGS_AUTOCHECK_ENABLED = "_ENABLEBAC";
+    public static String KEY_SETTINGS_AUTOCHECK_INTERVAL = "_BACINTERVAL";
     public static String KEY_KERNEL_VERSION = "version:=";
     public static String KEY_KERNEL_ZIPNAME = "zipname:=";
     public static String KEY_KERNEL_HTTPLINK = "httplink:=";

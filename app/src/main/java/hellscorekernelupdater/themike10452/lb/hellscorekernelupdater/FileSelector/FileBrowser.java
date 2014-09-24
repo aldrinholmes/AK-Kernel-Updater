@@ -25,13 +25,9 @@ public class FileBrowser extends Activity {
     public static String ACTION_DIRECTORY_SELECTED = "THEMIKE10452.FB.FOLDER.SELECTED";
     public File WORKING_DIRECTORY;
     public Boolean PICK_FOLDERS_ONLY;
-    ListView list;
-    ArrayList<File> items;
-    ArrayList<String> ALLOWED_EXTENSIONS;
     Comparator<File> comparator = new Comparator<File>() {
         @Override
         public int compare(File f1, File f2) {
-
             if (f1.isDirectory() && f2.isFile())
                 return -2;
             else if (f1.isFile() && f2.isDirectory())
@@ -40,12 +36,16 @@ public class FileBrowser extends Activity {
                 return f1.getName().toLowerCase().compareTo(f2.getName().toLowerCase());
         }
     };
+    private ListView list;
+    private ArrayList<File> items;
+    private ArrayList<String> ALLOWED_EXTENSIONS;
     private Adapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.file_browser_layout);
+        overridePendingTransition(R.anim.slide_in_btt, R.anim.stay_still);
 
         Bundle extras = getIntent().getExtras();
 
@@ -62,16 +62,16 @@ public class FileBrowser extends Activity {
         try {
             Bundle bundle = new Bundle();
             bundle.putString("folder", extras.getString("START"));
-            refresh(bundle);
+            updateScreen(bundle);
         } catch (NullPointerException ignored) {
-            refresh(null);
+            updateScreen(null);
         }
 
         findViewById(R.id.btn_select).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent out = new Intent(ACTION_DIRECTORY_SELECTED);
-                out.putExtra("folder", WORKING_DIRECTORY.getAbsolutePath());
+                out.putExtra("folder", WORKING_DIRECTORY.getAbsolutePath() + File.separator);
                 sendBroadcast(out);
                 finish();
             }
@@ -85,7 +85,7 @@ public class FileBrowser extends Activity {
         });
     }
 
-    public void refresh(Bundle pac) {
+    public void updateScreen(Bundle pac) {
         final File root = pac == null ? Environment.getExternalStorageDirectory() : new File(pac.getString("folder"));
         WORKING_DIRECTORY = root;
         ((TextView) findViewById(R.id.textView_cd)).setText(root.getAbsolutePath());
@@ -126,7 +126,7 @@ public class FileBrowser extends Activity {
                         return;
                     Bundle pac = new Bundle();
                     pac.putString("folder", myAdapter.files.get(i).getAbsolutePath());
-                    refresh(pac);
+                    updateScreen(pac);
                 }
             }
         });
@@ -138,7 +138,13 @@ public class FileBrowser extends Activity {
             return;
         Bundle pac = new Bundle();
         pac.putString("folder", adapter.files.get(0).getAbsolutePath());
-        refresh(pac);
+        updateScreen(pac);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.stay_still, R.anim.slide_in_ttb);
     }
 
 }

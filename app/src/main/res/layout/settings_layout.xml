@@ -34,14 +34,26 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:checked="true"
-            android:text="@string/BackgroundCheckInterval" />
+            android:text="@string/BackgroundCheck_"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
+
+    <TextView
+        style="?android:attr/preferenceLayoutChild"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/BackgroundCheckInterval" />
 
     <LinearLayout
         android:id="@+id/linear_bkg_check_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
         android:descendantFocusability="beforeDescendants"
         android:focusable="true"
         android:focusableInTouchMode="true"
@@ -54,10 +66,14 @@
             android:layout_marginEnd="10dp"
             android:text="@string/hours" />
 
-        <EditText
-            android:layout_width="50dp"
+        <TextView
+            android:id="@+id/editText_autocheck_h"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:gravity="center" />
+            android:background="@color/blue_marine_translucent"
+            android:clickable="true"
+            android:gravity="center"
+            android:singleLine="true" />
 
         <TextView
             style="?android:attr/textAppearanceSmall"
@@ -67,10 +83,13 @@
             android:layout_marginStart="15dp"
             android:text="@string/minutes" />
 
-        <EditText
-            android:layout_width="50dp"
+        <TextView
+            android:id="@+id/editText_autocheck_m"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:gravity="center" />
+            android:background="@color/blue_marine_translucent"
+            android:gravity="center"
+            android:singleLine="true" />
     </LinearLayout>
 
     <TextView

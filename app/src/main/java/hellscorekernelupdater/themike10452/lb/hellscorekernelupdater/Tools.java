@@ -3,6 +3,7 @@ package hellscorekernelupdater.themike10452.lb.hellscorekernelupdater;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.net.Uri;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -126,7 +127,7 @@ public class Tools {
                 int bufferLength;
                 downloadSize = connection.getContentLength();
                 stream = connection.getInputStream();
-                outputStream = new FileOutputStream(new File(destination));
+                outputStream = new FileOutputStream(lastDownloadedFile);
                 while ((bufferLength = stream.read(buffer)) > 0 && !cancelDownload) {
                     isDownloading = true;
                     outputStream.write(buffer, 0, bufferLength);
@@ -158,7 +159,7 @@ public class Tools {
         } else {
 
             DownloadManager manager = (DownloadManager) C.getSystemService(Context.DOWNLOAD_SERVICE);
-            //manager.enqueue(new DownloadManager.Request(Uri.parse(httpURL)));
+            manager.enqueue(new DownloadManager.Request(Uri.parse(httpURL)));
 
             return true;
         }

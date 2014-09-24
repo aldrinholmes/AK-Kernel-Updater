@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black_seeThrough"
+        android:maxLines="2"
         android:paddingBottom="1dp"
         android:paddingEnd="5dp"
         android:paddingStart="5dp"

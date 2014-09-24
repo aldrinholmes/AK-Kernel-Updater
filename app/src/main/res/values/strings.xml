@@ -14,7 +14,8 @@
     <string name="filed_filename">File name</string>
 
     <string name="BackgroundCheck">BACKGROUND CHECK</string>
-    <string name="BackgroundCheckInterval">Background check interval</string>
+    <string name="BackgroundCheck_">Background Check</string>
+    <string name="BackgroundCheckInterval">Background Check Interval</string>
     <string name="hours">Hours</string>
     <string name="minutes">Minutes</string>
 
