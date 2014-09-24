@@ -28,7 +28,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
@@ -89,20 +88,17 @@ public class Main extends Activity {
 
                     @Override
                     protected Boolean doInBackground(Void... voids) {
-                        return tools.downloadFile(Keys.DEFAULT_SOURCE, HOST.getAbsolutePath(), false);
+                        DEVICE_SUPPORTED = false;
+                        return getDevicePart();
                     }
 
                     @Override
-                    protected void onPostExecute(Boolean downloadSuccessful) {
-                        super.onPostExecute(downloadSuccessful);
+                    protected void onPostExecute(Boolean success) {
+                        super.onPostExecute(success);
 
-                        if (!downloadSuccessful) {
+                        if (!success) {
                             return;
                         }
-
-                        DEVICE_SUPPORTED = false;
-
-                        getDevicePart();
 
                         if (!DEVICE_SUPPORTED) {
                             return;
@@ -158,14 +154,14 @@ public class Main extends Activity {
                             public void onClick(View view) {
                                 final String link = getLatestDownloadLink();
                                 if (link != null) {
-                                    final boolean useAndroidDownloadManager = false;
-                                    if (!useAndroidDownloadManager) {
+                                    final boolean b = preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false);
+                                    if (!b) {
                                         showProgressDialog();
                                     }
                                     new AsyncTask<Void, Void, Void>() {
                                         @Override
                                         protected Void doInBackground(Void... voids) {
-                                            tools.downloadFile(link, preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, null) + getLatestZipName(), useAndroidDownloadManager);
+                                            tools.downloadFile(link, preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath()) + getLatestZipName(), b);
                                             return null;
                                         }
                                     }.execute();
@@ -243,16 +239,17 @@ public class Main extends Activity {
         return set;
     }
 
-    private void getDevicePart() throws DeviceNotSupportedException {
+    private boolean getDevicePart() throws DeviceNotSupportedException {
         Scanner s;
         DEVICE_PART = "";
         CHANGELOG = "";
         try {
-            s = new Scanner(HOST);
-        } catch (FileNotFoundException e) {
+            HttpURLConnection connection = (HttpURLConnection) new URL(Keys.DEFAULT_SOURCE).openConnection();
+            s = new Scanner(connection.getInputStream());
+        } catch (Exception e) {
             e.printStackTrace();
             //TODO
-            return;
+            return false;
         }
         String pattern = String.format("<%s>", DEVICE);
         String line;
@@ -280,6 +277,8 @@ public class Main extends Activity {
                 DEVICE_PART += line + "\n";
             }
         }
+        Log.d("TAG", "PART=" + DEVICE_PART);
+        return true;
     }
 
     private String getLatestVerionName() {
@@ -349,7 +348,7 @@ public class Main extends Activity {
         });
         dialog.setIndeterminate(true);
         dialog.setCancelable(true);
-        dialog.setProgress((tools.downloadedSize / tools.downloadSize) * 100);
+        dialog.setProgress(0);
         dialog.show();
 
         new Thread(new Runnable() {
@@ -388,11 +387,25 @@ public class Main extends Activity {
     }
 
     private void initSettings() {
+
+        SharedPreferences.Editor editor = preferences.edit();
+
         if (preferences.getString(Keys.KEY_SETTINGS_SOURCE, null) == null)
-            preferences.edit().putString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE).apply();
+            editor.putString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE);
 
         if (preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, null) == null)
-            preferences.edit().putString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator).apply();
+            editor.putString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator);
+
+        if (!preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false))
+            editor.putBoolean(Keys.KEY_SETTINGS_USEANDM, false);
+
+        if (preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true))
+            editor.putBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true);
+
+        if (preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, null) == null)
+            editor.putString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:0");
+
+        editor.apply();
 
     }
 
