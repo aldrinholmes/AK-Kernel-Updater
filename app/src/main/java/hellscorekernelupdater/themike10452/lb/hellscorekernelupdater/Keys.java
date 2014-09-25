@@ -9,8 +9,9 @@ public class Keys {
     public static String KEY_SETTINGS_USEANDM = "_USEANDDM";
     public static String KEY_SETTINGS_AUTOCHECK_ENABLED = "_ENABLEBAC";
     public static String KEY_SETTINGS_AUTOCHECK_INTERVAL = "_BACINTERVAL";
-    public static String KEY_KERNEL_VERSION = "version:=";
-    public static String KEY_KERNEL_ZIPNAME = "zipname:=";
-    public static String KEY_KERNEL_HTTPLINK = "httplink:=";
+    public static String KEY_KERNEL_VERSION = "_version:=";
+    public static String KEY_KERNEL_ZIPNAME = "_zipname:=";
+    public static String KEY_KERNEL_HTTPLINK = "_httplink:=";
+    public static String KEY_KERNEL_MD5 = "_md5:=";
     public static String DEFAULT_SOURCE = "http://pastebin.com/download.php?i=G6xhB7x9";
 }

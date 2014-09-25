@@ -13,6 +13,10 @@
     <string name="field_filesize">File size</string>
     <string name="filed_filename">File name</string>
 
+    <string name="up_to_date">You\'re up-to-date</string>
+    <string name="failed_try_again">Failed, please try again later</string>
+    <string name="device_not_supported">Device not supported</string>
+
     <string name="BackgroundCheck">BACKGROUND CHECK</string>
     <string name="BackgroundCheck_">Background Check</string>
     <string name="BackgroundCheckInterval">Background Check Interval</string>

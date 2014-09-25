@@ -26,6 +26,8 @@ public class CustomProgressDialog extends Dialog {
         FILESIZE = (TextView) findViewById(R.id.textView_filesize);
         DOWNLOADED = (TextView) findViewById(R.id.textView_downloaded);
         PERCENTAGE = (TextView) findViewById(R.id.percentage);
+
+        progressBar.setMax(MAX);
     }
 
     public void update(String filename, String filesize, String downloaded) {
@@ -39,6 +41,10 @@ public class CustomProgressDialog extends Dialog {
             return;
         progressBar.setProgress(percentage);
         PERCENTAGE.setText(percentage + "%");
+    }
+
+    public void setMax(int max) {
+        progressBar.setMax(MAX = max);
     }
 
     public void setIndeterminate(boolean b) {

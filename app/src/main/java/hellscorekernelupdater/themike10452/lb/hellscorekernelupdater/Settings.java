@@ -47,6 +47,8 @@ public class Settings extends Activity {
                 @Override
                 public void run() {
                     String hours = AC_H.getText().toString(), minutes = AC_M.getText().toString();
+                    if ((Tools.isAllDigits(hours) && Integer.parseInt(hours) == 0) && (Tools.isAllDigits(minutes) && Integer.parseInt(minutes) == 0))
+                        return;
                     Main.preferences.edit().putString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, (hours.length() > 0 ? hours : "0") + ":" + (minutes.length() > 0 ? minutes : "0")).apply();
                 }
             });
@@ -100,8 +102,12 @@ public class Settings extends Activity {
             }
         });
 
-        (AC_H = (TextView) findViewById(R.id.editText_autocheck_h)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[0]);
-        (AC_M = (TextView) findViewById(R.id.editText_autocheck_m)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[1]);
+        ((Switch) findViewById(R.id.switch_bkg_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                Main.preferences.edit().putBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, b).apply();
+            }
+        });
 
         AC_H.addTextChangedListener(intervalChanger);
         AC_M.addTextChangedListener(intervalChanger);
@@ -135,6 +141,14 @@ public class Settings extends Activity {
         AC_H.setOnClickListener(listener);
         AC_M.setOnClickListener(listener);
 
+        AC_H.post(new Runnable() {
+            @Override
+            public void run() {
+                AC_H.setLayoutParams(new LinearLayout.LayoutParams(AC_H.getMeasuredWidth(), AC_H.getMeasuredWidth()));
+                AC_M.setLayoutParams(new LinearLayout.LayoutParams(AC_M.getMeasuredWidth(), AC_M.getMeasuredWidth()));
+            }
+        });
+
     }
 
     void updateTextView(TextView v, String s) {
@@ -142,8 +156,12 @@ public class Settings extends Activity {
     }
 
     private void updateScreen() {
+        ((Switch) findViewById(R.id.switch_bkg_check)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true));
         ((TextView) findViewById(R.id.textView_dlLoc)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, ""));
         ((CheckBox) findViewById(R.id.checkbox_useAndDM)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false));
+        (AC_H = (TextView) findViewById(R.id.editText_autocheck_h)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[0]);
+        (AC_M = (TextView) findViewById(R.id.editText_autocheck_m)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[1]);
+
     }
 
     @Override
