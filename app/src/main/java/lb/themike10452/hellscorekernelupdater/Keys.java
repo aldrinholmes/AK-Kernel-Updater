@@ -1,4 +1,4 @@
-package hellscorekernelupdater.themike10452.lb.hellscorekernelupdater;
+package lb.themike10452.hellscorekernelupdater;
 
 /**
  * Created by Mike on 9/20/2014.

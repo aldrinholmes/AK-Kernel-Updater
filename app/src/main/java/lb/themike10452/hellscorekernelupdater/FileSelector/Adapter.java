@@ -1,4 +1,4 @@
-package hellscorekernelupdater.themike10452.lb.hellscorekernelupdater.FileSelector;
+package lb.themike10452.hellscorekernelupdater.FileSelector;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 import java.io.File;
 import java.util.ArrayList;
 
-import hellscorekernelupdater.themike10452.lb.hellscorekernelupdater.R;
-import hellscorekernelupdater.themike10452.lb.hellscorekernelupdater.Tools;
+import lb.themike10452.hellscorekernelupdater.R;
+import lb.themike10452.hellscorekernelupdater.Tools;
 
 /**
  * Created by Mike on 9/22/2014.

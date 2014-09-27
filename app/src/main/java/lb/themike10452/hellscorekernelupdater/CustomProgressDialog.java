@@ -1,4 +1,4 @@
-package hellscorekernelupdater.themike10452.lb.hellscorekernelupdater;
+package lb.themike10452.hellscorekernelupdater;
 
 import android.app.Dialog;
 import android.content.Context;

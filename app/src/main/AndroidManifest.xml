@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="hellscorekernelupdater.themike10452.lb.hellscorekernelupdater">
+    package="lb.themike10452.hellscorekernelupdater">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />

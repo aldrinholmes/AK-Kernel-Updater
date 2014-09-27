@@ -1,4 +1,4 @@
-package hellscorekernelupdater.themike10452.lb.hellscorekernelupdater;
+package lb.themike10452.hellscorekernelupdater;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,7 +22,7 @@ import android.widget.NumberPicker;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import hellscorekernelupdater.themike10452.lb.hellscorekernelupdater.FileSelector.FileBrowser;
+import lb.themike10452.hellscorekernelupdater.FileSelector.FileBrowser;
 
 /**
  * Created by Mike on 9/22/2014.

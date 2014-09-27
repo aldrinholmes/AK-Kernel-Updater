@@ -11,10 +11,10 @@ import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import hellscorekernelupdater.themike10452.lb.hellscorekernelupdater.DeviceNotSupportedException;
-import hellscorekernelupdater.themike10452.lb.hellscorekernelupdater.Keys;
-import hellscorekernelupdater.themike10452.lb.hellscorekernelupdater.Main;
-import hellscorekernelupdater.themike10452.lb.hellscorekernelupdater.Tools;
+import lb.themike10452.hellscorekernelupdater.DeviceNotSupportedException;
+import lb.themike10452.hellscorekernelupdater.Keys;
+import lb.themike10452.hellscorekernelupdater.Main;
+import lb.themike10452.hellscorekernelupdater.Tools;
 
 /**
  * Created by Mike on 9/26/2014.

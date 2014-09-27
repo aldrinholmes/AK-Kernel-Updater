@@ -1,4 +1,4 @@
-package hellscorekernelupdater.themike10452.lb.hellscorekernelupdater;
+package lb.themike10452.hellscorekernelupdater;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,20 +12,7 @@ import android.widget.TextView;
  */
 public class Card {
     private Context CONTEXT;
-
-    public String getTITLE() {
-        return TITLE;
-    }
-
     private String TITLE;
-
-    public View getPARENT() {
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 0, 0, 10);
-        PARENT.setLayoutParams(params);
-        return PARENT;
-    }
-
     private View PARENT;
 
     public Card(Context c, String title, boolean placeSeparators, View... views) {
@@ -38,6 +25,17 @@ public class Card {
             if (placeSeparators && !(view == views[views.length - 1]))
                 container.addView(PARENT.findViewById(R.id.card_separator));
         }
+    }
+
+    public String getTITLE() {
+        return TITLE;
+    }
+
+    public View getPARENT() {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 0, 0, 10);
+        PARENT.setLayoutParams(params);
+        return PARENT;
     }
 
 }

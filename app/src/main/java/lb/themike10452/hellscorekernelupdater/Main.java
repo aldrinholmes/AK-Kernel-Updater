@@ -1,7 +1,8 @@
-package hellscorekernelupdater.themike10452.lb.hellscorekernelupdater;
+package lb.themike10452.hellscorekernelupdater;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,7 +41,6 @@ import java.util.Scanner;
 public class Main extends Activity {
 
     public static SharedPreferences preferences;
-    private File HOST;
     private String DEVICE = Build.DEVICE;
     private String DEVICE_PART, CHANGELOG;
     private boolean DEVICE_SUPPORTED;
@@ -55,9 +56,8 @@ public class Main extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
-        final Tools tools = new Tools(this);
+        final Tools tools = Tools.getInstance() == null ? new Tools(this) : Tools.getInstance();
         this.tools = tools;
-        HOST = new File(getFilesDir() + File.separator + "host");
 
         preferences = getSharedPreferences("Settings", MODE_MULTI_PROCESS);
 
@@ -121,6 +121,9 @@ public class Main extends Activity {
                         View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.new_kernel_layout, null);
                         ((TextView) v.findViewById(R.id.text)).setText(getLatestVerionName());
 
+                        ((Button) v.findViewById(R.id.btn_changelog)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"), Typeface.BOLD);
+                        ((Button) v.findViewById(R.id.btn_getLatestVersion)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"), Typeface.BOLD);
+
                         v.findViewById(R.id.btn_changelog).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
@@ -137,6 +140,7 @@ public class Main extends Activity {
                                 new AlertDialog.Builder(Main.this)
                                         .setView(view1)
                                         .setTitle(R.string.dialog_title_changelog)
+                                        .setCancelable(false)
                                         .setNeutralButton(R.string.btn_dismiss, null)
                                         .show();
 
@@ -263,7 +267,11 @@ public class Main extends Activity {
         Scanner s = new Scanner(DEVICE_PART);
         while (s.hasNextLine()) {
             String line = s.nextLine();
-            if (line.toLowerCase().contains(Keys.KEY_KERNEL_VERSION))
+
+            if (line.length() == 0)
+                continue;
+
+            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.KEY_KERNEL_VERSION))
                 return line.split(":=")[1];
         }
         s.close();
@@ -274,7 +282,11 @@ public class Main extends Activity {
         Scanner s = new Scanner(DEVICE_PART);
         while (s.hasNextLine()) {
             String line = s.nextLine();
-            if (line.toLowerCase().contains(Keys.KEY_KERNEL_ZIPNAME))
+
+            if (line.length() == 0)
+                continue;
+
+            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.KEY_KERNEL_ZIPNAME))
                 return line.split(":=")[1];
 
         }
@@ -286,7 +298,11 @@ public class Main extends Activity {
         Scanner s = new Scanner(DEVICE_PART);
         while (s.hasNextLine()) {
             String line = s.nextLine();
-            if (line.contains(Keys.KEY_KERNEL_HTTPLINK)) {
+
+            if (line.length() == 0)
+                continue;
+
+            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.KEY_KERNEL_HTTPLINK)) {
                 s.close();
                 return line.split(":=")[1];
             }
@@ -299,7 +315,11 @@ public class Main extends Activity {
         Scanner s = new Scanner(DEVICE_PART);
         while (s.hasNextLine()) {
             String line = s.nextLine();
-            if (line.contains(Keys.KEY_KERNEL_MD5)) {
+
+            if (line.length() == 0)
+                continue;
+
+            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.KEY_KERNEL_MD5)) {
                 s.close();
                 return line.split(":=")[1];
             }
@@ -313,7 +333,7 @@ public class Main extends Activity {
         textView.setText(msgId);
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
         textView.setTextAppearance(Main.this, android.R.style.TextAppearance_Medium);
-        textView.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-ThinItalic.ttf"), Typeface.BOLD_ITALIC);
+        textView.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-LightItalic.ttf"), Typeface.BOLD_ITALIC);
         textView.setTextColor(getResources().getColor(R.color.card_text_light));
         main.addView(textView);
         textView.startAnimation(getIntroSet(1200, 0));
@@ -331,22 +351,27 @@ public class Main extends Activity {
                 public void onReceive(Context context, Intent intent) {
                     unregisterReceiver(this);
                     AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
+                    Dialog d = null;
                     if (intent.getAction().equals(Tools.EVENT_DOWNLOAD_COMPLETE)) {
                         boolean md5Matched = intent.getBooleanExtra("match", true);
                         if (md5Matched) {
-                            builder
+                            d = builder
                                     .setTitle(R.string.dialog_title_readyToInstall)
+                                    .setCancelable(false)
                                     .setMessage(getString(R.string.prompt_install1, getString(R.string.btn_install), getString(R.string.btn_dismiss)))
                                     .setPositiveButton(R.string.btn_install, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
+                                            tools.createOpenRecoveryScript("install " + tools.lastDownloadedFile.getAbsolutePath(), true, false);
                                             Toast.makeText(getApplicationContext(), "Rebooting", Toast.LENGTH_SHORT).show();
                                         }
                                     })
                                     .setNegativeButton(R.string.btn_dismiss, null)
                                     .show();
                         } else {
-                            builder.setTitle(R.string.dialog_title_md5mismatch)
+                            d = builder.setTitle(R.string.dialog_title_md5mismatch)
+                                    .setCancelable(false)
+                                    .setMessage(getString(R.string.prompt_md5mismatch, getLatestMD5(), intent.getStringExtra("md5")))
                                     .setPositiveButton(R.string.btn_downloadAgain, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -356,25 +381,32 @@ public class Main extends Activity {
                                     .setNegativeButton(R.string.btn_installAnyway, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-
+                                            tools.createOpenRecoveryScript("install " + tools.lastDownloadedFile.getAbsolutePath(), true, false);
                                         }
                                     })
                                     .setNeutralButton(R.string.btn_dismiss, null)
                                     .show();
                         }
                     } else if (intent.getAction().equals(Tools.EVENT_DOWNLOADEDFILE_EXISTS)) {
-                        builder
+                        d = builder
                                 .setTitle(R.string.dialog_title_readyToInstall)
+                                .setCancelable(false)
                                 .setMessage(getString(R.string.prompt_install2, getString(R.string.btn_install), getString(R.string.btn_dismiss)))
                                 .setPositiveButton(R.string.btn_install, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
+                                        tools.createOpenRecoveryScript("install " + tools.lastDownloadedFile.getAbsolutePath(), true, false);
                                         Toast.makeText(getApplicationContext(), "Rebooting", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .setNegativeButton(R.string.btn_dismiss, null)
                                 .show();
                     }
+                    if (d != null && d.findViewById(android.R.id.message) != null) {
+                        ((TextView) d.findViewById(android.R.id.message)).setTextAppearance(Main.this, android.R.style.TextAppearance_Small);
+                        ((TextView) d.findViewById(android.R.id.message)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
+                    }
+
                 }
             };
 
@@ -382,8 +414,11 @@ public class Main extends Activity {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     Toast.makeText(getApplicationContext(), R.string.msg_downloadCanceled, Toast.LENGTH_SHORT).show();
-                    unregisterReceiver(this);
-                    unregisterReceiver(downloadHandler);
+                    try {
+                        unregisterReceiver(this);
+                        unregisterReceiver(downloadHandler);
+                    } catch (RuntimeException ignored) {
+                    }
                 }
             };
 
@@ -391,7 +426,7 @@ public class Main extends Activity {
             registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_DOWNLOAD_COMPLETE));
             registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_DOWNLOADEDFILE_EXISTS));
 
-            tools.downloadFile(Main.this, link, destination, getLatestZipName(), getLatestMD5(), b);
+            tools.downloadFile(link, destination, getLatestZipName(), getLatestMD5(), b);
         }
     }
 

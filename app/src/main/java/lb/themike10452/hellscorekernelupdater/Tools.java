@@ -1,11 +1,14 @@
-package hellscorekernelupdater.themike10452.lb.hellscorekernelupdater;
+package lb.themike10452.hellscorekernelupdater;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -19,9 +22,12 @@ import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import eu.chainfire.libsuperuser.Shell;
 
 /**
  * Created by Mike on 9/19/2014.
@@ -34,6 +40,8 @@ public class Tools {
 
     public static String INSTALLED_KERNEL_VERSION = "";
     private static Tools instance;
+    private static boolean hasRootAccess;
+    private static Shell.Interactive interactiveShell;
     public boolean cancelDownload;
     public boolean isDownloading;
     public int downloadSize, downloadedSize;
@@ -43,6 +51,14 @@ public class Tools {
     public Tools(Context context) {
         C = context;
         instance = this;
+        if (interactiveShell == null)
+            interactiveShell = new Shell.Builder().useSU().setWatchdogTimeout(5).setMinimalLogging(true).open(new Shell.OnCommandResultListener() {
+                @Override
+                public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                    if (hasRootAccess = exitCode != SHELL_RUNNING)
+                        showRootFailDialog();
+                }
+            });
     }
 
     public static Tools getInstance() {
@@ -81,6 +97,18 @@ public class Tools {
         }
     }
 
+    public void showRootFailDialog() {
+        hasRootAccess = false;
+        AlertDialog dialog = new AlertDialog.Builder(C)
+                .setTitle(R.string.dialog_title_rootFail)
+                .setMessage(R.string.prompt_rootFail)
+                .setCancelable(false)
+                .setPositiveButton(R.string.btn_ok, null)
+                .show();
+        ((TextView) dialog.findViewById(android.R.id.message)).setTextAppearance(C, android.R.style.TextAppearance_Small);
+        ((TextView) dialog.findViewById(android.R.id.message)).setTypeface(Typeface.createFromAsset(C.getAssets(), "Roboto-Regular.ttf"));
+    }
+
     public String getFormattedKernelVersion() {
         String procVersionStr;
 
@@ -112,8 +140,9 @@ public class Tools {
         }
     }
 
-    public void downloadFile(final Activity activity, final String httpURL, final String destination, final String alternativeFilename, final String MD5hash, boolean useAndroidDownloadManager) {
+    public void downloadFile(final String httpURL, final String destination, final String alternativeFilename, final String MD5hash, boolean useAndroidDownloadManager) {
 
+        final Activity activity = (Activity) C;
         cancelDownload = false;
         downloadSize = 0;
         downloadedSize = 0;
@@ -243,6 +272,23 @@ public class Tools {
             DownloadManager manager = (DownloadManager) C.getSystemService(Context.DOWNLOAD_SERVICE);
             manager.enqueue(new DownloadManager.Request(Uri.parse(httpURL)));
 
+        }
+    }
+
+    public void createOpenRecoveryScript(String line, final boolean rebootAfter, final boolean append) {
+        if (interactiveShell != null && interactiveShell.isRunning()) {
+            interactiveShell.addCommand("echo " + line + (append ? " >> " : ">") + "/cache/recovery/openrecoveryscript", 23, new Shell.OnCommandResultListener() {
+                @Override
+                public void onCommandResult(int commandCode, int exitCode, List<String> output) {
+                    if (exitCode != 0)
+                        showRootFailDialog();
+                    else if (rebootAfter)
+                        interactiveShell.addCommand("reboot recovery");
+                }
+            });
+
+        } else {
+            showRootFailDialog();
         }
     }
 

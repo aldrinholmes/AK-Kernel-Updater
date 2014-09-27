@@ -1,4 +1,4 @@
-package hellscorekernelupdater.themike10452.lb.hellscorekernelupdater.FileSelector;
+package lb.themike10452.hellscorekernelupdater.FileSelector;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import hellscorekernelupdater.themike10452.lb.hellscorekernelupdater.R;
-import hellscorekernelupdater.themike10452.lb.hellscorekernelupdater.Tools;
+import lb.themike10452.hellscorekernelupdater.R;
+import lb.themike10452.hellscorekernelupdater.Tools;
 
 /**
  * Created by Mike on 9/22/2014.

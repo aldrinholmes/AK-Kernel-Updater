@@ -27,7 +27,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_whatsNew"
-        android:textColor="@color/card_text_light" />
+        android:textColor="@color/card_text_soft" />
 
     <View
         android:layout_width="fill_parent"
@@ -40,6 +40,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_getIt"
-        android:textColor="@color/card_text_light" />
+        android:textColor="@color/card_text_soft" />
 
 </LinearLayout>
