@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -25,6 +26,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.net.HttpURLConnection;
@@ -44,10 +46,15 @@ public class Main extends Activity {
     private Tools tools;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        overridePendingTransition(R.anim.slide_in_ltr, R.anim.slide_out_ltr);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
-        overridePendingTransition(R.anim.slide_in_ltr, R.anim.slide_out_ltr);
         final Tools tools = new Tools(this);
         this.tools = tools;
         HOST = new File(getFilesDir() + File.separator + "host");
@@ -61,7 +68,7 @@ public class Main extends Activity {
         final View v1 = LayoutInflater.from(this).inflate(R.layout.kernel_info_layout, null);
         ((TextView) v1.findViewById(R.id.text)).setText(tools.getFormattedKernelVersion());
 
-        final Card card1 = new Card(this, "Installed kernel", false, v1);
+        final Card card1 = new Card(this, getString(R.string.card_title_installedKernel), false, v1);
         card1.getPARENT().setAnimation(getIntroSet(1000, 0));
 
         main.addView(card1.getPARENT());
@@ -97,17 +104,17 @@ public class Main extends Activity {
                         progressBar.startAnimation(getOutroSet(600, 0));
 
                         if (!success) {
-                            displayOnScreenMessage(main, R.string.failed_try_again);
+                            displayOnScreenMessage(main, R.string.msg_failed_try_again);
                             return;
                         }
 
                         if (!DEVICE_SUPPORTED) {
-                            displayOnScreenMessage(main, R.string.device_not_supported);
+                            displayOnScreenMessage(main, R.string.msg_device_not_supported);
                             return;
                         }
 
                         if (getLatestVerionName().equalsIgnoreCase(Tools.INSTALLED_KERNEL_VERSION)) {
-                            displayOnScreenMessage(main, R.string.up_to_date);
+                            displayOnScreenMessage(main, R.string.msg_up_to_date);
                             return;
                         }
 
@@ -129,8 +136,8 @@ public class Main extends Activity {
                                 ((LinearLayout) view1).addView(textView, params);
                                 new AlertDialog.Builder(Main.this)
                                         .setView(view1)
-                                        .setTitle("Changelog")
-                                        .setNeutralButton("Dismiss", null)
+                                        .setTitle(R.string.dialog_title_changelog)
+                                        .setNeutralButton(R.string.btn_dismiss, null)
                                         .show();
 
                             }
@@ -138,35 +145,12 @@ public class Main extends Activity {
 
                         v.findViewById(R.id.btn_getLatestVersion).setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View view) {
-                                final String link = getLatestDownloadLink();
-                                if (link != null) {
-                                    final boolean b = preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false);
-                                    String destination = preferences
-                                            .getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
-
-                                    BroadcastReceiver downloadHandler = new BroadcastReceiver() {
-                                        @Override
-                                        public void onReceive(Context context, Intent intent) {
-                                            unregisterReceiver(this);
-                                            boolean md5Matched = intent.getBooleanExtra("match", true);
-                                            if (md5Matched) {
-                                                //TODO
-                                            } else {
-                                                //TODO
-                                            }
-                                        }
-                                    };
-
-                                    registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_DOWNLOAD_COMPLETE));
-                                    registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_FILE_EXISTS));
-
-                                    tools.downloadFile(Main.this, link, destination, getLatestZipName(), getLatestMD5(), b);
-                                }
+                            public void onClick(final View view) {
+                                getIt();
                             }
                         });
 
-                        card = new Card(getApplicationContext(), "Latest version", false, v);
+                        card = new Card(getApplicationContext(), getString(R.string.card_title_latestVersion), false, v);
 
                         main.addView(card.getPARENT());
                         card.getPARENT().startAnimation(getIntroSet(1000, 200));
@@ -333,6 +317,82 @@ public class Main extends Activity {
         textView.setTextColor(getResources().getColor(R.color.card_text_light));
         main.addView(textView);
         textView.startAnimation(getIntroSet(1200, 0));
+    }
+
+    private void getIt() {
+        final String link = getLatestDownloadLink();
+        if (link != null) {
+            final boolean b = preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false);
+            String destination = preferences
+                    .getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
+
+            final BroadcastReceiver downloadHandler = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    unregisterReceiver(this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
+                    if (intent.getAction().equals(Tools.EVENT_DOWNLOAD_COMPLETE)) {
+                        boolean md5Matched = intent.getBooleanExtra("match", true);
+                        if (md5Matched) {
+                            builder
+                                    .setTitle(R.string.dialog_title_readyToInstall)
+                                    .setMessage(getString(R.string.prompt_install1, getString(R.string.btn_install), getString(R.string.btn_dismiss)))
+                                    .setPositiveButton(R.string.btn_install, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Toast.makeText(getApplicationContext(), "Rebooting", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.btn_dismiss, null)
+                                    .show();
+                        } else {
+                            builder.setTitle(R.string.dialog_title_md5mismatch)
+                                    .setPositiveButton(R.string.btn_downloadAgain, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            getIt();
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.btn_installAnyway, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                                        }
+                                    })
+                                    .setNeutralButton(R.string.btn_dismiss, null)
+                                    .show();
+                        }
+                    } else if (intent.getAction().equals(Tools.EVENT_DOWNLOADEDFILE_EXISTS)) {
+                        builder
+                                .setTitle(R.string.dialog_title_readyToInstall)
+                                .setMessage(getString(R.string.prompt_install2, getString(R.string.btn_install), getString(R.string.btn_dismiss)))
+                                .setPositiveButton(R.string.btn_install, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Toast.makeText(getApplicationContext(), "Rebooting", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton(R.string.btn_dismiss, null)
+                                .show();
+                    }
+                }
+            };
+
+            BroadcastReceiver downloadCancelationReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    Toast.makeText(getApplicationContext(), R.string.msg_downloadCanceled, Toast.LENGTH_SHORT).show();
+                    unregisterReceiver(this);
+                    unregisterReceiver(downloadHandler);
+                }
+            };
+
+            registerReceiver(downloadCancelationReceiver, new IntentFilter(Tools.EVENT_DOWNLOAD_CANCELED));
+            registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_DOWNLOAD_COMPLETE));
+            registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_DOWNLOADEDFILE_EXISTS));
+
+            tools.downloadFile(Main.this, link, destination, getLatestZipName(), getLatestMD5(), b);
+        }
     }
 
     private void initSettings() {

@@ -38,24 +38,24 @@
             android:id="@+id/textView_filename"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|top"
-            android:text="@string/message_pleaseWait"
+            android:layout_gravity="end|top"
+            android:text="@string/msg_pleaseWait"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textView_filesize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
-            android:text="@string/message_pleaseWait"
+            android:layout_gravity="end|center_vertical"
+            android:text="@string/msg_pleaseWait"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
             android:id="@+id/textView_downloaded"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:text="@string/message_pleaseWait"
+            android:layout_gravity="end|bottom"
+            android:text="@string/msg_pleaseWait"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </FrameLayout>
 

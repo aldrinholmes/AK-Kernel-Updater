@@ -30,7 +30,7 @@ public class CustomProgressDialog extends Dialog {
         progressBar.setMax(MAX);
     }
 
-    public void update(String filename, String filesize, String downloaded) {
+    public void update(String filename, String downloaded, String filesize) {
         FILENAME.setText(filename);
         FILESIZE.setText(filesize + UNIT);
         DOWNLOADED.setText(downloaded + UNIT);

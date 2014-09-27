@@ -125,15 +125,15 @@ public class Settings extends Activity {
                 ((LinearLayout) child).setGravity(Gravity.CENTER_HORIZONTAL);
                 child.setPadding(30, 0, 30, 0);
                 AlertDialog.Builder builder = new AlertDialog.Builder(Settings.this);
-                builder.setTitle(R.string.BackgroundCheckInterval);
+                builder.setTitle(R.string.settings_textView_backgroundCheckInterval);
                 builder.setView(child);
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         updateTextView((TextView) view, picker.getValue() + "");
                     }
                 });
-                builder.setNegativeButton("Cancel", null);
+                builder.setNegativeButton(R.string.btn_cancel, null);
                 builder.show();
             }
         };

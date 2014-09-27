@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,7 +29,8 @@ import java.util.regex.Pattern;
 public class Tools {
 
     public static String EVENT_DOWNLOAD_COMPLETE = "THEMIKE10452.TOOLS.DOWNLOAD.COMPLETE";
-    public static String EVENT_FILE_EXISTS = "THEMIKE10452.TOOLS.DOWNLOAD.FILE.EXISTS";
+    public static String EVENT_DOWNLOADEDFILE_EXISTS = "THEMIKE10452.TOOLS.DOWNLOAD.FILE.EXISTS";
+    public static String EVENT_DOWNLOAD_CANCELED = "THEMIKE10452.TOOLS.DOWNLOAD.CANCELED";
 
     public static String INSTALLED_KERNEL_VERSION = "";
     private static Tools instance;
@@ -159,7 +161,7 @@ public class Tools {
                         downloadSize = connection.getContentLength();
                         if (MD5hash != null) {
                             if (lastDownloadedFile.exists() && lastDownloadedFile.isFile()) {
-                                if (getMD5Hash(lastDownloadedFile.getAbsolutePath()).equalsIgnoreCase(MD5hash)) {
+                                if (getMD5Hash(lastDownloadedFile.getAbsolutePath()).equalsIgnoreCase(MD5hash) && !cancelDownload) {
                                     activity.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -167,8 +169,7 @@ public class Tools {
                                             String total_mb = String.format("%.2g%n", downloadSize / Math.pow(2, 20)).trim();
                                             dialog.update(lastDownloadedFile.getName(), total_mb, total_mb);
                                             dialog.setProgress(100);
-                                            Intent out = new Intent(EVENT_FILE_EXISTS);
-                                            C.sendBroadcast(out);
+                                            C.sendBroadcast(new Intent(EVENT_DOWNLOADEDFILE_EXISTS));
                                         }
                                     });
                                     return;
@@ -177,7 +178,9 @@ public class Tools {
                         }
                         stream = connection.getInputStream();
                         outputStream = new FileOutputStream(lastDownloadedFile);
-                        while ((bufferLength = stream.read(buffer)) > 0 && !cancelDownload) {
+                        while ((bufferLength = stream.read(buffer)) > 0) {
+                            if (cancelDownload)
+                                return;
                             isDownloading = true;
                             outputStream.write(buffer, 0, bufferLength);
                             downloadedSize += bufferLength;
@@ -205,8 +208,17 @@ public class Tools {
                     } catch (MalformedURLException e) {
                         return;
                     } catch (IOException ee) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(C.getApplicationContext(), "Timeout", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         return;
                     } finally {
+                        if (cancelDownload)
+                            C.sendBroadcast(new Intent(EVENT_DOWNLOAD_CANCELED));
+                        dialog.dismiss();
                         isDownloading = false;
                         if (stream != null)
                             try {

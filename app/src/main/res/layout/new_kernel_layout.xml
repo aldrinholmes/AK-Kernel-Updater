@@ -26,7 +26,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="See what's new"
+        android:text="@string/btn_whatsNew"
         android:textColor="@color/card_text_light" />
 
     <View
@@ -39,7 +39,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Get it now"
+        android:text="@string/btn_getIt"
         android:textColor="@color/card_text_light" />
 
 </LinearLayout>

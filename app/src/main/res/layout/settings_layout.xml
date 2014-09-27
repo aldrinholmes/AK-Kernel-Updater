@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:text="@string/BackgroundCheck"
+        android:text="@string/settings_category_backgroundCheck"
         android:textStyle="bold" />
 
     <View
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:checked="true"
-            android:text="@string/BackgroundCheck_"
+            android:text="@string/settings_switch_backgroundCheck"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
-        android:text="@string/BackgroundCheckInterval" />
+        android:text="@string/settings_textView_backgroundCheckInterval" />
 
     <LinearLayout
         android:id="@+id/linear_bkg_check_edit"
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
-        android:text="@string/downloads"
+        android:text="@string/settings_category_downloads"
         android:textStyle="bold" />
 
     <View
@@ -126,14 +126,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="@string/useAndroidDM" />
+                android:text="@string/settings_checkbox_useAndroidDM" />
 
             <TextView
                 style="?android:attr/preferenceInformationStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="36dp"
-                android:text="@string/androidDM_INFO" />
+                android:text="@string/settings_info_useAndroidDM" />
         </LinearLayout>
 
         <CheckBox
@@ -166,7 +166,7 @@
             style="?android:attr/preferenceLayoutChild"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/downloadLocation" />
+            android:text="@string/settings_btn_downloadLocation" />
 
         <TextView
             android:id="@+id/textView_dlLoc"
