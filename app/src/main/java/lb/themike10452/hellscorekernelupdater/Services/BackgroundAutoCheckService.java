@@ -113,6 +113,7 @@ public class BackgroundAutoCheckService extends IntentService {
             IO_IS_BUSY = false;
         }
     };
+    private SharedPreferences preferences;
     private String DEVICE_PART;
 
     public BackgroundAutoCheckService() {
@@ -129,7 +130,7 @@ public class BackgroundAutoCheckService extends IntentService {
 
         running = true;
 
-        SharedPreferences preferences = getSharedPreferences("Settings", MODE_MULTI_PROCESS);
+        preferences = getSharedPreferences("Settings", MODE_MULTI_PROCESS);
 
         //get the autocheck interval setting value
         String pref = preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:0");
@@ -170,7 +171,7 @@ public class BackgroundAutoCheckService extends IntentService {
         Scanner s;
         DEVICE_PART = "";
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(Keys.DEFAULT_SOURCE).openConnection();
+            HttpURLConnection connection = (HttpURLConnection) new URL(preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE)).openConnection();
             s = new Scanner(connection.getInputStream());
         } catch (Exception e) {
             e.printStackTrace();

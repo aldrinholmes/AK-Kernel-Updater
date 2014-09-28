@@ -244,7 +244,7 @@ public class Main extends Activity {
         CHANGELOG = "";
         boolean DEVICE_SUPPORTED = false;
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(Keys.DEFAULT_SOURCE).openConnection();
+            HttpURLConnection connection = (HttpURLConnection) new URL(preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE)).openConnection();
             s = new Scanner(connection.getInputStream());
         } catch (final Exception e) {
             runOnUiThread(new Runnable() {
