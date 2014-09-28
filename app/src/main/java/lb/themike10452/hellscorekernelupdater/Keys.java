@@ -14,4 +14,5 @@ public class Keys {
     public static String KEY_KERNEL_HTTPLINK = "_httplink:=";
     public static String KEY_KERNEL_MD5 = "_md5:=";
     public static String DEFAULT_SOURCE = "http://pastebin.com/download.php?i=G6xhB7x9";
+    public static String TAG_NOTIF = "THEMIKE10452.HKU.UPDNOTIF";
 }

@@ -17,8 +17,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -65,14 +63,6 @@ public class Tools {
         return instance;
     }
 
-    public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
-
     public static String getFileExtension(File f) {
         try {
             return f.getName().substring(f.getName().lastIndexOf("."));
@@ -97,19 +87,7 @@ public class Tools {
         }
     }
 
-    public void showRootFailDialog() {
-        hasRootAccess = false;
-        AlertDialog dialog = new AlertDialog.Builder(C)
-                .setTitle(R.string.dialog_title_rootFail)
-                .setMessage(R.string.prompt_rootFail)
-                .setCancelable(false)
-                .setPositiveButton(R.string.btn_ok, null)
-                .show();
-        ((TextView) dialog.findViewById(android.R.id.message)).setTextAppearance(C, android.R.style.TextAppearance_Small);
-        ((TextView) dialog.findViewById(android.R.id.message)).setTypeface(Typeface.createFromAsset(C.getAssets(), "Roboto-Regular.ttf"));
-    }
-
-    public String getFormattedKernelVersion() {
+    public static String getFormattedKernelVersion() {
         String procVersionStr;
 
         try {
@@ -138,6 +116,18 @@ public class Tools {
         } catch (IOException e) {
             return "Unavailable";
         }
+    }
+
+    public void showRootFailDialog() {
+        hasRootAccess = false;
+        AlertDialog dialog = new AlertDialog.Builder(C)
+                .setTitle(R.string.dialog_title_rootFail)
+                .setMessage(R.string.prompt_rootFail)
+                .setCancelable(false)
+                .setPositiveButton(R.string.btn_ok, null)
+                .show();
+        ((TextView) dialog.findViewById(android.R.id.message)).setTextAppearance(C, android.R.style.TextAppearance_Small);
+        ((TextView) dialog.findViewById(android.R.id.message)).setTypeface(Typeface.createFromAsset(C.getAssets(), "Roboto-Regular.ttf"));
     }
 
     public void downloadFile(final String httpURL, final String destination, final String alternativeFilename, final String MD5hash, boolean useAndroidDownloadManager) {
@@ -234,13 +224,18 @@ public class Tools {
                         }
                         C.sendBroadcast(out);
 
-                    } catch (MalformedURLException e) {
-                        return;
-                    } catch (IOException ee) {
+                    } catch (final MalformedURLException e) {
                         activity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(C.getApplicationContext(), "Timeout", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(C.getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } catch (final IOException ee) {
+                        activity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(C.getApplicationContext(), ee.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
                         return;

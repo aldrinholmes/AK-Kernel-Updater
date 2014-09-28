@@ -35,6 +35,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+import lb.themike10452.hellscorekernelupdater.Services.BackgroundAutoCheckService;
+
 /**
  * Created by Mike on 9/19/2014.
  */
@@ -43,8 +45,15 @@ public class Main extends Activity {
     public static SharedPreferences preferences;
     private String DEVICE = Build.DEVICE;
     private String DEVICE_PART, CHANGELOG;
-    private boolean DEVICE_SUPPORTED;
     private Tools tools;
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        if (preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true) && !BackgroundAutoCheckService.running) {
+            startService(new Intent(this, BackgroundAutoCheckService.class));
+        }
+    }
 
     @Override
     protected void onStart() {
@@ -84,11 +93,17 @@ public class Main extends Activity {
             public void run() {
                 new AsyncTask<Void, Void, Boolean>() {
                     Card card;
+                    boolean DEVICE_SUPPORTED;
 
                     @Override
                     protected Boolean doInBackground(Void... voids) {
-                        DEVICE_SUPPORTED = false;
-                        return getDevicePart();
+                        try {
+                            DEVICE_SUPPORTED = true;
+                            return getDevicePart();
+                        } catch (DeviceNotSupportedException e) {
+                            DEVICE_SUPPORTED = false;
+                            return true;
+                        }
                     }
 
                     @Override
@@ -227,11 +242,17 @@ public class Main extends Activity {
         Scanner s;
         DEVICE_PART = "";
         CHANGELOG = "";
+        boolean DEVICE_SUPPORTED = false;
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(Keys.DEFAULT_SOURCE).openConnection();
             s = new Scanner(connection.getInputStream());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (final Exception e) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
             return false;
         }
         String pattern = String.format("<%s>", DEVICE);
@@ -259,8 +280,10 @@ public class Main extends Activity {
 
                 DEVICE_PART += line + "\n";
             }
+            return true;
+        } else {
+            throw new DeviceNotSupportedException();
         }
-        return true;
     }
 
     private String getLatestVerionName() {

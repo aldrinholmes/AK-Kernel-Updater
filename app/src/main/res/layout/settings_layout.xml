@@ -176,4 +176,27 @@
             android:layout_marginTop="3dp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/btn_upSrc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/translucent_button"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <TextView
+            style="?android:attr/preferenceLayoutChild"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_btn_updateSource" />
+
+        <TextView
+            android:id="@+id/textView_upSrc"
+            style="?android:attr/preferenceInformationStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp" />
+    </LinearLayout>
+
 </LinearLayout>
