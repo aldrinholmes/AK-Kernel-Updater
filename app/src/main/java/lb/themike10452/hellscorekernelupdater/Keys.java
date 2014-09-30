@@ -8,6 +8,7 @@ import android.content.Context;
 public class Keys {
 
     public static String DEFAULT_SOURCE = "http://pastebin.com/download.php?i=G6xhB7x9";
+    public static String SOURCE_CODE = "https://github.com/themike10452/HellsCore_Kernel_Updater";
     public static String TAG_NOTIF = "THEMIKE10452.HKU.UPDNOTIF";
 
     public static String KEY_SETTINGS_SOURCE = "_SOURCE";

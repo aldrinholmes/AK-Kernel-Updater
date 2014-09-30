@@ -10,16 +10,20 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -202,6 +206,9 @@ public class Main extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         switch (item.getItemId()) {
+            case R.id.action_about:
+                showAboutDialog();
+                return true;
             case R.id.action_refresh:
                 onCreate(null);
                 return true;
@@ -465,6 +472,43 @@ public class Main extends Activity {
         }
     }
 
+    private void showAboutDialog() {
+        LinearLayout contentView = (LinearLayout) ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.blank_view, null);
+        contentView.setGravity(Gravity.CENTER);
+        contentView.setPadding(30, 40, 30, 40);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        TextView text1 = new TextView(this);
+        text1.setTextAppearance(this, android.R.style.TextAppearance_Small);
+        text1.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
+        text1.setText(getString(R.string.dialog_content_about, "Themike10452"));
+        contentView.addView(text1, params);
+
+        SpannableString content = new SpannableString("Github");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+
+        TextView text2 = new TextView(this);
+        text2.setTextAppearance(this, android.R.style.TextAppearance_Small);
+        text2.setTextColor(getResources().getColor(R.color.blue_marine));
+        text2.setText(content);
+        text2.setClickable(true);
+        text2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Keys.SOURCE_CODE));
+                startActivity(intent);
+            }
+        });
+        params.setMargins(0, 40, 0, 0);
+        contentView.addView(text2, params);
+
+        Dialog d = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
+        d.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        d.setContentView(contentView);
+        d.show();
+    }
+
     private void initSettings() {
 
         SharedPreferences.Editor editor = preferences.edit();
@@ -500,7 +544,7 @@ public class Main extends Activity {
             layout.addView(text1, params);
             layout.addView(text2, params);
 
-            Dialog d = new AlertDialog.Builder(this)
+            new AlertDialog.Builder(this)
                     .setTitle("AOSP / CM?")
                     .setCancelable(false)
                     .setView(child)
@@ -538,6 +582,6 @@ public class Main extends Activity {
 
     @Override
     public void onBackPressed() {
-
+        //empty
     }
 }
