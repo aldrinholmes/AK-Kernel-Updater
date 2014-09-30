@@ -31,13 +31,11 @@ import lb.themike10452.hellscorekernelupdater.Tools;
 public class BackgroundAutoCheckService extends IntentService {
 
     public static boolean running = false;
-    private static boolean IO_IS_BUSY;
     private static BroadcastReceiver broadcastReceiver;
     //this is the background check task
     private Runnable run = new Runnable() {
         @Override
         public void run() {
-            IO_IS_BUSY = true;
             boolean DEVICE_SUPPORTED = true;
             boolean CONNECTED = false;
             try {
@@ -84,8 +82,7 @@ public class BackgroundAutoCheckService extends IntentService {
                 };
                 //here we register the broadcast receiver to catch any connectivity change action
                 registerReceiver(broadcastReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-                //then we kill the loop while waiting for a connection to relaunch
-                stopSelf();
+
             } else if (CONNECTED) { //else if the phone was connected by the time, we need to check for an update
                 Log.d("TAG", "Checking");
 
@@ -93,6 +90,14 @@ public class BackgroundAutoCheckService extends IntentService {
                 Tools.getFormattedKernelVersion();
                 String installed = Tools.INSTALLED_KERNEL_VERSION;
                 String latest = getLatestVerionName();
+
+                //if the user hasn't opened the app and selected which ROM base he uses (AOSP/CM)
+                //getLatestVersion will return "Unavailable"
+                //we should stop our work until the user sets the missing ROM flag
+                if (latest.equalsIgnoreCase("Unavailable")) {
+                    stopSelf();
+                    return;
+                }
 
                 //display a notification to the user in case of an available update
                 if (!installed.equalsIgnoreCase(latest)) {
@@ -110,7 +115,6 @@ public class BackgroundAutoCheckService extends IntentService {
                 }
 
             }
-            IO_IS_BUSY = false;
         }
     };
     private SharedPreferences preferences;
@@ -127,6 +131,8 @@ public class BackgroundAutoCheckService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+
+        //actual work starts here
 
         running = true;
 
@@ -153,10 +159,7 @@ public class BackgroundAutoCheckService extends IntentService {
         //I created a boolean to break the endless loop whenever I want to stop it
         while (running) {
 
-            if (!IO_IS_BUSY)
-                new Thread(run).start();
-            else
-                Log.d("TAG", "IO is busy");
+            new Thread(run).start();
 
             try {
                 //sleep for T milliseconds
@@ -210,7 +213,7 @@ public class BackgroundAutoCheckService extends IntentService {
             if (line.length() == 0)
                 continue;
 
-            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.KEY_KERNEL_VERSION))
+            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.getKEY_KERNEL_VERSION(this)))
                 return line.split(":=")[1];
         }
         s.close();

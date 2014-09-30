@@ -77,7 +77,13 @@ public class Main extends Activity {
         final View v1 = LayoutInflater.from(this).inflate(R.layout.kernel_info_layout, null);
         ((TextView) v1.findViewById(R.id.text)).setText(tools.getFormattedKernelVersion());
 
-        final Card card1 = new Card(this, getString(R.string.card_title_installedKernel), false, v1);
+        TextView tag = new TextView(this);
+        tag.setTextAppearance(this, android.R.style.TextAppearance_Small);
+        tag.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"), Typeface.BOLD);
+        tag.setTextSize(10f);
+        tag.setText(preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "undefined").toUpperCase());
+
+        final Card card1 = new Card(this, getString(R.string.card_title_installedKernel), tag, false, v1);
         card1.getPARENT().setAnimation(getIntroSet(1000, 0));
 
         main.addView(card1.getPARENT());
@@ -134,7 +140,11 @@ public class Main extends Activity {
                         }
 
                         View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.new_kernel_layout, null);
-                        ((TextView) v.findViewById(R.id.text)).setText(getLatestVerionName());
+                        String ver = getLatestVerionName();
+                        if (ver.equals("Unavailable")) {
+                            return;
+                        }
+                        ((TextView) v.findViewById(R.id.text)).setText(ver);
 
                         ((Button) v.findViewById(R.id.btn_changelog)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"), Typeface.BOLD);
                         ((Button) v.findViewById(R.id.btn_getLatestVersion)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"), Typeface.BOLD);
@@ -294,7 +304,7 @@ public class Main extends Activity {
             if (line.length() == 0)
                 continue;
 
-            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.KEY_KERNEL_VERSION))
+            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.getKEY_KERNEL_VERSION(this)))
                 return line.split(":=")[1];
         }
         s.close();
@@ -309,7 +319,7 @@ public class Main extends Activity {
             if (line.length() == 0)
                 continue;
 
-            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.KEY_KERNEL_ZIPNAME))
+            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.getKEY_KERNEL_ZIPNAME(this)))
                 return line.split(":=")[1];
 
         }
@@ -325,7 +335,7 @@ public class Main extends Activity {
             if (line.length() == 0)
                 continue;
 
-            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.KEY_KERNEL_HTTPLINK)) {
+            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.getKEY_KERNEL_HTTPLINK(this))) {
                 s.close();
                 return line.split(":=")[1];
             }
@@ -342,7 +352,7 @@ public class Main extends Activity {
             if (line.length() == 0)
                 continue;
 
-            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.KEY_KERNEL_MD5)) {
+            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.getKEY_KERNEL_MD5(this))) {
                 s.close();
                 return line.split(":=")[1];
             }
@@ -475,6 +485,52 @@ public class Main extends Activity {
             editor.putString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:0");
 
         editor.apply();
+
+        if (preferences.getString(Keys.KEY_SETTINGS_ROMBASE, null) == null) {
+            View child = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.blank_view, null);
+            LinearLayout layout = (LinearLayout) child;
+            TextView text1 = new TextView(this);
+            text1.setText(R.string.prompt_romBase);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(10, 10, 10, 10);
+            TextView text2 = new TextView(this);
+            text2.setText(R.string.msg_changeable);
+            layout.addView(text1, params);
+            layout.addView(text2, params);
+
+            Dialog d = new AlertDialog.Builder(this)
+                    .setTitle("AOSP / CM?")
+                    .setCancelable(false)
+                    .setView(child)
+                    .setPositiveButton("AOSP", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, "aosp").apply();
+                            startService(new Intent(Main.this, BackgroundAutoCheckService.class));
+                            onCreate(null);
+                        }
+                    })
+                    .setNeutralButton("MIUI", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, "miui").apply();
+                            startService(new Intent(Main.this, BackgroundAutoCheckService.class));
+                            onCreate(null);
+                        }
+                    })
+                    .setNegativeButton("CM", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, "cm").apply();
+                            startService(new Intent(Main.this, BackgroundAutoCheckService.class));
+                            onCreate(null);
+                        }
+                    }).show();
+            text1.setTextAppearance(this, android.R.style.TextAppearance_Small);
+            text1.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
+            text2.setTextAppearance(this, android.R.style.TextAppearance_Small);
+            text2.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
+        }
 
     }
 

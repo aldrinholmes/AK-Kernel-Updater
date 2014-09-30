@@ -14,7 +14,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -142,6 +141,29 @@ public class Settings extends Activity {
             }
         });
 
+        findViewById(R.id.btn_romBase).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final String[] choices = "AOSP:CM:MIUI".split(":");
+                int selected = -1;
+                String s = Main.preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "n/a");
+                if (s.equalsIgnoreCase("aosp")) {
+                    selected = 0;
+                } else if (s.equalsIgnoreCase("cm")) {
+                    selected = 1;
+                } else if (s.equalsIgnoreCase("miui")) {
+                    selected = 2;
+                }
+                new AlertDialog.Builder(Settings.this)
+                        .setSingleChoiceItems(choices, selected, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Main.preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, choices[i]).apply();
+                            }
+                        }).show();
+            }
+        });
+
         ((Switch) findViewById(R.id.switch_bkg_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -218,22 +240,13 @@ public class Settings extends Activity {
         ((CheckBox) findViewById(R.id.checkbox_useAndDM)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false));
         (AC_H = (TextView) findViewById(R.id.editText_autocheck_h)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[0]);
         (AC_M = (TextView) findViewById(R.id.editText_autocheck_m)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[1]);
+
         if (Main.preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE).equalsIgnoreCase(Keys.DEFAULT_SOURCE))
             ((TextView) findViewById(R.id.textView_upSrc)).setText(getString(R.string.defaultt));
         else
             ((TextView) findViewById(R.id.textView_upSrc)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE));
 
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-        }
-        return false;
+        ((TextView) findViewById(R.id.textView_romBase)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "n/a").toUpperCase());
     }
 
     @Override
