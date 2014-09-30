@@ -76,12 +76,15 @@ public class Settings extends Activity {
         setContentView(R.layout.settings_layout);
         overridePendingTransition(R.anim.slide_in_rtl, R.anim.slide_out_rtl);
 
-        updateScreen();
-
         ((CheckBox) findViewById(R.id.checkbox_useAndDM)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 Main.preferences.edit().putBoolean(Keys.KEY_SETTINGS_USEANDM, b).apply();
+
+                /*findViewById(R.id.btn_dlLoc).setClickable(!b);
+                for (int i = 0; i < ((LinearLayout) findViewById(R.id.btn_dlLoc)).getChildCount(); i++) {
+                    ((LinearLayout) findViewById(R.id.btn_dlLoc)).getChildAt(i).setEnabled(!b);
+                }*/
             }
         });
 
@@ -171,8 +174,8 @@ public class Settings extends Activity {
             }
         });
 
-        AC_H.addTextChangedListener(intervalChanger);
-        AC_M.addTextChangedListener(intervalChanger);
+        (AC_H = (TextView) findViewById(R.id.editText_autocheck_h)).addTextChangedListener(intervalChanger);
+        (AC_M = (TextView) findViewById(R.id.editText_autocheck_m)).addTextChangedListener(intervalChanger);
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -228,6 +231,8 @@ public class Settings extends Activity {
 
         Main.preferences.registerOnSharedPreferenceChangeListener(prefListener);
 
+        updateScreen();
+
     }
 
     void updateTextView(TextView v, String s) {
@@ -238,8 +243,8 @@ public class Settings extends Activity {
         ((Switch) findViewById(R.id.switch_bkg_check)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true));
         ((TextView) findViewById(R.id.textView_dlLoc)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, ""));
         ((CheckBox) findViewById(R.id.checkbox_useAndDM)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false));
-        (AC_H = (TextView) findViewById(R.id.editText_autocheck_h)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[0]);
-        (AC_M = (TextView) findViewById(R.id.editText_autocheck_m)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[1]);
+        AC_H.setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[0]);
+        AC_M.setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[1]);
 
         if (Main.preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE).equalsIgnoreCase(Keys.DEFAULT_SOURCE))
             ((TextView) findViewById(R.id.textView_upSrc)).setText(getString(R.string.defaultt));
@@ -248,6 +253,15 @@ public class Settings extends Activity {
 
         ((TextView) findViewById(R.id.textView_romBase)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "n/a").toUpperCase());
     }
+
+    /*@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+        }
+        return false;
+    }*/
 
     @Override
     public void onBackPressed() {

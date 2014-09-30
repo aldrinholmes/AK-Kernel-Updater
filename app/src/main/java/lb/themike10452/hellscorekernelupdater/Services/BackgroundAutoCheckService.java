@@ -58,7 +58,6 @@ public class BackgroundAutoCheckService extends IntentService {
             //but no! we have to find another way
 
             if (!CONNECTED && broadcastReceiver == null) { //if the phone was not connected by the time
-                Log.d("TAG", "Connection not found, timer canceled");
                 //set up a broadcast receiver that detects when the phone is connected to the internet
                 broadcastReceiver = new BroadcastReceiver() {
                     @Override
@@ -68,7 +67,6 @@ public class BackgroundAutoCheckService extends IntentService {
                         boolean isConnected = info != null && info.isConnected();
 
                         if (isConnected) { //if the phone is connected, relaunch a new fresh cycle
-                            Log.d("TAG", "Connection detected");
                             //unregister the broadcast receiver when it receives the targeted intent
                             //so it doesn't interfere with any newly created receivers in the future
                             unregisterReceiver(this);
@@ -84,7 +82,6 @@ public class BackgroundAutoCheckService extends IntentService {
                 registerReceiver(broadcastReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
             } else if (CONNECTED) { //else if the phone was connected by the time, we need to check for an update
-                Log.d("TAG", "Checking");
 
                 //get installed and latest kernel info, and compare them
                 Tools.getFormattedKernelVersion();
@@ -101,7 +98,6 @@ public class BackgroundAutoCheckService extends IntentService {
 
                 //display a notification to the user in case of an available update
                 if (!installed.equalsIgnoreCase(latest)) {
-                    Log.d("TAG", "Update found");
                     Intent intent1 = new Intent(BackgroundAutoCheckService.this, Main.class);
                     PendingIntent pendingIntent = PendingIntent.getActivity(BackgroundAutoCheckService.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
                     Notification notif = new Notification.Builder(getApplicationContext())
@@ -152,8 +148,6 @@ public class BackgroundAutoCheckService extends IntentService {
 
         //parse them into integers and transform the total amount of time into seconds
         int T = (Integer.parseInt(hr) * 3600) + (Integer.parseInt(mn) * 60);
-
-        Log.d("TAG", "Service started >> " + T);
 
         //run the check task at a fixed rate
         //I created a boolean to break the endless loop whenever I want to stop it
@@ -223,7 +217,6 @@ public class BackgroundAutoCheckService extends IntentService {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        Log.d("TAG", "Service started");
         return START_STICKY;
     }
 
@@ -231,6 +224,5 @@ public class BackgroundAutoCheckService extends IntentService {
     public void onDestroy() {
         super.onDestroy();
         running = false;
-        Log.d("TAG", "Service destroyed");
     }
 }

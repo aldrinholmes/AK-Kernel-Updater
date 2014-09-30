@@ -65,7 +65,8 @@ public class Main extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
-        final Tools tools = Tools.getInstance() == null ? new Tools(this) : Tools.getInstance();
+        //final Tools tools = Tools.getInstance() == null ? new Tools(this) : Tools.getInstance();
+        final Tools tools = new Tools(this);
         this.tools = tools;
 
         preferences = getSharedPreferences("Settings", MODE_MULTI_PROCESS);
@@ -377,11 +378,11 @@ public class Main extends Activity {
         if (link != null) {
             final boolean b = preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false);
             String destination = preferences
-                    .getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath());
+                    .getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator);
 
             final BroadcastReceiver downloadHandler = new BroadcastReceiver() {
                 @Override
-                public void onReceive(Context context, Intent intent) {
+                public void onReceive(Context context, final Intent intent) {
                     unregisterReceiver(this);
                     AlertDialog.Builder builder = new AlertDialog.Builder(Main.this);
                     Dialog d = null;
@@ -443,7 +444,7 @@ public class Main extends Activity {
                 }
             };
 
-            BroadcastReceiver downloadCancelationReceiver = new BroadcastReceiver() {
+            BroadcastReceiver downloadCancellationReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     Toast.makeText(getApplicationContext(), R.string.msg_downloadCanceled, Toast.LENGTH_SHORT).show();
@@ -451,15 +452,16 @@ public class Main extends Activity {
                         unregisterReceiver(this);
                         unregisterReceiver(downloadHandler);
                     } catch (RuntimeException ignored) {
+                    } catch (Exception ignored) {
                     }
                 }
             };
 
-            registerReceiver(downloadCancelationReceiver, new IntentFilter(Tools.EVENT_DOWNLOAD_CANCELED));
+            registerReceiver(downloadCancellationReceiver, new IntentFilter(Tools.EVENT_DOWNLOAD_CANCELED));
             registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_DOWNLOAD_COMPLETE));
             registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_DOWNLOADEDFILE_EXISTS));
 
-            tools.downloadFile(link, destination, getLatestZipName(), getLatestMD5(), b);
+            tools.downloadFile(/*Main.this, */link, destination, getLatestZipName(), getLatestMD5(), b);
         }
     }
 

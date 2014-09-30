@@ -50,13 +50,13 @@
     <string name="settings_info_useAndroidDM">Use system\'s built-in download manager to handle downloads</string>
     <string name="settings_btn_downloadLocation">Download location</string>
     <string name="settings_btn_updateSource">Update source</string>
-    <string name="settings_btn_romBase">Is your ROM based on AOSP or CM?</string>
+    <string name="settings_btn_romBase">Is your ROM based on AOSP, CM or MIUI?</string>
 
     <string name="prompt_install1">The kernel was downloaded successfully.\nClick %1$s to reboot and install it now.\nClick %2$s to install later.</string>
     <string name="prompt_install2">The kernel file already exists with a matching md5.\nClick %1$s to reboot and install it now.\nClick %2$s to install later.</string>
     <string name="prompt_md5mismatch">The kernel was downloaded successfully. However MD5 hash does not match the original file.\n\nOriginal:%1$s\n\Calculated:%2$s</string>
     <string name="prompt_rootFail">Failed to acquire root access.\nYou may proceed and download kernel updates through the app but kernel installation will not work without root.\nPlease check your superuser app.</string>
-    <string name="prompt_romBase">What is your ROM base (AOSP/Cyanogenmod)?</string>
+    <string name="prompt_romBase">What is your ROM base (AOSP/Cyanogenmod/MIUI)?</string>
     <string name="prompt_blankDefault">Leave it blank for default</string>
 
 </resources>

@@ -2,12 +2,19 @@ package lb.themike10452.hellscorekernelupdater;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.DownloadManager;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -130,7 +137,7 @@ public class Tools {
         ((TextView) dialog.findViewById(android.R.id.message)).setTypeface(Typeface.createFromAsset(C.getAssets(), "Roboto-Regular.ttf"));
     }
 
-    public void downloadFile(final String httpURL, final String destination, final String alternativeFilename, final String MD5hash, boolean useAndroidDownloadManager) {
+    public void downloadFile(/*final Activity activity, */final String httpURL, final String destination, final String alternativeFilename, final String MD5hash, boolean useAndroidDownloadManager) {
 
         final Activity activity = (Activity) C;
         cancelDownload = false;
@@ -178,6 +185,7 @@ public class Tools {
                         byte[] buffer = new byte[1024];
                         int bufferLength;
                         downloadSize = connection.getContentLength();
+
                         if (MD5hash != null) {
                             if (lastDownloadedFile.exists() && lastDownloadedFile.isFile()) {
                                 if (getMD5Hash(lastDownloadedFile.getAbsolutePath()).equalsIgnoreCase(MD5hash) && !cancelDownload) {
@@ -195,6 +203,7 @@ public class Tools {
                                 }
                             }
                         }
+
                         stream = connection.getInputStream();
                         outputStream = new FileOutputStream(lastDownloadedFile);
                         while ((bufferLength = stream.read(buffer)) > 0) {
@@ -264,8 +273,109 @@ public class Tools {
 
         } else {
 
-            DownloadManager manager = (DownloadManager) C.getSystemService(Context.DOWNLOAD_SERVICE);
-            manager.enqueue(new DownloadManager.Request(Uri.parse(httpURL)));
+            new AsyncTask<Void, Void, String>() {
+                ProgressDialog dialog;
+
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    dialog = new ProgressDialog(activity);
+                    dialog.setIndeterminate(true);
+                    dialog.setMessage(C.getString(R.string.msg_pleaseWait));
+                    dialog.show();
+                }
+
+                @Override
+                protected String doInBackground(Void... voids) {
+                    String filename;
+                    try {
+                        HttpURLConnection connection = (HttpURLConnection) new URL(httpURL).openConnection();
+                        try {
+                            filename = connection.getHeaderField("Content-Disposition");
+                            if (filename != null && filename.contains("=")) {
+                                if (filename.split("=")[1].contains(";"))
+                                    return filename.split("=")[1].split(";")[0].replaceAll("\"", "");
+                                else
+                                    return filename.split("=")[1];
+                            } else {
+                                return alternativeFilename;
+                            }
+                        } catch (Exception e) {
+                            return alternativeFilename;
+                        }
+                    } catch (Exception e) {
+                        return alternativeFilename;
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(String filename) {
+                    super.onPostExecute(filename);
+
+                    if (dialog != null && dialog.isShowing())
+                        dialog.dismiss();
+
+                    final DownloadManager manager = (DownloadManager) C.getSystemService(Context.DOWNLOAD_SERVICE);
+
+                    Uri destinationUri = Uri.fromFile(lastDownloadedFile = new File(destination + filename));
+
+                    if (MD5hash != null) {
+                        if (lastDownloadedFile.exists() && lastDownloadedFile.isFile()) {
+                            if (getMD5Hash(lastDownloadedFile.getAbsolutePath()).equalsIgnoreCase(MD5hash) && !cancelDownload) {
+                                activity.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        C.sendBroadcast(new Intent(EVENT_DOWNLOADEDFILE_EXISTS));
+                                    }
+                                });
+                                return;
+                            } else {
+                                lastDownloadedFile.delete();
+                            }
+                        }
+                    }
+
+                    final long downloadID = manager
+                            .enqueue(new DownloadManager.Request(Uri.parse(httpURL))
+                                    .setDestinationUri(destinationUri));
+
+                    final Dialog d = new AlertDialog.Builder(activity).setMessage(R.string.dialog_title_downloading).setCancelable(false).show();
+                    BroadcastReceiver receiver = new BroadcastReceiver() {
+                        @Override
+                        public void onReceive(Context context, Intent intent) {
+
+                            if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE)) {
+
+                                if (intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0L) != downloadID)
+                                    return;
+
+                                C.unregisterReceiver(this);
+
+                                d.dismiss();
+
+                                DownloadManager.Query query = new DownloadManager.Query();
+                                query.setFilterById(downloadID);
+                                Cursor cursor = manager.query(query);
+
+                                if (!cursor.moveToFirst()) {
+                                    C.sendBroadcast(new Intent(EVENT_DOWNLOAD_CANCELED));
+                                    return;
+                                }
+
+                                int status = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS);
+                                if (cursor.getInt(status) == DownloadManager.STATUS_SUCCESSFUL) {
+                                    lastDownloadedFile = new File(cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_FILENAME)));
+                                    C.sendBroadcast(new Intent(EVENT_DOWNLOAD_COMPLETE));
+                                } else {
+                                    Toast.makeText(C, "error" + ": " + cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_REASON)), Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+                    };
+                    C.registerReceiver(receiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                }
+            }.execute();
+
 
         }
     }
