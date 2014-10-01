@@ -10,6 +10,7 @@
     <string name="hours">Hours</string>
     <string name="minutes">Minutes</string>
     <string name="defaultt">Default</string>
+    <string name="onReboot">Rebooting …</string>
 
     <string name="dialog_title_downloading">Download in progress …</string>
     <string name="dialog_title_changelog">Changelog</string>
@@ -31,6 +32,7 @@
     <string name="msg_failed_try_again">Failed, please try again later</string>
     <string name="msg_device_not_supported">Device not supported</string>
     <string name="msg_downloadCanceled">Download canceled</string>
+    <string name="msg_downloadComplete">Download complete</string>
     <string name="msg_updateFound">A new kernel version was found</string>
     <string name="msg_changeable">This setting can be changed from the settings section</string>
 
@@ -58,7 +60,7 @@
 
     <string name="prompt_install1">The kernel was downloaded successfully.\nClick %1$s to reboot and install it now.\nClick %2$s to install later.</string>
     <string name="prompt_install2">The kernel file already exists with a matching md5.\nClick %1$s to reboot and install it now.\nClick %2$s to install later.</string>
-    <string name="prompt_md5mismatch">The kernel was downloaded successfully. However MD5 hash does not match the original file.\n\nOriginal:%1$s\n\Calculated:%2$s</string>
+    <string name="prompt_md5mismatch">The kernel was downloaded successfully. However MD5 hash does not match the original file.\n\nOriginal:%1$s\nCalculated:%2$s</string>
     <string name="prompt_rootFail">Failed to acquire root access.\nYou may proceed and download kernel updates through the app but kernel installation will not work without root.\nPlease check your superuser app.</string>
     <string name="prompt_romBase">What is your ROM base (AOSP/Cyanogenmod/MIUI)?</string>
     <string name="prompt_blankDefault">Leave it blank for default</string>

@@ -17,6 +17,7 @@ public class Keys {
     public static String KEY_SETTINGS_AUTOCHECK_ENABLED = "_ENABLEBAC";
     public static String KEY_SETTINGS_AUTOCHECK_INTERVAL = "_BACINTERVAL";
     public static String KEY_SETTINGS_ROMBASE = "_ROMBASE";
+
     private static String KEY_KERNEL_VERSION = "_version(%s):=";
     private static String KEY_KERNEL_ZIPNAME = "_zipname(%s):=";
     private static String KEY_KERNEL_HTTPLINK = "_httplink(%s):=";

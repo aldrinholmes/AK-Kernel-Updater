@@ -13,7 +13,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -153,7 +152,8 @@ public class BackgroundAutoCheckService extends IntentService {
         //I created a boolean to break the endless loop whenever I want to stop it
         while (running) {
 
-            new Thread(run).start();
+            if (!Tools.isDownloading)
+                new Thread(run).start();
 
             try {
                 //sleep for T milliseconds

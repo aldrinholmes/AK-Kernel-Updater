@@ -47,6 +47,7 @@ import lb.themike10452.hellscorekernelupdater.Services.BackgroundAutoCheckServic
 public class Main extends Activity {
 
     public static SharedPreferences preferences;
+    public static boolean running;
     private String DEVICE = Build.DEVICE;
     private String DEVICE_PART, CHANGELOG;
     private Tools tools;
@@ -74,6 +75,7 @@ public class Main extends Activity {
         this.tools = tools;
 
         preferences = getSharedPreferences("Settings", MODE_MULTI_PROCESS);
+        running = true;
 
         initSettings();
 
@@ -193,6 +195,15 @@ public class Main extends Activity {
                 }.execute();
             }
         }, 1000);
+
+        chuckNorris();
+
+    }
+
+    private void chuckNorris() {
+        if (getIntent().getLongExtra("main", -1) == Tools.EXTRA_SHOW_INSTALL_DIALOG) {
+            getIntent().putExtra("main", -1);
+        }
     }
 
     @Override
@@ -284,7 +295,7 @@ public class Main extends Activity {
         }
         if (DEVICE_SUPPORTED) {
             while (s.hasNextLine()) {
-                line = s.nextLine();
+                line = s.nextLine().trim();
                 if (line.equalsIgnoreCase(String.format("<%s/>", DEVICE)))
                     break;
 
@@ -307,7 +318,7 @@ public class Main extends Activity {
     private String getLatestVerionName() {
         Scanner s = new Scanner(DEVICE_PART);
         while (s.hasNextLine()) {
-            String line = s.nextLine();
+            String line = s.nextLine().trim();
 
             if (line.length() == 0)
                 continue;
@@ -322,7 +333,7 @@ public class Main extends Activity {
     private String getLatestZipName() {
         Scanner s = new Scanner(DEVICE_PART);
         while (s.hasNextLine()) {
-            String line = s.nextLine();
+            String line = s.nextLine().trim();
 
             if (line.length() == 0)
                 continue;
@@ -338,7 +349,7 @@ public class Main extends Activity {
     private String getLatestDownloadLink() {
         Scanner s = new Scanner(DEVICE_PART);
         while (s.hasNextLine()) {
-            String line = s.nextLine();
+            String line = s.nextLine().trim();
 
             if (line.length() == 0)
                 continue;
@@ -355,7 +366,7 @@ public class Main extends Activity {
     private String getLatestMD5() {
         Scanner s = new Scanner(DEVICE_PART);
         while (s.hasNextLine()) {
-            String line = s.nextLine();
+            String line = s.nextLine().trim();
 
             if (line.length() == 0)
                 continue;
@@ -404,11 +415,11 @@ public class Main extends Activity {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             tools.createOpenRecoveryScript("install " + tools.lastDownloadedFile.getAbsolutePath(), true, false);
-                                            Toast.makeText(getApplicationContext(), "Rebooting", Toast.LENGTH_SHORT).show();
                                         }
                                     })
                                     .setNegativeButton(R.string.btn_dismiss, null)
                                     .show();
+                            Tools.userDialog = d;
                         } else {
                             d = builder.setTitle(R.string.dialog_title_md5mismatch)
                                     .setCancelable(false)
@@ -427,8 +438,13 @@ public class Main extends Activity {
                                     })
                                     .setNeutralButton(R.string.btn_dismiss, null)
                                     .show();
+                            Tools.userDialog = d;
                         }
                     } else if (intent.getAction().equals(Tools.EVENT_DOWNLOADEDFILE_EXISTS)) {
+
+                        if (Tools.userDialog != null)
+                            Tools.userDialog.dismiss();
+
                         d = builder
                                 .setTitle(R.string.dialog_title_readyToInstall)
                                 .setCancelable(false)
@@ -437,11 +453,11 @@ public class Main extends Activity {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         tools.createOpenRecoveryScript("install " + tools.lastDownloadedFile.getAbsolutePath(), true, false);
-                                        Toast.makeText(getApplicationContext(), "Rebooting", Toast.LENGTH_SHORT).show();
                                     }
                                 })
                                 .setNegativeButton(R.string.btn_dismiss, null)
                                 .show();
+                        Tools.userDialog = d;
                     }
                     if (d != null && d.findViewById(android.R.id.message) != null) {
                         ((TextView) d.findViewById(android.R.id.message)).setTextAppearance(Main.this, android.R.style.TextAppearance_Small);
@@ -583,5 +599,11 @@ public class Main extends Activity {
     @Override
     public void onBackPressed() {
         //empty
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        running = false;
     }
 }
