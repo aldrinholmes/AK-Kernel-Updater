@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -16,6 +17,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.SpannableString;
+import android.text.method.ScrollingMovementMethod;
 import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -161,7 +163,6 @@ public class Main extends Activity {
                             public void onClick(View view) {
                                 TextView textView = new TextView(Main.this);
                                 textView.setText(CHANGELOG);
-                                textView.setHorizontallyScrolling(true);
                                 textView.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Small);
                                 textView.setTextColor(getResources().getColor(R.color.card_text));
                                 ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -175,6 +176,10 @@ public class Main extends Activity {
                                         .setCancelable(false)
                                         .setNeutralButton(R.string.btn_dismiss, null)
                                         .show();
+
+                                textView.setHorizontallyScrolling(true);
+                                textView.setHorizontalScrollBarEnabled(true);
+                                textView.setMovementMethod(new ScrollingMovementMethod());
 
                             }
                         });
@@ -498,26 +503,34 @@ public class Main extends Activity {
         TextView text1 = new TextView(this);
         text1.setTextAppearance(this, android.R.style.TextAppearance_Small);
         text1.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
-        text1.setText(getString(R.string.dialog_content_about, "Themike10452"));
+        text1.setText(getString(R.string.dialog_content_about, "THEMIKE10452"));
         contentView.addView(text1, params);
+
+        TextView text2 = new TextView(this);
+        text2.setTextAppearance(this, android.R.style.TextAppearance_Small);
+        try {
+            text2.setText("v" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException ingored) {
+        }
+        params.setMargins(0, 40, 0, 0);
+        contentView.addView(text2, params);
 
         SpannableString content = new SpannableString("Github");
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
 
-        TextView text2 = new TextView(this);
-        text2.setTextAppearance(this, android.R.style.TextAppearance_Small);
-        text2.setTextColor(getResources().getColor(R.color.blue_marine));
-        text2.setText(content);
-        text2.setClickable(true);
-        text2.setOnClickListener(new View.OnClickListener() {
+        TextView text3 = new TextView(this);
+        text3.setTextAppearance(this, android.R.style.TextAppearance_Small);
+        text3.setTextColor(getResources().getColor(R.color.blue_marine));
+        text3.setText(content);
+        text3.setClickable(true);
+        text3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Keys.SOURCE_CODE));
                 startActivity(intent);
             }
         });
-        params.setMargins(0, 40, 0, 0);
-        contentView.addView(text2, params);
+        contentView.addView(text3, params);
 
         Dialog d = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -529,8 +542,15 @@ public class Main extends Activity {
 
         SharedPreferences.Editor editor = preferences.edit();
 
-        if (preferences.getString(Keys.KEY_SETTINGS_SOURCE, null) == null)
+        if (preferences.getString(Keys.KEY_SETTINGS_SOURCE, null) == null) {
             editor.putString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE);
+            Dialog d = new AlertDialog.Builder(this)
+                    .setMessage(R.string.msg_twrp)
+                    .setNeutralButton(R.string.btn_ok, null)
+                    .setTitle("TWRP")
+                    .show();
+            ((TextView) d.findViewById(android.R.id.message)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
+        }
 
         if (preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, null) == null)
             editor.putString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator);

@@ -341,10 +341,13 @@ public class Tools {
 
                                         final NotificationManager manager1 = (NotificationManager) C.getSystemService(Context.NOTIFICATION_SERVICE);
 
+                                        String bigText = C.getString(R.string.prompt_install2, C.getString(R.string.btn_install), "");
+                                        bigText = bigText.split("\n")[0] + "\n" + bigText.split("\n")[1];
+
                                         Notification notification = new Notification.Builder(C)
                                                 .setContentTitle(C.getString(R.string.dialog_title_readyToInstall))
-                                                .setContentText(C.getString(R.string.prompt_install2).split("\n")[0])
-                                                .setStyle(new Notification.BigTextStyle().bigText(C.getString(R.string.prompt_install2).split("\n")[0]))
+                                                .setContentText(bigText)
+                                                .setStyle(new Notification.BigTextStyle().bigText(bigText))
                                                 .setSmallIcon(R.drawable.ic_launcher)
                                                 .addAction(R.drawable.ic_action_flash_on, C.getString(R.string.btn_install), PendingIntent.getBroadcast(activity, 0, new Intent(ACTION_INSTALL), 0))
                                                 .build();
@@ -356,7 +359,7 @@ public class Tools {
                                             public void onReceive(Context context, Intent intent) {
                                                 manager1.cancel(Keys.TAG_NOTIF, 3723);
                                                 C.unregisterReceiver(this);
-                                                createOpenRecoveryScript("install " + lastDownloadedFile.getAbsolutePath(), true, true);
+                                                createOpenRecoveryScript("install " + lastDownloadedFile.getAbsolutePath(), true, false);
                                             }
                                         }, new IntentFilter(ACTION_INSTALL));
 
@@ -426,12 +429,15 @@ public class Tools {
                                     Intent intent2 = new Intent(ACTION_DISMISS);
                                     if (match) {
 
+                                        String bigText = C.getString(R.string.prompt_install1, C.getString(R.string.btn_install), "");
+                                        bigText = bigText.split("\n")[0] + "\n" + bigText.split("\n")[1];
+
                                         Notification notification = new Notification.Builder(C.getApplicationContext())
                                                 .setSmallIcon(R.drawable.ic_launcher)
                                                 .setContentTitle(C.getString(R.string.msg_downloadComplete))
-                                                .setContentText(C.getString(R.string.prompt_install1, R.string.btn_install, R.string.btn_dismiss))
+                                                .setContentText(bigText)
                                                 .addAction(R.drawable.ic_action_flash_on, C.getString(R.string.btn_install), PendingIntent.getBroadcast(activity, 0, intent1, 0))
-                                                .setStyle(new Notification.BigTextStyle().bigText(C.getString(R.string.prompt_install1, C.getString(R.string.btn_install), C.getString(R.string.btn_dismiss))))
+                                                .setStyle(new Notification.BigTextStyle().bigText(bigText))
                                                 .build();
                                         final NotificationManager manager1 = (NotificationManager) C.getSystemService(Context.NOTIFICATION_SERVICE);
 
