@@ -180,7 +180,7 @@ public class BackgroundAutoCheckService extends IntentService {
         while (s.hasNextLine()) {
             String line;
             if ((line = s.nextLine()).equalsIgnoreCase(pattern)) {
-                DEVICE_PART += line + "\n";
+                //DEVICE_PART += line + "\n";
                 supported = true;
                 break;
             }
@@ -188,7 +188,7 @@ public class BackgroundAutoCheckService extends IntentService {
         if (supported) {
             while (s.hasNextLine()) {
                 String line = s.nextLine();
-                if (line.equalsIgnoreCase(String.format("<%s/>", Build.DEVICE)))
+                if (line.equalsIgnoreCase(String.format("</%s>", Build.DEVICE)))
                     break;
                 DEVICE_PART += line + "\n";
             }

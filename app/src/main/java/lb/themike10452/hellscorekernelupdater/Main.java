@@ -19,6 +19,7 @@ import android.os.Environment;
 import android.text.SpannableString;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -151,6 +152,7 @@ public class Main extends Activity {
                         View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.new_kernel_layout, null);
                         String ver = getLatestVerionName();
                         if (ver.equals("Unavailable")) {
+                            displayOnScreenMessage(main, getString(R.string.msg_noKernelForYourROM, preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase(), DEVICE.toUpperCase()));
                             return;
                         }
                         ((TextView) v.findViewById(R.id.text)).setText(ver);
@@ -201,15 +203,15 @@ public class Main extends Activity {
             }
         }, 1000);
 
-        chuckNorris();
+        //chuckNorris();
 
     }
 
-    private void chuckNorris() {
+    /*private void chuckNorris() {
         if (getIntent().getLongExtra("main", -1) == Tools.EXTRA_SHOW_INSTALL_DIALOG) {
             getIntent().putExtra("main", -1);
         }
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -294,14 +296,14 @@ public class Main extends Activity {
         while (s.hasNextLine()) {
             if ((line = s.nextLine()).equalsIgnoreCase(pattern)) {
                 DEVICE_SUPPORTED = true;
-                DEVICE_PART += line + "\n";
+                //DEVICE_PART += line + "\n";
                 break;
             }
         }
         if (DEVICE_SUPPORTED) {
             while (s.hasNextLine()) {
                 line = s.nextLine().trim();
-                if (line.equalsIgnoreCase(String.format("<%s/>", DEVICE)))
+                if (line.equalsIgnoreCase(String.format("</%s>", DEVICE)))
                     break;
 
                 if (line.equalsIgnoreCase("<changelog>")) {
@@ -314,6 +316,7 @@ public class Main extends Activity {
 
                 DEVICE_PART += line + "\n";
             }
+            Log.d("TAG", DEVICE_PART + "");
             return true;
         } else {
             throw new DeviceNotSupportedException();
@@ -386,8 +389,12 @@ public class Main extends Activity {
     }
 
     private void displayOnScreenMessage(LinearLayout main, int msgId) {
+        displayOnScreenMessage(main, getString(msgId));
+    }
+
+    private void displayOnScreenMessage(LinearLayout main, String msgStr) {
         TextView textView = new TextView(Main.this);
-        textView.setText(msgId);
+        textView.setText(msgStr);
         textView.setGravity(Gravity.CENTER_HORIZONTAL);
         textView.setTextAppearance(Main.this, android.R.style.TextAppearance_Medium);
         textView.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-LightItalic.ttf"), Typeface.BOLD_ITALIC);
@@ -618,7 +625,11 @@ public class Main extends Activity {
 
     @Override
     public void onBackPressed() {
-        //empty
+        if (!tools.isDownloading)
+            super.onBackPressed();
+        else
+            Toast.makeText(this, R.string.msg_activeDownloads, Toast.LENGTH_LONG).show();
+
     }
 
     @Override
