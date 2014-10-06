@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HellsCore U2D</string>
+    <string name="version">Version</string>
+
+    <string name="action_refresh">Aktualisieren</string>
+    <string name="action_about">Über</string>
+
+    <string name="activity_settings">Einstellungen</string>
+    <string name="activity_fileBrowser">Suchen</string>
+
+    <string name="hours">Stunden</string>
+    <string name="minutes">Minuten</string>
+    <string name="defaultt">Standard</string>
+    <string name="undefined">Undefiniert</string>
+    <string name="onReboot">Neustart …</string>
+
+    <string name="dialog_title_downloading">Lade herunter …</string>
+    <string name="dialog_title_changelog">Changelog</string>
+    <string name="dialog_title_readyToInstall">Bereit zur Installation</string>
+    <string name="dialog_title_md5mismatch">MD5 Fehler</string>
+    <string name="dialog_title_rootFail">Root-Zugriff nötig</string>
+
+    <string name="dialog_content_about">Veröffentlicht durch %1$s</string>
+
+    <string name="card_title_latestVersion">Letzte Version</string>
+    <string name="card_title_installedKernel">Installierter Kernel</string>
+
+    <string name="field_filesize">Dateigröße</string>
+    <string name="filed_filename">Dateiname</string>
+    <string name="field_downloaded">Heruntergeladen</string>
+
+    <string name="msg_pleaseWait">Bitte warten …</string>
+    <string name="msg_up_to_date">Du bist auf dem aktuellen Stand</string>
+    <string name="msg_failed_try_again">Fehler, bitte versuche es später</string>
+    <string name="msg_device_not_supported">Gerät nicht unterstützt</string>
+    <string name="msg_downloadCanceled">Download abgebrochen</string>
+    <string name="msg_downloadComplete">Download abgeschlossen</string>
+    <string name="msg_updateFound">Eine neue Version des Kernel wurde gefunden</string>
+    <string name="msg_changeable">Diese Einstellung kann in den Einstellungen geändert werden</string>
+    <string name="msg_noKernelForYourROM">Es gibt keinen %1$s Kernel für %2$s</string>
+    <string name="msg_twrp">Die automatische Installation funktioniert nur mit TWRP Recovery. CWM wird nicht unterstützt.</string>
+    <string name="msg_activeDownloads">Es läuft ein aktiver Download, Du kannst die App nicht beenden.</string>
+    <string name="msg_invalidFilename">Ungültiger Dateiname</string>
+
+    <string name="btn_whatsNew">Was ist neu?</string>
+    <string name="btn_getIt">Jetzt herunterladen</string>
+    <string name="btn_ok">Okay</string>
+    <string name="btn_cancel">Abbrechen</string>
+    <string name="btn_dismiss">Verwerfen</string>
+    <string name="btn_install">Neustart und Installation</string>
+    <string name="btn_installAnyway">Trotzdem installieren</string>
+    <string name="btn_downloadAgain">Nochmal herunterladen</string>
+
+    <string name="settings_category_backgroundCheck">PRÜFUNG IM HINTERGRUND</string>
+    <string name="settings_category_downloads">DOWNLOADS</string>
+    <string name="settings_category_romBase">ROM BASIS</string>
+
+    <string name="settings_switch_backgroundCheck">Prüfung im Hintergrund</string>
+    <string name="settings_textView_backgroundCheckInterval">Prüfungsintervall</string>
+
+    <string name="settings_checkbox_useAndroidDM">Nutze den Android Download Manager</string>
+    <string name="settings_btn_downloadLocation">Speicherort</string>
+    <string name="settings_btn_staticFilename">Statischer Dateiname</string>
+    <string name="settings_btn_updateSource">Update Quelle</string>
+    <string name="settings_btn_romBase">Baisert Dein System auf AOSP, CM oder MIUI?</string>
+
+    <string name="settings_info_useAndroidDM">Nutze den systemeigenen Download Manager zum Herunterladen</string>
+    <string name="settings_info_useStaticFilename">Nutze denselben Dateinamen für alle Downloads</string>
+
+    <string name="prompt_install1">Der Kernel wurde erfolgreich heruntergalden.\nKlicke %1$s um das System neu zu starten und ihn zu installieren.\nKlicke %2$s um ihn später zu installieren.</string>
+    <string name="prompt_install2">Der Kernel existiert bereits mit einer identischen MD5-Prüfsumme.\nKlicke %1$s um das System neu zu starten und ihn zu installieren.\nKlicke %2$s um ihn später zu installieren.</string>
+    <string name="prompt_md5mismatch">Der Kernel wurde erfolgreich heruntergeladen. Leider stimmt die MD5-Prüfsumme nicht mit dem Original überein.\n\nOriginal:%1$s\nErrechnet:%2$s</string>
+    <string name="prompt_rootFail">Fehler beim Einholen der Root-Berechtigung.\nDu wirst weiter Kernel-Updates mit der App herunterladen können, aber die Installation funktioniert nur mit Root-Rechten.\nBitte prüfe Deine Superuser-App.</string>
+    <string name="prompt_romBase">Auf welchem System basiert Dein ROM (AOSP/Cyanogenmod/MIUI)?</string>
+    <string name="prompt_blankDefault">Leer lassen für Standard</string>
+    <string name="prompt_zipExtension">Vergiss nicht die Dateiendung .zip</string>
+</resources>
