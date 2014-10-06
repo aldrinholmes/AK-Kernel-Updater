@@ -3,6 +3,7 @@
 <!-- Translated by Kim-Sascha Decker -->
 
 <resources>
+
     <string name="app_name">HellsCore U2D</string>
     <string name="version">Version</string>
 
@@ -78,4 +79,5 @@
     <string name="prompt_romBase">Auf welchem System basiert Dein ROM (AOSP/Cyanogenmod/MIUI)?</string>
     <string name="prompt_blankDefault">Leer lassen für Standard</string>
     <string name="prompt_zipExtension">Vergiss nicht die Dateiendung .zip</string>
+
 </resources>

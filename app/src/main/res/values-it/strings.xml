@@ -3,6 +3,7 @@
 <!-- Translated by Massimiliano Montaleone -->
 
 <resources>
+
     <string name="app_name">HellsCore U2D</string>
     <string name="version">Versione</string>
     <string name="action_refresh">Aggiorna</string>
@@ -69,4 +70,5 @@
     <string name="prompt_rootFail">Accesso root negato\nVuoi continuare a scaricare gli aggiornamenti del kernel attraverso l\'app ma senza root non si puà installare.\nControlla l\'app con il superuser.</string>
     <string name="prompt_romBase">Che tipo di ROM avete (AOSP/Cyanogenmod/MIUI)?</string>
     <string name="prompt_blankDefault">Lasciare in bianco per impostazione predefinita</string>
+
 </resources>
