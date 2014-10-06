@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import lb.themike10452.hellscorekernelupdater.FileSelector.FileBrowser;
 import lb.themike10452.hellscorekernelupdater.Services.BackgroundAutoCheckService;
@@ -32,6 +33,8 @@ import lb.themike10452.hellscorekernelupdater.Services.BackgroundAutoCheckServic
  * Created by Mike on 9/22/2014.
  */
 public class Settings extends Activity {
+
+    private Activity activity;
 
     private TextView AC_H, AC_M;
     private TextWatcher intervalChanger = new TextWatcher() {
@@ -71,6 +74,12 @@ public class Settings extends Activity {
     };
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        activity = this;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
@@ -80,11 +89,7 @@ public class Settings extends Activity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 Main.preferences.edit().putBoolean(Keys.KEY_SETTINGS_USEANDM, b).apply();
-
-                /*findViewById(R.id.btn_dlLoc).setClickable(!b);
-                for (int i = 0; i < ((LinearLayout) findViewById(R.id.btn_dlLoc)).getChildCount(); i++) {
-                    ((LinearLayout) findViewById(R.id.btn_dlLoc)).getChildAt(i).setEnabled(!b);
-                }*/
+                findViewById(R.id.title1).setEnabled(b);
             }
         });
 
@@ -113,24 +118,14 @@ public class Settings extends Activity {
         findViewById(R.id.btn_upSrc).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View child = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.blank_view, null);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                child.setLayoutParams(params);
-                child.setPadding(30, 30, 30, 30);
-                final EditText editText = new EditText(Settings.this);
-                editText.setSingleLine();
-                editText.setHorizontallyScrolling(true);
-                if (!Main.preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE).equalsIgnoreCase(Keys.DEFAULT_SOURCE)) {
-                    editText.setText(Main.preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE));
-                }
-                TextView textView = new TextView(Settings.this);
-                textView.setText(R.string.prompt_blankDefault);
-                ((LinearLayout) child).addView(textView, params);
-                ((LinearLayout) child).addView(editText, params);
-                Dialog dialog = new Dialog(Settings.this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                dialog.setContentView(child);
-                dialog.show();
+                String currentSource = Main.preferences.getString(Keys.KEY_SETTINGS_SOURCE, null);
+
+                if (Keys.DEFAULT_SOURCE.equalsIgnoreCase(currentSource))
+                    currentSource = "";
+
+                Object[] obj = showDialog(getString(R.string.prompt_blankDefault), "http://", currentSource);
+                final Dialog dialog = (Dialog) obj[0];
+                final EditText editText = (EditText) obj[1];
                 dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
@@ -139,6 +134,64 @@ public class Settings extends Activity {
                             newSource = Keys.DEFAULT_SOURCE;
                         }
                         Main.preferences.edit().putString(Keys.KEY_SETTINGS_SOURCE, newSource).apply();
+                    }
+                });
+            }
+        });
+
+        ((CheckBox) findViewById(R.id.checkbox_useStaticFilename)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+                findViewById(R.id.title2).setEnabled(b);
+                findViewById(R.id.btn_staticFilename).setEnabled(b);
+                findViewById(R.id.btn_staticFilename).setClickable(b);
+
+                if (!b) {
+                    Main.preferences.edit().putBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, false).apply();
+                    return;
+                }
+
+                if (Main.preferences.getString(Keys.KEY_SETTINGS_LASTSTATICFILENAME, null) != null) {
+                    Main.preferences.edit().putBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, true).apply();
+                    return;
+                }
+
+                Object[] obj = showDialog(getString(R.string.prompt_zipExtension), "filename.zip", Main.preferences.getString(Keys.KEY_SETTINGS_LASTSTATICFILENAME, null));
+                final Dialog dialog = (Dialog) obj[0];
+                final EditText editText = (EditText) obj[1];
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        String newName = editText.getText().toString().trim();
+                        if (newName.length() < 1 || newName.equalsIgnoreCase(".zip")) {
+                            Toast.makeText(getApplicationContext(), R.string.msg_invalidFilename, Toast.LENGTH_LONG).show();
+                            Main.preferences.edit().putBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, false).apply();
+                            updateScreen();
+                            return;
+                        }
+                        Main.preferences.edit().putBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, true).apply();
+                        Main.preferences.edit().putString(Keys.KEY_SETTINGS_LASTSTATICFILENAME, newName).apply();
+                    }
+                });
+            }
+        });
+
+        findViewById(R.id.btn_staticFilename).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Object[] obj = showDialog(getString(R.string.prompt_zipExtension), "filename.zip", Main.preferences.getString(Keys.KEY_SETTINGS_LASTSTATICFILENAME, null));
+                final Dialog dialog = (Dialog) obj[0];
+                final EditText editText = (EditText) obj[1];
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        String newName = editText.getText().toString().trim();
+                        if (newName.length() < 1 || newName.equalsIgnoreCase(".zip")) {
+                            Toast.makeText(getApplicationContext(), R.string.msg_invalidFilename, Toast.LENGTH_LONG).show();
+                            return;
+                        } else
+                            Main.preferences.edit().putString(Keys.KEY_SETTINGS_LASTSTATICFILENAME, editText.getText().toString().trim()).apply();
                     }
                 });
             }
@@ -229,9 +282,9 @@ public class Settings extends Activity {
             }
         });
 
-        Main.preferences.registerOnSharedPreferenceChangeListener(prefListener);
-
         updateScreen();
+
+        Main.preferences.registerOnSharedPreferenceChangeListener(prefListener);
 
     }
 
@@ -251,7 +304,34 @@ public class Settings extends Activity {
         else
             ((TextView) findViewById(R.id.textView_upSrc)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE));
 
+        ((CheckBox) findViewById(R.id.checkbox_useStaticFilename)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, false));
+
+        ((TextView) findViewById(R.id.textView_staticFilename)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_LASTSTATICFILENAME, getString(R.string.undefined)));
+
         ((TextView) findViewById(R.id.textView_romBase)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "n/a").toUpperCase());
+    }
+
+    private Object[] showDialog(String msg, String hint, String editTextContent) {
+        View child = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.blank_view, null);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        child.setLayoutParams(params);
+        child.setPadding(30, 30, 30, 30);
+        final EditText editText = new EditText(Settings.this);
+        editText.setSingleLine();
+        editText.setHorizontallyScrolling(true);
+        editText.setHint(hint);
+        if (editTextContent != null) {
+            editText.setText(editTextContent);
+        }
+        TextView textView = new TextView(Settings.this);
+        textView.setText(msg);
+        ((LinearLayout) child).addView(textView, params);
+        ((LinearLayout) child).addView(editText, params);
+        Dialog dialog = new Dialog(activity, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(child);
+        dialog.show();
+        return new Object[]{dialog, editText};
     }
 
     /*@Override

@@ -145,7 +145,7 @@ public class Tools {
         ((TextView) userDialog.findViewById(android.R.id.message)).setTypeface(Typeface.createFromAsset(C.getAssets(), "Roboto-Regular.ttf"));
     }
 
-    public void downloadFile(/*final Activity activity, */final String httpURL, final String destination, final String alternativeFilename, final String MD5hash, boolean useAndroidDownloadManager) {
+    public void downloadFile(final String httpURL, final String destination, final String alternativeFilename, final String MD5hash, boolean useAndroidDownloadManager) {
 
         NotificationManager manager = (NotificationManager) C.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.cancel(Keys.TAG_NOTIF, 3721);
@@ -191,6 +191,8 @@ public class Tools {
                         } catch (Exception e) {
                             filename = alternativeFilename;
                         }
+
+                        filename = Main.preferences.getBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, false) ? Main.preferences.getString(Keys.KEY_SETTINGS_LASTSTATICFILENAME, filename) : filename;
 
                         lastDownloadedFile = new File(destination + filename);
                         byte[] buffer = new byte[1024];
@@ -327,6 +329,8 @@ public class Tools {
                     super.onPostExecute(filename);
 
                     final DownloadManager manager = (DownloadManager) C.getSystemService(Context.DOWNLOAD_SERVICE);
+
+                    filename = Main.preferences.getBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, false) ? Main.preferences.getString(Keys.KEY_SETTINGS_LASTSTATICFILENAME, filename) : filename;
 
                     Uri destinationUri = Uri.fromFile(lastDownloadedFile = new File(destination + filename));
 

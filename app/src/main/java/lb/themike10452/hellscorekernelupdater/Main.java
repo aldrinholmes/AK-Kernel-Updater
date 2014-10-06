@@ -19,7 +19,6 @@ import android.os.Environment;
 import android.text.SpannableString;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -91,7 +90,7 @@ public class Main extends Activity {
         tag.setTextAppearance(this, android.R.style.TextAppearance_Small);
         tag.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"), Typeface.BOLD);
         tag.setTextSize(10f);
-        tag.setText(preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "undefined").toUpperCase());
+        tag.setText(preferences.getString(Keys.KEY_SETTINGS_ROMBASE, getString(R.string.undefined)).toUpperCase());
 
         final Card card1 = new Card(this, getString(R.string.card_title_installedKernel), tag, false, v1);
         card1.getPARENT().setAnimation(getIntroSet(1000, 0));
@@ -316,7 +315,6 @@ public class Main extends Activity {
 
                 DEVICE_PART += line + "\n";
             }
-            Log.d("TAG", DEVICE_PART + "");
             return true;
         } else {
             throw new DeviceNotSupportedException();
@@ -496,7 +494,7 @@ public class Main extends Activity {
             registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_DOWNLOAD_COMPLETE));
             registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_DOWNLOADEDFILE_EXISTS));
 
-            tools.downloadFile(/*Main.this, */link, destination, getLatestZipName(), getLatestMD5(), b);
+            tools.downloadFile(link, destination, getLatestZipName(), getLatestMD5(), b);
         }
     }
 
@@ -572,6 +570,9 @@ public class Main extends Activity {
             editor.putString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:0");
         else if (!tools.isAllDigits(preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, null).replace(":", "")))
             editor.putString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:0");
+
+        if (!preferences.getBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, false))
+            editor.putBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, false).apply();
 
         editor.apply();
 

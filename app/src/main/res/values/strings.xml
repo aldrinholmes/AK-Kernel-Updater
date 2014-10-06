@@ -10,6 +10,7 @@
     <string name="hours">Hours</string>
     <string name="minutes">Minutes</string>
     <string name="defaultt">Default</string>
+    <string name="undefined">Undefined</string>
     <string name="onReboot">Rebooting …</string>
 
     <string name="dialog_title_downloading">Download in progress …</string>
@@ -38,6 +39,7 @@
     <string name="msg_noKernelForYourROM">There\'s no %1$s kernel for %2$s</string>
     <string name="msg_twrp">Automatic installation works only with TWRP recovery. CWM is not supported.</string>
     <string name="msg_activeDownloads">You can\'t leave, you have active downloads</string>
+    <string name="msg_invalidFilename">Invalid filename</string>
 
     <string name="btn_whatsNew">See what\'s new</string>
     <string name="btn_getIt">Get it now</string>
@@ -56,10 +58,13 @@
     <string name="settings_textView_backgroundCheckInterval">Background Check Interval</string>
 
     <string name="settings_checkbox_useAndroidDM">Use Android Download Manager</string>
-    <string name="settings_info_useAndroidDM">Use system\'s built-in download manager to handle downloads</string>
     <string name="settings_btn_downloadLocation">Download location</string>
+    <string name="settings_btn_staticFilename">Static filename</string>
     <string name="settings_btn_updateSource">Update source</string>
     <string name="settings_btn_romBase">Is your ROM based on AOSP, CM or MIUI?</string>
+
+    <string name="settings_info_useAndroidDM">Use system\'s built-in download manager to handle downloads</string>
+    <string name="settings_info_useStaticFilename">Use the same filename for all downloads</string>
 
     <string name="prompt_install1">The kernel was downloaded successfully.\nClick %1$s to reboot and install it now.\nClick %2$s to install later.</string>
     <string name="prompt_install2">The kernel file already exists with a matching md5.\nClick %1$s to reboot and install it now.\nClick %2$s to install later.</string>
@@ -67,5 +72,6 @@
     <string name="prompt_rootFail">Failed to acquire root access.\nYou may proceed and download kernel updates through the app but kernel installation will not work without root.\nPlease check your superuser app.</string>
     <string name="prompt_romBase">What is your ROM base (AOSP/Cyanogenmod/MIUI)?</string>
     <string name="prompt_blankDefault">Leave it blank for default</string>
+    <string name="prompt_zipExtension">Do not forget to add .zip file extension</string>
 
 </resources>
