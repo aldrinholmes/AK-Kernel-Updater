@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Translated by Massimiliano Montaleone -->
+
+<resources>
+    <string name="app_name">HellsCore U2D</string>
+    <string name="version">Versione</string>
+    <string name="action_refresh">Aggiorna</string>
+    <string name="action_about">Info</string>
+
+    <string name="activity_settings">Impostazioni</string>
+    <string name="activity_fileBrowser">Sfoglia</string>
+
+    <string name="hours">Ore</string>
+    <string name="minutes">Minuti</string>
+    <string name="defaultt">Default</string>
+    <string name="onReboot">Riavvia …</string>
+
+    <string name="dialog_title_downloading">Download in corso …</string>
+    <string name="dialog_title_changelog">Changelog</string>
+    <string name="dialog_title_readyToInstall">Pronto per l\'istallazione</string>
+    <string name="dialog_title_md5mismatch">MD5 non corrispondente</string>
+    <string name="dialog_title_rootFail">Richiesto il Root</string>
+
+    <string name="dialog_content_about">Sviluppato da%1$s</string>
+
+    <string name="card_title_latestVersion">Ultima versione</string>
+    <string name="card_title_installedKernel">Kernel installato</string>
+
+    <string name="field_filesize">Dimensioni file</string>
+    <string name="filed_filename">Nome File</string>
+    <string name="field_downloaded">Scaricato</string>
+
+    <string name="msg_pleaseWait">Attendere prego …</string>
+    <string name="msg_up_to_date">Sei aggiornato</string>
+    <string name="msg_failed_try_again">Non riuscito, riprova più tardi</string>
+    <string name="msg_device_not_supported">Dispositivo non supportato</string>
+    <string name="msg_downloadCanceled">Download cancellato</string>
+    <string name="msg_downloadComplete">Download completato</string>
+    <string name="msg_updateFound">È stata trovata una nuova versione del kernel</string>
+    <string name="msg_changeable">Questa impostazione può essere modificata tramite la sezione impostazione</string>
+    <string name="msg_twrp">L\'istallazione automatica funziona solo con la TWRP recovery. La CWM non è supportata.</string>
+
+    <string name="btn_whatsNew">Cosa c\'è di nuovo</string>
+    <string name="btn_getIt">Scarica la guida</string>
+    <string name="btn_ok">Okay</string>
+    <string name="btn_cancel">Annulla</string>
+    <string name="btn_dismiss">Dismiss</string>
+    <string name="btn_install">Riavvia e installa</string>
+    <string name="btn_installAnyway">Installa comunque</string>
+    <string name="btn_downloadAgain">Scarica di nuovo</string>
+
+    <string name="settings_category_backgroundCheck">ATTIVA IN BACKGROUND</string>
+    <string name="settings_category_downloads">DOWNLOADS</string>
+    <string name="settings_category_romBase">ROM BASE</string>
+
+    <string name="settings_switch_backgroundCheck">Attiva in Background</string>
+    <string name="settings_textView_backgroundCheckInterval">Attiva in Background ad Intervalli</string>
+
+    <string name="settings_checkbox_useAndroidDM">Usa l\'applcazione Download</string>
+    <string name="settings_info_useAndroidDM">Usa l\'applicazione Download per gestire i Download</string>
+    <string name="settings_btn_downloadLocation">Percorso Download</string>
+    <string name="settings_btn_updateSource">Aggiorna il codice</string>
+    <string name="settings_btn_romBase">La tua ROM è basata su AOSP, CM or MIUI?</string>
+
+    <string name="prompt_install1">Il kernel è stato scaricato con successo.\nClicca %1$s per riavviare e installare ora.\nClicca %2$s per installare più tardi.</string>
+    <string name="prompt_install2">Esiste già un file con md5 corrispondente.\nClicca %1$s per riavviare e installare ora.\nClicca %2$s per installare più tardi.</string>
+    <string name="prompt_md5mismatch">Il kernel è stato scaricato con successo. Tuttavia MD5 non corrisponde al file originale.\n\nOriginal:%1$s\nCalculated:%2$s</string>
+    <string name="prompt_rootFail">Accesso root negato\nVuoi continuare a scaricare gli aggiornamenti del kernel attraverso l\'app ma senza root non si puà installare.\nControlla l\'app con il superuser.</string>
+    <string name="prompt_romBase">Che tipo di ROM avete (AOSP/Cyanogenmod/MIUI)?</string>
+    <string name="prompt_blankDefault">Lasciare in bianco per impostazione predefinita</string>
+</resources>

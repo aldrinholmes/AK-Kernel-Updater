@@ -3,6 +3,7 @@ package lb.themike10452.hellscorekernelupdater;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 import lb.themike10452.hellscorekernelupdater.Services.BackgroundAutoCheckService;
 
@@ -13,7 +14,9 @@ public class BootCompleteBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction() == Intent.ACTION_BOOT_COMPLETED) {
-            context.startService(new Intent(context, BackgroundAutoCheckService.class));
+            SharedPreferences preferences = context.getSharedPreferences("Settings", Context.MODE_MULTI_PROCESS);
+            if (preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true))
+                context.startService(new Intent(context, BackgroundAutoCheckService.class));
         }
     }
 }
