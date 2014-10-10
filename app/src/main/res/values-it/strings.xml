@@ -15,6 +15,7 @@
     <string name="hours">Ore</string>
     <string name="minutes">Minuti</string>
     <string name="defaultt">Default</string>
+    <string name="undefined">Indefinito</string>
     <string name="onReboot">Riavvia …</string>
 
     <string name="dialog_title_downloading">Download in corso …</string>
@@ -40,13 +41,16 @@
     <string name="msg_downloadComplete">Download completato</string>
     <string name="msg_updateFound">È stata trovata una nuova versione del kernel</string>
     <string name="msg_changeable">Questa impostazione può essere modificata tramite la sezione impostazione</string>
+    <string name="msg_noKernelForYourROM">There\'s no %1$s kernel for %2$s</string>
     <string name="msg_twrp">L\'istallazione automatica funziona solo con la TWRP recovery. La CWM non è supportata.</string>
+    <string name="msg_activeDownloads">Non si può lasciare, hai i download attivi</string>
+    <string name="msg_invalidFilename">Il nome del file non è valido</string>
 
     <string name="btn_whatsNew">Cosa c\'è di nuovo</string>
     <string name="btn_getIt">Scarica la guida</string>
     <string name="btn_ok">Okay</string>
     <string name="btn_cancel">Annulla</string>
-    <string name="btn_dismiss">Dismiss</string>
+    <string name="btn_dismiss">Rimuovi</string>
     <string name="btn_install">Riavvia e installa</string>
     <string name="btn_installAnyway">Installa comunque</string>
     <string name="btn_downloadAgain">Scarica di nuovo</string>
@@ -59,10 +63,13 @@
     <string name="settings_textView_backgroundCheckInterval">Attiva in Background ad Intervalli</string>
 
     <string name="settings_checkbox_useAndroidDM">Usa l\'applcazione Download</string>
-    <string name="settings_info_useAndroidDM">Usa l\'applicazione Download per gestire i Download</string>
     <string name="settings_btn_downloadLocation">Percorso Download</string>
+    <string name="settings_btn_staticFilename">Nome del file statico</string>
     <string name="settings_btn_updateSource">Aggiorna il codice</string>
     <string name="settings_btn_romBase">La tua ROM è basata su AOSP, CM or MIUI?</string>
+
+    <string name="settings_info_useAndroidDM">Utilizzare download manager di sistema per gestire i download</string>
+    <string name="settings_info_useStaticFilename">Utilizzare lo stesso nome per tutti i download</string>
 
     <string name="prompt_install1">Il kernel è stato scaricato con successo.\nClicca %1$s per riavviare e installare ora.\nClicca %2$s per installare più tardi.</string>
     <string name="prompt_install2">Esiste già un file con md5 corrispondente.\nClicca %1$s per riavviare e installare ora.\nClicca %2$s per installare più tardi.</string>
@@ -70,5 +77,6 @@
     <string name="prompt_rootFail">Accesso root negato\nVuoi continuare a scaricare gli aggiornamenti del kernel attraverso l\'app ma senza root non si puà installare.\nControlla l\'app con il superuser.</string>
     <string name="prompt_romBase">Che tipo di ROM avete (AOSP/Cyanogenmod/MIUI)?</string>
     <string name="prompt_blankDefault">Lasciare in bianco per impostazione predefinita</string>
+    <string name="prompt_zipExtension">Non dimenticate di aggiungere l\'estensione .zip al file</string>
 
 </resources>
