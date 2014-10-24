@@ -59,7 +59,7 @@ public class Main extends Activity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true) && !BackgroundAutoCheckService.running) {
-            //startService(new Intent(this, BackgroundAutoCheckService.class));
+            startService(new Intent(this, BackgroundAutoCheckService.class));
         }
     }
 
