@@ -1,7 +1,6 @@
 package lb.themike10452.hellscorekernelupdater;
 
 import java.util.HashSet;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -55,8 +54,9 @@ public class Kernel {
 
         try {
             String line;
-            while ((line = s.nextLine().trim()) != null) {
-                if (line.length() > 0 && line.charAt(0) == '_') {
+            while (s.hasNextLine()) {
+                line = s.nextLine().trim();
+                if (line.length() > 0 && line.startsWith("_")) {
                     if (line.contains(Keys.KEY_KERNEL_BASE))
                         BASE = line.split(":=")[1].trim();
                     else if (line.contains(Keys.KEY_KERNEL_API))
@@ -77,7 +77,6 @@ public class Kernel {
                         }
                 }
             }
-        } catch (NoSuchElementException e) {
         } finally {
             s.close();
         }
