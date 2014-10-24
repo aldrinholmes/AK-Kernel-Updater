@@ -19,6 +19,8 @@ import java.net.URL;
 import java.util.Scanner;
 
 import lb.themike10452.hellscorekernelupdater.DeviceNotSupportedException;
+import lb.themike10452.hellscorekernelupdater.Kernel;
+import lb.themike10452.hellscorekernelupdater.KernelManager;
 import lb.themike10452.hellscorekernelupdater.Keys;
 import lb.themike10452.hellscorekernelupdater.Main;
 import lb.themike10452.hellscorekernelupdater.R;
@@ -85,12 +87,14 @@ public class BackgroundAutoCheckService extends IntentService {
                 //get installed and latest kernel info, and compare them
                 Tools.getFormattedKernelVersion();
                 String installed = Tools.INSTALLED_KERNEL_VERSION;
-                String latest = getLatestVerionName();
+                Tools.sniffKernels(DEVICE_PART);
+                Kernel properKernel = KernelManager.getInstance().getProperKernel(getApplicationContext());
+                String latest = properKernel != null ? properKernel.getVERSION() : null;
 
                 //if the user hasn't opened the app and selected which ROM base he uses (AOSP/CM)
-                //getLatestVersion will return "Unavailable"
+                //latest will be null
                 //we should stop our work until the user sets the missing ROM flag
-                if (latest.equalsIgnoreCase("Unavailable")) {
+                if (latest == null) {
                     stopSelf();
                     return;
                 }
@@ -178,9 +182,7 @@ public class BackgroundAutoCheckService extends IntentService {
 
         boolean supported = false;
         while (s.hasNextLine()) {
-            String line;
-            if ((line = s.nextLine()).equalsIgnoreCase(pattern)) {
-                //DEVICE_PART += line + "\n";
+            if (s.nextLine().equalsIgnoreCase(pattern)) {
                 supported = true;
                 break;
             }
@@ -197,21 +199,6 @@ public class BackgroundAutoCheckService extends IntentService {
             throw new DeviceNotSupportedException();
         }
 
-    }
-
-    private String getLatestVerionName() {
-        Scanner s = new Scanner(DEVICE_PART);
-        while (s.hasNextLine()) {
-            String line = s.nextLine();
-
-            if (line.length() == 0)
-                continue;
-
-            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.getKEY_KERNEL_VERSION(this)))
-                return line.split(":=")[1];
-        }
-        s.close();
-        return "Unavailable";
     }
 
     @Override

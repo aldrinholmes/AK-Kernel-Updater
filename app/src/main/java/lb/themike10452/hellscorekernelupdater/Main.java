@@ -3,6 +3,7 @@ package lb.themike10452.hellscorekernelupdater;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -58,7 +59,7 @@ public class Main extends Activity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         if (preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true) && !BackgroundAutoCheckService.running) {
-            startService(new Intent(this, BackgroundAutoCheckService.class));
+            //startService(new Intent(this, BackgroundAutoCheckService.class));
         }
     }
 
@@ -79,20 +80,17 @@ public class Main extends Activity {
         preferences = getSharedPreferences("Settings", MODE_MULTI_PROCESS);
         running = true;
 
-        initSettings();
-
         final LinearLayout main = ((LinearLayout) findViewById(R.id.main));
 
-        final View v1 = LayoutInflater.from(this).inflate(R.layout.kernel_info_layout, null);
+        final View v1 = LayoutInflater.from(Main.this).inflate(R.layout.kernel_info_layout, null);
         ((TextView) v1.findViewById(R.id.text)).setText(tools.getFormattedKernelVersion());
 
-        TextView tag = new TextView(this);
-        tag.setTextAppearance(this, android.R.style.TextAppearance_Small);
+        final TextView tag = new TextView(Main.this);
+        tag.setTextAppearance(Main.this, android.R.style.TextAppearance_Small);
         tag.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"), Typeface.BOLD);
         tag.setTextSize(10f);
-        tag.setText(preferences.getString(Keys.KEY_SETTINGS_ROMBASE, getString(R.string.undefined)).toUpperCase());
 
-        final Card card1 = new Card(this, getString(R.string.card_title_installedKernel), tag, false, v1);
+        final Card card1 = new Card(Main.this, getString(R.string.card_title_installedKernel), tag, false, v1);
         card1.getPARENT().setAnimation(getIntroSet(1000, 0));
 
         main.addView(card1.getPARENT());
@@ -103,104 +101,119 @@ public class Main extends Activity {
         main.addView(progressBar);
         progressBar.animate();
 
-        main.postDelayed(new Runnable() {
+        new AsyncTask<Void, Void, Boolean>() {
+            Card card;
+            boolean DEVICE_SUPPORTED;
+
             @Override
-            public void run() {
-                new AsyncTask<Void, Void, Boolean>() {
-                    Card card;
-                    boolean DEVICE_SUPPORTED;
-
-                    @Override
-                    protected Boolean doInBackground(Void... voids) {
-                        try {
-                            DEVICE_SUPPORTED = true;
-                            return getDevicePart();
-                        } catch (DeviceNotSupportedException e) {
-                            DEVICE_SUPPORTED = false;
-                            return true;
+            protected Boolean doInBackground(Void... voids) {
+                try {
+                    DEVICE_SUPPORTED = true;
+                    boolean b = getDevicePart();
+                    Main.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            initSettings();
                         }
-                    }
-
-                    @Override
-                    protected void onPostExecute(Boolean success) {
-                        super.onPostExecute(success);
-
-                        progressBar.postOnAnimation(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
-                        progressBar.startAnimation(getOutroSet(600, 0));
-
-                        if (!success) {
-                            displayOnScreenMessage(main, R.string.msg_failed_try_again);
-                            return;
-                        }
-
-                        if (!DEVICE_SUPPORTED) {
-                            displayOnScreenMessage(main, R.string.msg_device_not_supported);
-                            return;
-                        }
-
-                        if (getLatestVerionName().equalsIgnoreCase(Tools.INSTALLED_KERNEL_VERSION)) {
-                            displayOnScreenMessage(main, R.string.msg_up_to_date);
-                            return;
-                        }
-
-                        View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.new_kernel_layout, null);
-                        String ver = getLatestVerionName();
-                        if (ver.equals("Unavailable")) {
-                            displayOnScreenMessage(main, getString(R.string.msg_noKernelForYourROM, preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase(), DEVICE.toUpperCase()));
-                            return;
-                        }
-                        ((TextView) v.findViewById(R.id.text)).setText(ver);
-
-                        ((Button) v.findViewById(R.id.btn_changelog)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"), Typeface.BOLD);
-                        ((Button) v.findViewById(R.id.btn_getLatestVersion)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"), Typeface.BOLD);
-
-                        v.findViewById(R.id.btn_changelog).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                TextView textView = new TextView(Main.this);
-                                textView.setText(CHANGELOG);
-                                textView.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Small);
-                                textView.setTextColor(getResources().getColor(R.color.card_text));
-                                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-                                View view1 = LayoutInflater.from(Main.this).inflate(R.layout.blank_view, null);
-                                view1.setPadding(15, 15, 15, 15);
-                                ((LinearLayout) view1).addView(textView, params);
-                                new AlertDialog.Builder(Main.this)
-                                        .setView(view1)
-                                        .setTitle(R.string.dialog_title_changelog)
-                                        .setCancelable(false)
-                                        .setNeutralButton(R.string.btn_dismiss, null)
-                                        .show();
-
-                                textView.setHorizontallyScrolling(true);
-                                textView.setHorizontalScrollBarEnabled(true);
-                                textView.setMovementMethod(new ScrollingMovementMethod());
-
-                            }
-                        });
-
-                        v.findViewById(R.id.btn_getLatestVersion).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(final View view) {
-                                getIt();
-                            }
-                        });
-
-                        card = new Card(getApplicationContext(), getString(R.string.card_title_latestVersion), false, v);
-
-                        main.addView(card.getPARENT());
-                        card.getPARENT().startAnimation(getIntroSet(1000, 200));
-
-                    }
-                }.execute();
+                    });
+                    return b;
+                } catch (DeviceNotSupportedException e) {
+                    DEVICE_SUPPORTED = false;
+                    return true;
+                }
             }
-        }, 1000);
+
+            @Override
+            protected void onPostExecute(Boolean success) {
+                super.onPostExecute(success);
+
+                tag.setText(preferences.getString(Keys.KEY_SETTINGS_ROMBASE, getString(R.string.undefined)).toUpperCase());
+
+                progressBar.postOnAnimation(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+                progressBar.startAnimation(getOutroSet(600, 0));
+
+                if (!success) {
+                    displayOnScreenMessage(main, R.string.msg_failed_try_again);
+                    return;
+                }
+
+                if (!DEVICE_SUPPORTED) {
+                    displayOnScreenMessage(main, R.string.msg_device_not_supported);
+                    return;
+                }
+
+                Tools.sniffKernels(DEVICE_PART);
+
+                if (KernelManager.getInstance().getProperKernel(getApplicationContext()) == null) {
+                    if (!KernelManager.baseMatchedOnce) {
+                        displayOnScreenMessage(main, getString(R.string.msg_noKernelForYourROM, preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase(), DEVICE.toUpperCase()));
+                        return;
+                    } else if (!KernelManager.apiMatchedOnce) {
+                        displayOnScreenMessage(main, getString(R.string.msg_noKernelForYourROM, preferences.getString(Keys.KEY_SETTINGS_ROMAPI, "").toUpperCase(), preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase()));
+                        return;
+                    }
+                    return;
+                }
+
+                if (Tools.INSTALLED_KERNEL_VERSION.equalsIgnoreCase(KernelManager.getInstance().getProperKernel(getApplicationContext()).getVERSION())) {
+                    displayOnScreenMessage(main, R.string.msg_up_to_date);
+                    return;
+                }
+
+                View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.new_kernel_layout, null);
+                String ver = KernelManager.getInstance().getProperKernel(getApplicationContext()).getVERSION();
+
+                ((TextView) v.findViewById(R.id.text)).setText(ver);
+
+                ((Button) v.findViewById(R.id.btn_changelog)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"), Typeface.BOLD);
+                ((Button) v.findViewById(R.id.btn_getLatestVersion)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"), Typeface.BOLD);
+
+                v.findViewById(R.id.btn_changelog).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        TextView textView = new TextView(Main.this);
+                        textView.setText(CHANGELOG);
+                        textView.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Small);
+                        textView.setTextColor(getResources().getColor(R.color.card_text));
+                        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+                        View view1 = LayoutInflater.from(Main.this).inflate(R.layout.blank_view, null);
+                        view1.setPadding(15, 15, 15, 15);
+                        ((LinearLayout) view1).addView(textView, params);
+                        new AlertDialog.Builder(Main.this)
+                                .setView(view1)
+                                .setTitle(R.string.dialog_title_changelog)
+                                .setCancelable(false)
+                                .setNeutralButton(R.string.btn_dismiss, null)
+                                .show();
+
+                        textView.setHorizontallyScrolling(true);
+                        textView.setHorizontalScrollBarEnabled(true);
+                        textView.setMovementMethod(new ScrollingMovementMethod());
+
+                    }
+                });
+
+                v.findViewById(R.id.btn_getLatestVersion).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View view) {
+                        getIt();
+                    }
+                });
+
+                card = new Card(getApplicationContext(), getString(R.string.card_title_latestVersion), false, v);
+
+                main.addView(card.getPARENT());
+                card.getPARENT().startAnimation(getIntroSet(1000, 200));
+
+            }
+        }.execute();
+
 
         //chuckNorris();
 
@@ -291,15 +304,14 @@ public class Main extends Activity {
             return false;
         }
         String pattern = String.format("<%s>", DEVICE);
-        String line;
         while (s.hasNextLine()) {
-            if ((line = s.nextLine()).equalsIgnoreCase(pattern)) {
+            if (s.nextLine().equalsIgnoreCase(pattern)) {
                 DEVICE_SUPPORTED = true;
-                //DEVICE_PART += line + "\n";
                 break;
             }
         }
         if (DEVICE_SUPPORTED) {
+            String line;
             while (s.hasNextLine()) {
                 line = s.nextLine().trim();
                 if (line.equalsIgnoreCase(String.format("</%s>", DEVICE)))
@@ -321,71 +333,6 @@ public class Main extends Activity {
         }
     }
 
-    private String getLatestVerionName() {
-        Scanner s = new Scanner(DEVICE_PART);
-        while (s.hasNextLine()) {
-            String line = s.nextLine().trim();
-
-            if (line.length() == 0)
-                continue;
-
-            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.getKEY_KERNEL_VERSION(this)))
-                return line.split(":=")[1];
-        }
-        s.close();
-        return "Unavailable";
-    }
-
-    private String getLatestZipName() {
-        Scanner s = new Scanner(DEVICE_PART);
-        while (s.hasNextLine()) {
-            String line = s.nextLine().trim();
-
-            if (line.length() == 0)
-                continue;
-
-            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.getKEY_KERNEL_ZIPNAME(this)))
-                return line.split(":=")[1];
-
-        }
-        s.close();
-        return "hC-latest.zip";
-    }
-
-    private String getLatestDownloadLink() {
-        Scanner s = new Scanner(DEVICE_PART);
-        while (s.hasNextLine()) {
-            String line = s.nextLine().trim();
-
-            if (line.length() == 0)
-                continue;
-
-            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.getKEY_KERNEL_HTTPLINK(this))) {
-                s.close();
-                return line.split(":=")[1];
-            }
-        }
-        s.close();
-        return null;
-    }
-
-    private String getLatestMD5() {
-        Scanner s = new Scanner(DEVICE_PART);
-        while (s.hasNextLine()) {
-            String line = s.nextLine().trim();
-
-            if (line.length() == 0)
-                continue;
-
-            if (line.charAt(0) == '_' && line.toLowerCase().contains(Keys.getKEY_KERNEL_MD5(this))) {
-                s.close();
-                return line.split(":=")[1];
-            }
-        }
-        s.close();
-        return null;
-    }
-
     private void displayOnScreenMessage(LinearLayout main, int msgId) {
         displayOnScreenMessage(main, getString(msgId));
     }
@@ -402,7 +349,7 @@ public class Main extends Activity {
     }
 
     private void getIt() {
-        final String link = getLatestDownloadLink();
+        final String link = KernelManager.getInstance().getProperKernel(getApplicationContext()).getHTTPLINK();
         if (link != null) {
             final boolean b = preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false);
             String destination = preferences
@@ -433,7 +380,7 @@ public class Main extends Activity {
                         } else {
                             d = builder.setTitle(R.string.dialog_title_md5mismatch)
                                     .setCancelable(false)
-                                    .setMessage(getString(R.string.prompt_md5mismatch, getLatestMD5(), intent.getStringExtra("md5")))
+                                    .setMessage(getString(R.string.prompt_md5mismatch, KernelManager.getInstance().getProperKernel(getApplicationContext()).getMD5(), intent.getStringExtra("md5")))
                                     .setPositiveButton(R.string.btn_downloadAgain, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -494,7 +441,7 @@ public class Main extends Activity {
             registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_DOWNLOAD_COMPLETE));
             registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_DOWNLOADEDFILE_EXISTS));
 
-            tools.downloadFile(link, destination, getLatestZipName(), getLatestMD5(), b);
+            tools.downloadFile(link, destination, KernelManager.getInstance().getProperKernel(getApplicationContext()).getZIPNAME(), KernelManager.getInstance().getProperKernel(getApplicationContext()).getMD5(), b);
         }
     }
 
@@ -576,52 +523,117 @@ public class Main extends Activity {
 
         editor.apply();
 
-        if (preferences.getString(Keys.KEY_SETTINGS_ROMBASE, null) == null) {
-            View child = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.blank_view, null);
-            LinearLayout layout = (LinearLayout) child;
-            TextView text1 = new TextView(this);
-            text1.setText(R.string.prompt_romBase);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(10, 10, 10, 10);
-            TextView text2 = new TextView(this);
-            text2.setText(R.string.msg_changeable);
-            layout.addView(text1, params);
-            layout.addView(text2, params);
+        final boolean a = preferences.getString(Keys.KEY_SETTINGS_ROMBASE, null) == null;
+        final boolean b = preferences.getString(Keys.KEY_SETTINGS_ROMAPI, null) == null;
 
-            new AlertDialog.Builder(this)
-                    .setTitle("AOSP / CM?")
-                    .setCancelable(false)
-                    .setView(child)
-                    .setPositiveButton("AOSP", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, "aosp").apply();
-                            startService(new Intent(Main.this, BackgroundAutoCheckService.class));
-                            onCreate(null);
-                        }
-                    })
-                    .setNeutralButton("MIUI", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, "miui").apply();
-                            startService(new Intent(Main.this, BackgroundAutoCheckService.class));
-                            onCreate(null);
-                        }
-                    })
-                    .setNegativeButton("CM", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, "cm").apply();
-                            startService(new Intent(Main.this, BackgroundAutoCheckService.class));
-                            onCreate(null);
-                        }
-                    }).show();
-            text1.setTextAppearance(this, android.R.style.TextAppearance_Small);
-            text1.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
-            text2.setTextAppearance(this, android.R.style.TextAppearance_Small);
-            text2.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
+
+        if (b) {
+            showRomApiChooserDialog(a);
+        } else if (a) {
+            showRomBaseChooserDialog();
         }
 
+    }
+
+    private void showRomApiChooserDialog(final boolean chooseRomBase) {
+
+        ProgressDialog d;
+
+        d = new ProgressDialog(Main.this);
+        d.setMessage(getString(R.string.msg_pleaseWait));
+        d.setIndeterminate(true);
+        d.setCancelable(false);
+        d.show();
+        Tools.userDialog = d;
+
+        Scanner scanner = new Scanner(DEVICE_PART);
+        String line, keyword = "#define";
+        String[] versions = null;
+        while (scanner.hasNextLine()) {
+            line = scanner.nextLine().trim().toLowerCase();
+            if (line.startsWith("#define")) {
+                if (line.length() > keyword.length()) {
+                    if (line.contains(Keys.KEY_DEFINE_AV)) {
+                        versions = line.split("=")[1].split(",");
+                        for (int i = 0; i < versions.length; i++) {
+                            versions[i] = versions[i].trim();
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        scanner.close();
+
+        d.dismiss();
+
+        if (versions != null) {
+            final String[] choices = versions;
+            new AlertDialog.Builder(Main.this)
+                    .setSingleChoiceItems(versions, -1, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            preferences.edit().putString(Keys.KEY_SETTINGS_ROMAPI, choices[i]).apply();
+                        }
+                    })
+                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (chooseRomBase)
+                                showRomBaseChooserDialog();
+                            else onCreate(null);
+                        }
+                    })
+                    .setTitle(R.string.prompt_android_version)
+                    .setCancelable(false).show();
+        } else if (chooseRomBase)
+            showRomBaseChooserDialog();
+    }
+
+    private void showRomBaseChooserDialog() {
+        View child = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.blank_view, null);
+        LinearLayout layout = (LinearLayout) child;
+        TextView text1 = new TextView(this);
+        text1.setText(R.string.prompt_romBase);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(10, 10, 10, 10);
+        TextView text2 = new TextView(this);
+        text2.setText(R.string.msg_changeable);
+        layout.addView(text1, params);
+        layout.addView(text2, params);
+
+        new AlertDialog.Builder(this)
+                .setTitle("AOSP / CM / MIUI?")
+                .setCancelable(false)
+                .setView(child)
+                .setPositiveButton("AOSP", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, "aosp").apply();
+                        startService(new Intent(Main.this, BackgroundAutoCheckService.class));
+                        onCreate(null);
+                    }
+                })
+                .setNeutralButton("MIUI", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, "miui").apply();
+                        startService(new Intent(Main.this, BackgroundAutoCheckService.class));
+                        onCreate(null);
+                    }
+                })
+                .setNegativeButton("CM", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, "cm").apply();
+                        startService(new Intent(Main.this, BackgroundAutoCheckService.class));
+                        onCreate(null);
+                    }
+                }).show();
+        text1.setTextAppearance(this, android.R.style.TextAppearance_Small);
+        text1.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
+        text2.setTextAppearance(this, android.R.style.TextAppearance_Small);
+        text2.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
     }
 
     @Override

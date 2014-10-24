@@ -66,6 +66,7 @@
     <string name="settings_checkbox_useAndroidDM">Nutze den Android Download Manager</string>
     <string name="settings_btn_downloadLocation">Speicherort</string>
     <string name="settings_btn_staticFilename">Statischer Dateiname</string>
+    <string name="settings_btn_receiveBeta">Receive test builds</string>
     <string name="settings_btn_updateSource">Update Quelle</string>
     <string name="settings_btn_romBase">Baisert Dein System auf AOSP, CM oder MIUI?</string>
 
@@ -77,6 +78,7 @@
     <string name="prompt_md5mismatch">Der Kernel wurde erfolgreich heruntergeladen. Leider stimmt die MD5-Prüfsumme nicht mit dem Original überein.\n\nOriginal:%1$s\nErrechnet:%2$s</string>
     <string name="prompt_rootFail">Fehler beim Einholen der Root-Berechtigung.\nDu wirst weiter Kernel-Updates mit der App herunterladen können, aber die Installation funktioniert nur mit Root-Rechten.\nBitte prüfe Deine Superuser-App.</string>
     <string name="prompt_romBase">Auf welchem System basiert Dein ROM (AOSP/Cyanogenmod/MIUI)?</string>
+    <string name="prompt_android_version">What version of Android are you using?</string>
     <string name="prompt_blankDefault">Leer lassen für Standard</string>
     <string name="prompt_zipExtension">Vergiss nicht die Dateiendung .zip</string>
 

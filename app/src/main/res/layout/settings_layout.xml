@@ -6,6 +6,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical"
         android:padding="?android:attr/listPreferredItemPaddingStart">
 
@@ -215,6 +216,40 @@
             android:layout_marginTop="3dp"
             android:background="@color/blue_marine_translucent" />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+
+            <TextView
+                android:id="@+id/title3"
+                style="?android:attr/preferenceLayoutChild"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="5dp"
+                android:text="@string/settings_btn_receiveBeta" />
+
+            <CheckBox
+                android:id="@+id/checkbox_receiveBeta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:checked="true" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="3dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/blue_marine_translucent" />
+
         <LinearLayout
             android:id="@+id/btn_dlLoc"
             android:layout_width="match_parent"
@@ -304,6 +339,39 @@
 
             <TextView
                 android:id="@+id/textView_romBase"
+                style="?android:attr/preferenceInformationStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="3dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/blue_marine_translucent" />
+
+        <LinearLayout
+            android:id="@+id/btn_romApi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@drawable/translucent_button"
+            android:clickable="true"
+            android:orientation="vertical">
+
+            <TextView
+                style="?android:attr/preferenceLayoutChild"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/prompt_android_version" />
+
+            <TextView
+                android:id="@+id/textView_romApi"
                 style="?android:attr/preferenceInformationStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

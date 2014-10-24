@@ -3,15 +3,19 @@ package lb.themike10452.hellscorekernelupdater;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +30,10 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
+
 import lb.themike10452.hellscorekernelupdater.FileSelector.FileBrowser;
 import lb.themike10452.hellscorekernelupdater.Services.BackgroundAutoCheckService;
 
@@ -35,6 +43,7 @@ import lb.themike10452.hellscorekernelupdater.Services.BackgroundAutoCheckServic
 public class Settings extends Activity {
 
     private Activity activity;
+    private String DEVICE_PART;
 
     private TextView AC_H, AC_M;
     private TextWatcher intervalChanger = new TextWatcher() {
@@ -177,6 +186,14 @@ public class Settings extends Activity {
             }
         });
 
+        ((CheckBox) findViewById(R.id.checkbox_receiveBeta)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                Main.preferences.edit().putBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, b).apply();
+                findViewById(R.id.title3).setEnabled(b);
+            }
+        });
+
         findViewById(R.id.btn_staticFilename).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,6 +234,84 @@ public class Settings extends Activity {
                                 Main.preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, choices[i]).apply();
                             }
                         }).show();
+            }
+        });
+
+        findViewById(R.id.btn_romApi).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AsyncTask<Void, Void, Void>() {
+
+                    ProgressDialog d;
+                    String versions;
+
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        d = new ProgressDialog(Settings.this);
+                        d.setMessage(getString(R.string.msg_pleaseWait));
+                        d.setIndeterminate(true);
+                        d.setCancelable(false);
+                        d.show();
+                    }
+
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        try {
+
+                            if (!getDevicePart())
+                                throw new Exception(getString(R.string.msg_device_not_supported));
+
+                            Log.d("TAG", DEVICE_PART);
+
+                            Scanner s = new Scanner(DEVICE_PART);
+                            while (s.hasNextLine()) {
+                                String line = s.nextLine();
+                                if (line.startsWith("#define") && line.contains(Keys.KEY_DEFINE_AV)) {
+                                    versions = line.split("=")[1];
+                                    break;
+                                }
+                            }
+
+                            s.close();
+
+                        } catch (final Exception e) {
+                            Settings.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        d.dismiss();
+
+                        if (versions == null)
+                            return;
+
+                        final String[] choices = versions.split(",");
+                        for (int i = 0; i < choices.length; i++) {
+                            choices[i] = choices[i].trim();
+                        }
+                        Dialog d = new AlertDialog.Builder(Settings.this)
+                                .setTitle(R.string.prompt_android_version)
+                                .setSingleChoiceItems(choices, Tools.findIndex(choices, Main.preferences.getString(Keys.KEY_SETTINGS_ROMAPI, "null")), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Main.preferences.edit().putString(Keys.KEY_SETTINGS_ROMAPI, choices[i]).apply();
+                                    }
+                                })
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.btn_ok, null)
+                                .show();
+                        Tools.userDialog = d;
+                    }
+                }.execute();
             }
         });
 
@@ -296,6 +391,8 @@ public class Settings extends Activity {
         ((Switch) findViewById(R.id.switch_bkg_check)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true));
         ((TextView) findViewById(R.id.textView_dlLoc)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, ""));
         ((CheckBox) findViewById(R.id.checkbox_useAndDM)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false));
+        ((CheckBox) findViewById(R.id.checkbox_receiveBeta)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, true));
+
         AC_H.setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[0]);
         AC_M.setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[1]);
 
@@ -309,6 +406,8 @@ public class Settings extends Activity {
         ((TextView) findViewById(R.id.textView_staticFilename)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_LASTSTATICFILENAME, getString(R.string.undefined)));
 
         ((TextView) findViewById(R.id.textView_romBase)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "n/a").toUpperCase());
+
+        ((TextView) findViewById(R.id.textView_romApi)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_ROMAPI, "n/a").toUpperCase());
     }
 
     private Object[] showDialog(String msg, String hint, String editTextContent) {
@@ -332,6 +431,44 @@ public class Settings extends Activity {
         dialog.setContentView(child);
         dialog.show();
         return new Object[]{dialog, editText};
+    }
+
+    private boolean getDevicePart() throws DeviceNotSupportedException {
+        Scanner s;
+        DEVICE_PART = "";
+        boolean DEVICE_SUPPORTED = false;
+        try {
+            HttpURLConnection connection = (HttpURLConnection) new URL(Main.preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE)).openConnection();
+            s = new Scanner(connection.getInputStream());
+        } catch (final Exception e) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            return false;
+        }
+        String pattern = String.format("<%s>", Build.DEVICE);
+        while (s.hasNextLine()) {
+            if (s.nextLine().equalsIgnoreCase(pattern)) {
+                DEVICE_SUPPORTED = true;
+                break;
+            }
+        }
+        if (DEVICE_SUPPORTED) {
+            String line;
+            while (s.hasNextLine()) {
+                line = s.nextLine().trim();
+                if (line.equalsIgnoreCase(String.format("</%s>", Build.DEVICE)))
+                    break;
+
+                DEVICE_PART += line + "\n";
+            }
+            return true;
+        } else {
+            throw new DeviceNotSupportedException();
+        }
     }
 
     /*@Override

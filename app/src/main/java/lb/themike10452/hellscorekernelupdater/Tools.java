@@ -133,6 +133,18 @@ public class Tools {
         }
     }
 
+    public static int findIndex(String[] strings, String string) {
+        if (strings == null)
+            return -1;
+
+        for (int i = 0; i < strings.length; i++) {
+            if (strings[i].trim().equals(string.trim()))
+                return i;
+        }
+
+        return -1;
+    }
+
     public void showRootFailDialog() {
         hasRootAccess = false;
         userDialog = new AlertDialog.Builder(C)
@@ -506,6 +518,15 @@ public class Tools {
                 }
             }.execute();
 
+        }
+    }
+
+    public static void sniffKernels(String data) {
+        String[] parameters = data.split("\\+kernel");
+        for (String params : parameters) {
+            if (params == parameters[0])
+                continue;
+            KernelManager.getInstance().add(new Kernel(params));
         }
     }
 
