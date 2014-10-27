@@ -217,23 +217,76 @@ public class Settings extends Activity {
         findViewById(R.id.btn_romBase).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String[] choices = "AOSP:CM:MIUI".split(":");
-                int selected = -1;
-                String s = Main.preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "n/a");
-                if (s.equalsIgnoreCase("aosp")) {
-                    selected = 0;
-                } else if (s.equalsIgnoreCase("cm")) {
-                    selected = 1;
-                } else if (s.equalsIgnoreCase("miui")) {
-                    selected = 2;
-                }
-                new AlertDialog.Builder(Settings.this)
-                        .setSingleChoiceItems(choices, selected, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Main.preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, choices[i]).apply();
+                new AsyncTask<Void, Void, Void>() {
+
+                    ProgressDialog d;
+                    String versions;
+
+                    @Override
+                    protected void onPreExecute() {
+                        super.onPreExecute();
+                        d = new ProgressDialog(Settings.this);
+                        d.setMessage(getString(R.string.msg_pleaseWait));
+                        d.setIndeterminate(true);
+                        d.setCancelable(false);
+                        d.show();
+                    }
+
+                    @Override
+                    protected Void doInBackground(Void... voids) {
+                        try {
+
+                            if (!getDevicePart())
+                                throw new Exception(getString(R.string.msg_device_not_supported));
+
+                            Scanner s = new Scanner(DEVICE_PART);
+                            while (s.hasNextLine()) {
+                                String line = s.nextLine();
+                                if (line.startsWith("#define") && line.contains(Keys.KEY_DEFINE_BB)) {
+                                    versions = line.split("=")[1];
+                                    break;
+                                }
                             }
-                        }).show();
+
+                            s.close();
+
+                        } catch (final Exception e) {
+                            Settings.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Void aVoid) {
+                        super.onPostExecute(aVoid);
+                        d.dismiss();
+
+                        if (versions == null)
+                            return;
+
+                        final String[] choices = versions.split(",");
+                        for (int i = 0; i < choices.length; i++) {
+                            choices[i] = choices[i].trim();
+                        }
+                        Dialog d = new AlertDialog.Builder(Settings.this)
+                                .setTitle(R.string.prompt_romBase)
+                                .setSingleChoiceItems(choices, Tools.findIndex(choices, Main.preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "null")), new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        Main.preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, choices[i]).apply();
+                                    }
+                                })
+                                .setCancelable(false)
+                                .setPositiveButton(R.string.btn_ok, null)
+                                .show();
+                        Tools.userDialog = d;
+                    }
+                }.execute();
             }
         });
 

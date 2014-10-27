@@ -335,7 +335,7 @@
                 style="?android:attr/preferenceLayoutChild"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/settings_btn_romBase" />
+                android:text="@string/prompt_romBase" />
 
             <TextView
                 android:id="@+id/textView_romBase"

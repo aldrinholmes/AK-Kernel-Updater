@@ -67,7 +67,6 @@
     <string name="settings_btn_staticFilename">Nome del file statico</string>
     <string name="settings_btn_receiveBeta">Receive test builds</string>
     <string name="settings_btn_updateSource">Aggiorna il codice</string>
-    <string name="settings_btn_romBase">La tua ROM è basata su AOSP, CM o MIUI?</string>
 
     <string name="settings_info_useAndroidDM">Utilizzare download manager di sistema per gestire i download</string>
     <string name="settings_info_useStaticFilename">Utilizzare lo stesso nome per tutti i download</string>
@@ -76,7 +75,7 @@
     <string name="prompt_install2">Esiste già un file con md5 corrispondente.\nClicca %1$s per riavviare e installare ora.\nClicca %2$s per installare più tardi.</string>
     <string name="prompt_md5mismatch">Il kernel è stato scaricato con successo. Tuttavia MD5 non corrisponde al file originale.\n\nOriginal:%1$s\nCalculated:%2$s</string>
     <string name="prompt_rootFail">Accesso root negato\nVuoi continuare a scaricare gli aggiornamenti del kernel attraverso l\'app ma senza root non si puà installare.\nControlla l\'app con il superuser.</string>
-    <string name="prompt_romBase">Che tipo di ROM avete (AOSP/Cyanogenmod/MIUI)?</string>
+    <string name="prompt_romBase">Che tipo di ROM avete?</string>
     <string name="prompt_android_version">What version of Android are you using?</string>
     <string name="prompt_blankDefault">Lasciare in bianco per impostazione predefinita</string>
     <string name="prompt_zipExtension">Non dimenticate di aggiungere l\'estensione .zip al file</string>

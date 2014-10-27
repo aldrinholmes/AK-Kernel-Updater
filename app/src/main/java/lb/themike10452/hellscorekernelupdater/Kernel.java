@@ -9,15 +9,19 @@ import java.util.Set;
  */
 public class Kernel {
 
-    public String getBASE() {
-        return BASE;
+    public Set<String> getBASE() {
+        String[] all = BASE.split(",");
+        Set<String> set = new HashSet(all.length);
+        for (String s : all)
+            set.add(s.trim().toUpperCase());
+        return set;
     }
 
     public Set<String> getAPI() {
         String[] all = API.split(",");
         Set<String> set = new HashSet(all.length);
         for (String s : all)
-            set.add(s.trim());
+            set.add(s.trim().toUpperCase());
         return set;
     }
 

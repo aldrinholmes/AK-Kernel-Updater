@@ -23,6 +23,16 @@ public class KernelManager {
         instance = this;
     }
 
+    public static KernelManager getFreshInstance() {
+        if (instance != null) {
+            baseMatchedOnce = false;
+            kernelSet.clear();
+            return instance;
+        } else {
+            return instance = new KernelManager();
+        }
+    }
+
     public static KernelManager getInstance() {
         return instance == null ? new KernelManager() : instance;
     }
@@ -44,8 +54,8 @@ public class KernelManager {
 
         for (Kernel k : kernelSet) {
             try {
-                boolean a = k.getBASE().equalsIgnoreCase(preferences.getString(Keys.KEY_SETTINGS_ROMBASE, ""));
-                boolean b = k.getAPI().contains(preferences.getString(Keys.KEY_SETTINGS_ROMAPI, ""));
+                boolean a = k.getBASE().contains(preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase());
+                boolean b = k.getAPI().contains(preferences.getString(Keys.KEY_SETTINGS_ROMAPI, "").toUpperCase());
                 if (a)
                     baseMatchedOnce = a;
                 if (b)

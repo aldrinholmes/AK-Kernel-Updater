@@ -23,6 +23,7 @@ public class Keys {
 
 
     public static String KEY_DEFINE_AV = "android_versions";
+    public static String KEY_DEFINE_BB = "build_bases";
 
     public static String KEY_KERNEL_BASE = "_base:=";
     public static String KEY_KERNEL_API = "_api:=";

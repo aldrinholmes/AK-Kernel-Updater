@@ -523,6 +523,7 @@ public class Tools {
 
     public static void sniffKernels(String data) {
         String[] parameters = data.split("\\+kernel");
+        KernelManager.getFreshInstance();
         for (String params : parameters) {
             if (params == parameters[0])
                 continue;

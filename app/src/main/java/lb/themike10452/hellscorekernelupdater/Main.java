@@ -568,6 +568,12 @@ public class Main extends Activity {
         d.dismiss();
 
         if (versions != null) {
+            if (versions.length == 1) {
+                preferences.edit().putString(Keys.KEY_SETTINGS_ROMAPI, versions[0]).apply();
+                if (chooseRomBase)
+                    showRomBaseChooserDialog();
+                return;
+            }
             final String[] choices = versions;
             new AlertDialog.Builder(Main.this)
                     .setSingleChoiceItems(versions, -1, new DialogInterface.OnClickListener() {
@@ -591,7 +597,7 @@ public class Main extends Activity {
     }
 
     private void showRomBaseChooserDialog() {
-        View child = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.blank_view, null);
+        /*View child = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.blank_view, null);
         LinearLayout layout = (LinearLayout) child;
         TextView text1 = new TextView(this);
         text1.setText(R.string.prompt_romBase);
@@ -600,40 +606,66 @@ public class Main extends Activity {
         TextView text2 = new TextView(this);
         text2.setText(R.string.msg_changeable);
         layout.addView(text1, params);
-        layout.addView(text2, params);
+        layout.addView(text2, params);*/
+
+        ProgressDialog d;
+
+        d = new ProgressDialog(Main.this);
+        d.setMessage(getString(R.string.msg_pleaseWait));
+        d.setIndeterminate(true);
+        d.setCancelable(false);
+        d.show();
+        Tools.userDialog = d;
+
+        Scanner scanner = new Scanner(DEVICE_PART);
+        String line, keyword = "#define";
+        String[] bases = null;
+        while (scanner.hasNextLine()) {
+            line = scanner.nextLine().trim().toLowerCase();
+            if (line.startsWith("#define")) {
+                if (line.length() > keyword.length()) {
+                    if (line.contains(Keys.KEY_DEFINE_BB)) {
+                        bases = line.split("=")[1].split(",");
+                        for (int i = 0; i < bases.length; i++) {
+                            bases[i] = bases[i].trim().toUpperCase();
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        scanner.close();
+
+        d.dismiss();
+
+        if (bases.length == 1) {
+            preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, bases[0]).apply();
+            return;
+        }
+
+        final String[] choices = bases;
 
         new AlertDialog.Builder(this)
-                .setTitle("AOSP / CM / MIUI?")
+                .setTitle(getString(R.string.prompt_romBase))
                 .setCancelable(false)
-                .setView(child)
-                .setPositiveButton("AOSP", new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(bases, Tools.findIndex(bases, preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "null")), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, "aosp").apply();
+                        preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, choices[i]).apply();
+                    }
+                })
+                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
                         startService(new Intent(Main.this, BackgroundAutoCheckService.class));
                         onCreate(null);
                     }
                 })
-                .setNeutralButton("MIUI", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, "miui").apply();
-                        startService(new Intent(Main.this, BackgroundAutoCheckService.class));
-                        onCreate(null);
-                    }
-                })
-                .setNegativeButton("CM", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, "cm").apply();
-                        startService(new Intent(Main.this, BackgroundAutoCheckService.class));
-                        onCreate(null);
-                    }
-                }).show();
-        text1.setTextAppearance(this, android.R.style.TextAppearance_Small);
+                .show();
+        /*text1.setTextAppearance(this, android.R.style.TextAppearance_Small);
         text1.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
         text2.setTextAppearance(this, android.R.style.TextAppearance_Small);
-        text2.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
+        text2.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));*/
     }
 
     @Override
