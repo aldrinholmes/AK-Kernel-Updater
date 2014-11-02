@@ -91,7 +91,7 @@ public class BackgroundAutoCheckService extends IntentService {
                 Kernel properKernel = KernelManager.getInstance().getProperKernel(getApplicationContext());
                 String latest = properKernel != null ? properKernel.getVERSION() : null;
 
-                //if the user hasn't opened the app and selected which ROM base he uses (AOSP/CM)
+                //if the user hasn't opened the app and selected which ROM base he uses (AOSP/CM/MIUI etc...)
                 //latest will be null
                 //we should stop our work until the user sets the missing ROM flag
                 if (latest == null) {

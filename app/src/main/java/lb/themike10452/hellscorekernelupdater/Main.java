@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -147,17 +148,51 @@ public class Main extends Activity {
                     return;
                 }
 
+                try {
+                    if (Tools.getMinVer(DEVICE_PART) != null && Tools.getMinVer(DEVICE_PART) > Double.parseDouble(Tools.retainDigits(getPackageManager().getPackageInfo(getPackageName(), 0).versionName))) {
+                        new AlertDialog.Builder(Main.this)
+                                .setMessage(R.string.msg_updateRequired)
+                                .setTitle(R.string.msgTitle_versionObs)
+                                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        try {
+                                            Intent intent = getPackageManager().getLaunchIntentForPackage("com.android.vending");
+                                            ComponentName comp = new ComponentName("com.android.vending", "com.google.android.finsky.activities.LaunchUrlHandlerActivity"); // package name and activity
+                                            intent.setComponent(comp);
+                                            intent.setData(Uri.parse("market://details?id=" + getPackageName()));
+                                            startActivity(intent);
+                                            finish();
+                                        } catch (Exception ignored) {
+
+                                        }
+                                    }
+                                })
+                                .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                Main.this.finish();
+                                            }
+                                        }
+                                )
+                                .show();
+                        return;
+                    }
+                } catch (Exception ignored) {
+
+                }
+
                 Tools.sniffKernels(DEVICE_PART);
 
                 if (KernelManager.getInstance().getProperKernel(getApplicationContext()) == null) {
+
                     if (!KernelManager.baseMatchedOnce) {
                         displayOnScreenMessage(main, getString(R.string.msg_noKernelForYourROM, preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase(), DEVICE.toUpperCase()));
                         return;
-                    } else if (!KernelManager.apiMatchedOnce) {
+                    } else {
                         displayOnScreenMessage(main, getString(R.string.msg_noKernelForYourROM, preferences.getString(Keys.KEY_SETTINGS_ROMAPI, "").toUpperCase(), preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase()));
                         return;
                     }
-                    return;
                 }
 
                 if (Tools.INSTALLED_KERNEL_VERSION.equalsIgnoreCase(KernelManager.getInstance().getProperKernel(getApplicationContext()).getVERSION())) {

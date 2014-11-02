@@ -145,6 +145,15 @@ public class Tools {
         return -1;
     }
 
+    public static String retainDigits(String data) {
+        String newString = "";
+        for (char c : data.toCharArray()) {
+            if (Character.isDigit(c) || c == '.')
+                newString += c;
+        }
+        return newString;
+    }
+
     public void showRootFailDialog() {
         hasRootAccess = false;
         userDialog = new AlertDialog.Builder(C)
@@ -529,6 +538,24 @@ public class Tools {
                 continue;
             KernelManager.getInstance().add(new Kernel(params));
         }
+    }
+
+    public static Double getMinVer(String data) {
+        Scanner s = new Scanner(data);
+        try {
+            while (s.hasNextLine()) {
+                String line = s.nextLine();
+                if (line.startsWith("#define min_ver*")) {
+                    return Double.parseDouble(line.split("=")[1].trim());
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
+        } finally {
+            s.close();
+        }
+
     }
 
     public void createOpenRecoveryScript(String line, final boolean rebootAfter, final boolean append) {

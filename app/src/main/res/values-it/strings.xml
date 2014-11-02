@@ -22,7 +22,7 @@
     <string name="dialog_title_changelog">Changelog</string>
     <string name="dialog_title_readyToInstall">Pronto per l\'istallazione</string>
     <string name="dialog_title_md5mismatch">MD5 non corrispondente</string>
-    <string name="dialog_title_rootFail">Richiesto il Root</string>
+    <string name="dialog_title_rootFail">Richiesta di Root</string>
 
     <string name="dialog_content_about">Sviluppato da %1$s</string>
 
@@ -41,10 +41,12 @@
     <string name="msg_downloadComplete">Download completato</string>
     <string name="msg_updateFound">È stata trovata una nuova versione del kernel</string>
     <string name="msg_changeable">Questa impostazione può essere modificata tramite la sezione impostazione</string>
-    <string name="msg_noKernelForYourROM">There\'s no %1$s kernel for %2$s</string>
+    <string name="msg_noKernelForYourROM">Non c\'è nessun kernel %1$s per %2$s</string>
     <string name="msg_twrp">L\'istallazione automatica funziona solo con la TWRP recovery. La CWM non è supportata.</string>
     <string name="msg_activeDownloads">Non si può lasciare, hai i download attivi</string>
     <string name="msg_invalidFilename">Il nome del file non è valido</string>
+    <string name="msg_updateRequired">Please update to te latest app version from Play Store</string>
+    <string name="msgTitle_versionObs">Version obsolete</string>
 
     <string name="btn_whatsNew">Cosa c\'è di nuovo</string>
     <string name="btn_getIt">Scarica l\'ultimo aggiornamento</string>
@@ -65,7 +67,7 @@
     <string name="settings_checkbox_useAndroidDM">Usa l\'applcazione Download</string>
     <string name="settings_btn_downloadLocation">Percorso Download</string>
     <string name="settings_btn_staticFilename">Nome del file statico</string>
-    <string name="settings_btn_receiveBeta">Receive test builds</string>
+    <string name="settings_btn_receiveBeta">Ricevi il kernel in test</string>
     <string name="settings_btn_updateSource">Aggiorna il codice</string>
 
     <string name="settings_info_useAndroidDM">Utilizzare download manager di sistema per gestire i download</string>
@@ -74,9 +76,9 @@
     <string name="prompt_install1">Il kernel è stato scaricato con successo.\nClicca %1$s per riavviare e installare ora.\nClicca %2$s per installare più tardi.</string>
     <string name="prompt_install2">Esiste già un file con md5 corrispondente.\nClicca %1$s per riavviare e installare ora.\nClicca %2$s per installare più tardi.</string>
     <string name="prompt_md5mismatch">Il kernel è stato scaricato con successo. Tuttavia MD5 non corrisponde al file originale.\n\nOriginal:%1$s\nCalculated:%2$s</string>
-    <string name="prompt_rootFail">Accesso root negato\nVuoi continuare a scaricare gli aggiornamenti del kernel attraverso l\'app ma senza root non si puà installare.\nControlla l\'app con il superuser.</string>
+    <string name="prompt_rootFail">Accesso root negato\nVuoi continuare a scaricare gli aggiornamenti del kernel attraverso l\'app ma senza root non si può installare.\nControlla l\'app con il superuser.</string>
     <string name="prompt_romBase">Che tipo di ROM avete?</string>
-    <string name="prompt_android_version">What version of Android are you using?</string>
+    <string name="prompt_android_version">Che versione Android hai?</string>
     <string name="prompt_blankDefault">Lasciare in bianco per impostazione predefinita</string>
     <string name="prompt_zipExtension">Non dimenticate di aggiungere l\'estensione .zip al file</string>
 

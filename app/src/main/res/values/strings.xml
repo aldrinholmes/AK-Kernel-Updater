@@ -40,6 +40,8 @@
     <string name="msg_twrp">Automatic installation works only with TWRP recovery. CWM is not supported.</string>
     <string name="msg_activeDownloads">You can\'t leave, you have active downloads</string>
     <string name="msg_invalidFilename">Invalid filename</string>
+    <string name="msg_updateRequired">Please update to te latest app version from Play Store</string>
+    <string name="msgTitle_versionObs">Version obsolete</string>
 
     <string name="btn_whatsNew">See what\'s new</string>
     <string name="btn_getIt">Get it now</string>
