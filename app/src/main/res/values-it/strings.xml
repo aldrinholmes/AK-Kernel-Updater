@@ -45,8 +45,8 @@
     <string name="msg_twrp">L\'istallazione automatica funziona solo con la TWRP recovery. La CWM non è supportata.</string>
     <string name="msg_activeDownloads">Non si può lasciare, hai i download attivi</string>
     <string name="msg_invalidFilename">Il nome del file non è valido</string>
-    <string name="msg_updateRequired">Please update to te latest app version from Play Store</string>
-    <string name="msgTitle_versionObs">Version obsolete</string>
+    <string name="msg_updateRequired">Si prega di aggiornare l\'applicazione alla versione più recente dal Play Store</string>
+    <string name="msgTitle_versionObs">Versione obsoleta</string>
 
     <string name="btn_whatsNew">Cosa c\'è di nuovo</string>
     <string name="btn_getIt">Scarica l\'ultimo aggiornamento</string>

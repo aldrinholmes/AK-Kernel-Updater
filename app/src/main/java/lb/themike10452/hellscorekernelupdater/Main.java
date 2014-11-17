@@ -21,6 +21,7 @@ import android.os.Environment;
 import android.text.SpannableString;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -74,7 +75,12 @@ public class Main extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
-        //final Tools tools = Tools.getInstance() == null ? new Tools(this) : Tools.getInstance();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (getActionBar() != null)
+                getActionBar().setElevation(5);
+        }
+
         final Tools tools = new Tools(this);
         this.tools = tools;
 
@@ -673,10 +679,11 @@ public class Main extends Activity {
 
         d.dismiss();
 
-        if (bases.length == 1) {
-            preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, bases[0]).apply();
-            return;
-        }
+        if (bases != null)
+            if (bases.length == 1) {
+                preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, bases[0]).apply();
+                return;
+            }
 
         final String[] choices = bases;
 

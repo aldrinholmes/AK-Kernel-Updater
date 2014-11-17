@@ -2,6 +2,7 @@ package lb.themike10452.hellscorekernelupdater.FileSelector;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -46,6 +47,11 @@ public class FileBrowser extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.file_browser_layout);
         overridePendingTransition(R.anim.slide_in_btt, R.anim.stay_still);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (getActionBar() != null)
+                getActionBar().setElevation(5);
+        }
 
         Bundle extras = getIntent().getExtras();
 

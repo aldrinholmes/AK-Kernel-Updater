@@ -94,6 +94,11 @@ public class Settings extends Activity {
         setContentView(R.layout.settings_layout);
         overridePendingTransition(R.anim.slide_in_rtl, R.anim.slide_out_rtl);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (getActionBar() != null)
+                getActionBar().setElevation(5);
+        }
+
         ((CheckBox) findViewById(R.id.checkbox_useAndDM)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
