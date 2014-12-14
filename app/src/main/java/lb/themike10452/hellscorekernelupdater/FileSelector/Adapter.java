@@ -39,7 +39,7 @@ public class Adapter extends ArrayAdapter {
         } else {
             convertView.findViewById(R.id.imageView1).setBackground(context.getResources().getDrawable(R.drawable.unknown));
         }
-        ((TextView) convertView.findViewById(android.R.id.text1)).setText(files.get(position).isDirectory() ? position == 0 ? ".." : files.get(position).getName() + File.separator : files.get(position).getName());
+        ((TextView) convertView.findViewById(android.R.id.text1)).setText(files.get(position).isDirectory() ? position == 0 ? ".." : File.separator + files.get(position).getName() : files.get(position).getName());
 
         return convertView;
     }

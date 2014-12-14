@@ -21,7 +21,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -33,6 +32,11 @@
         <activity
             android:name="lb.themike10452.hellscorekernelupdater.FileSelector.FileBrowser"
             android:label="@string/activity_fileBrowser"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="lb.themike10452.hellscorekernelupdater.LogActivity"
+            android:label="@string/action_log"
             android:screenOrientation="portrait" />
 
         <service

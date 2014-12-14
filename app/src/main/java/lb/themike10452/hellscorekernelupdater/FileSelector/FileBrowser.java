@@ -92,7 +92,10 @@ public class FileBrowser extends Activity {
     }
 
     public void updateScreen(Bundle pac) {
-        final File root = pac == null ? Environment.getExternalStorageDirectory() : new File(pac.getString("folder"));
+        final File root = pac == null ?
+                Environment.getExternalStorageDirectory() : new File(pac.getString("folder")).isDirectory() ?
+                new File(pac.getString("folder")) : Environment.getExternalStorageDirectory();
+
         WORKING_DIRECTORY = root;
         ((TextView) findViewById(R.id.textView_cd)).setText(root.getAbsolutePath());
         list = (ListView) findViewById(R.id.list);
