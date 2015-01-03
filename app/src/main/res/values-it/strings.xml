@@ -8,7 +8,7 @@
     <string name="version">Versione</string>
     <string name="action_about">Info</string>
     <string name="action_search">Search</string>
-    <string name="action_save">Save</string>
+    <string name="action_save">Salva</string>
 
     <string name="activity_settings">Impostazioni</string>
     <string name="activity_fileBrowser">Sfoglia</string>
@@ -17,7 +17,7 @@
     <string name="minutes">Minuti</string>
     <string name="defaultt">Default</string>
     <string name="undefined">Indefinito</string>
-    <string name="onReboot">Riavvio in corso …</string>
+    <string name="onReboot">Riavvio in corso…</string>
 
     <string name="dialog_title_downloading">Download in corso …</string>
     <string name="dialog_title_changelog">Changelog</string>
@@ -34,8 +34,8 @@
     <string name="filed_filename">Nome File</string>
     <string name="field_downloaded">Scaricato</string>
 
-    <string name="msg_pleaseWait">Attendere prego …</string>
-    <string name="msg_up_to_date">Sei aggiornato</string>
+    <string name="msg_pleaseWait">Attendere prego…</string>
+    <string name="msg_up_to_date">Il tuo Kernel è aggiornato</string>
     <string name="msg_failed_try_again">Non riuscito, riprova più tardi</string>
     <string name="msg_device_not_supported">Dispositivo non supportato</string>
     <string name="msg_downloadCanceled">Download cancellato</string>
@@ -48,8 +48,8 @@
     <string name="msg_invalidFilename">Il nome del file non è valido</string>
     <string name="msg_updateRequired">Si prega di aggiornare l\'applicazione alla versione più recente dal Play Store</string>
     <string name="msgTitle_versionObs">Versione obsoleta</string>
-    <string name="msg_textHighlighted">Text highlighted in yellow</string>
-    <string name="msg_textNotFound">Nothing found</string>
+    <string name="msg_textHighlighted">>Il testo evidenziato in giallo</string>
+    <string name="msg_textNotFound">Non abbiamo trovato nulla</string>
 
     <string name="btn_whatsNew">Cosa c\'è di nuovo</string>
     <string name="btn_getIt">Scarica l\'ultimo aggiornamento</string>
@@ -81,7 +81,7 @@
     <string name="prompt_md5mismatch">Il kernel è stato scaricato con successo. Tuttavia MD5 non corrisponde al file originale.\n\nOriginal:%1$s\nCalculated:%2$s</string>
     <string name="prompt_rootFail">Accesso root negato\nVuoi continuare a scaricare gli aggiornamenti del kernel attraverso l\'app ma senza root non si può installare.\nControlla l\'app con il superuser.</string>
     <string name="prompt_romBase">Che tipo di ROM avete?</string>
-    <string name="prompt_android_version">Che versione Android hai?</string>
+    <string name="prompt_android_version">Che versione Android avete?</string>
     <string name="prompt_blankDefault">Lasciare in bianco per impostazione predefinita</string>
     <string name="prompt_zipExtension">Non dimenticate di aggiungere l\'estensione .zip al file</string>
 
