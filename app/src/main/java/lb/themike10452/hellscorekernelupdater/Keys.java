@@ -5,8 +5,7 @@ package lb.themike10452.hellscorekernelupdater;
  */
 public class Keys {
 
-    public static String ALTERNATIVE_SOURCE = "http://pastebin.com/download.php?i=G6xhB7x9";
-    public static String DEFAULT_SOURCE = "http://pastebin.com/download.php?i=4Cvf7eqS";
+    public static String DEFAULT_SOURCE = "http://www.ipaste.eu/api?act=get&frm=text&id=8592";
     public static String SOURCE_CODE = "https://github.com/themike10452/HellsCore_Kernel_Updater";
     public static String TAG_NOTIF = "THEMIKE10452.HKU.UPDNOTIF";
 
@@ -20,7 +19,6 @@ public class Keys {
     public static String KEY_SETTINGS_USESTATICFILENAME = "_USESTATICFILENAME";
     public static String KEY_SETTINGS_LASTSTATICFILENAME = "_STATICFILENAME";
     public static String KEY_SETTINGS_LOOKFORBETA = "_LOOKFORBETA";
-
 
     public static String KEY_DEFINE_AV = "android_versions";
     public static String KEY_DEFINE_BB = "build_bases";

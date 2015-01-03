@@ -347,49 +347,57 @@ public class Main extends Activity {
     }
 
     private boolean getDevicePart() throws DeviceNotSupportedException {
-        Scanner s;
+        HttpURLConnection connection = null;
+        Scanner s = null;
         DEVICE_PART = "";
         CHANGELOG = "";
         boolean DEVICE_SUPPORTED = false;
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE)).openConnection();
-            s = new Scanner(connection.getInputStream());
-        } catch (final Exception e) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            return false;
-        }
-        String pattern = String.format("<%s>", DEVICE);
-        while (s.hasNextLine()) {
-            if (s.nextLine().equalsIgnoreCase(pattern)) {
-                DEVICE_SUPPORTED = true;
-                break;
-            }
-        }
-        if (DEVICE_SUPPORTED) {
-            String line;
-            while (s.hasNextLine()) {
-                line = s.nextLine().trim();
-                if (line.equalsIgnoreCase(String.format("</%s>", DEVICE)))
-                    break;
-
-                if (line.equalsIgnoreCase("<changelog>")) {
-                    DEVICE_PART += line + "\n";
-                    while (s.hasNextLine() && !(line = s.nextLine()).equalsIgnoreCase("</changelog>")) {
-                        CHANGELOG += line + "\n";
-                        DEVICE_PART += line + "\n";
+            try {
+                connection = (HttpURLConnection) new URL(preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE)).openConnection();
+                s = new Scanner(connection.getInputStream());
+            } catch (final Exception e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
                     }
-                }
-
-                DEVICE_PART += line + "\n";
+                });
+                return false;
             }
-            return true;
-        } else {
-            throw new DeviceNotSupportedException();
+            String pattern = String.format("<%s>", DEVICE);
+            while (s.hasNextLine()) {
+                if (s.nextLine().equalsIgnoreCase(pattern)) {
+                    DEVICE_SUPPORTED = true;
+                    break;
+                }
+            }
+            if (DEVICE_SUPPORTED) {
+                String line;
+                while (s.hasNextLine()) {
+                    line = s.nextLine().trim();
+                    if (line.equalsIgnoreCase(String.format("</%s>", DEVICE)))
+                        break;
+
+                    if (line.equalsIgnoreCase("<changelog>")) {
+                        DEVICE_PART += line + "\n";
+                        while (s.hasNextLine() && !(line = s.nextLine()).equalsIgnoreCase("</changelog>")) {
+                            CHANGELOG += line + "\n";
+                            DEVICE_PART += line + "\n";
+                        }
+                    }
+
+                    DEVICE_PART += line + "\n";
+                }
+                return true;
+            } else {
+                throw new DeviceNotSupportedException();
+            }
+        } finally {
+            if (s != null)
+                s.close();
+            if (connection != null)
+                connection.disconnect();
         }
     }
 
@@ -491,7 +499,6 @@ public class Main extends Activity {
                     try {
                         unregisterReceiver(this);
                         unregisterReceiver(downloadHandler);
-                    } catch (RuntimeException ignored) {
                     } catch (Exception ignored) {
                     }
                 }
@@ -522,7 +529,7 @@ public class Main extends Activity {
         text2.setTextAppearance(this, android.R.style.TextAppearance_Small);
         try {
             text2.setText("v" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-        } catch (PackageManager.NameNotFoundException ingored) {
+        } catch (PackageManager.NameNotFoundException ignored) {
         }
         params.setMargins(0, 40, 0, 0);
         contentView.addView(text2, params);
@@ -575,7 +582,7 @@ public class Main extends Activity {
 
         if (preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, null) == null)
             editor.putString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:0");
-        else if (!tools.isAllDigits(preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, null).replace(":", "")))
+        else if (!Tools.isAllDigits(preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, null).replace(":", "")))
             editor.putString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:0");
 
         if (!preferences.getBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, false))
@@ -727,7 +734,7 @@ public class Main extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (!tools.isDownloading)
+        if (!Tools.isDownloading)
             super.onBackPressed();
         else
             Toast.makeText(this, R.string.msg_activeDownloads, Toast.LENGTH_LONG).show();
