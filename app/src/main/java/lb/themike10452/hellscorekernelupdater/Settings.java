@@ -320,8 +320,6 @@ public class Settings extends Activity {
                             if (!getDevicePart())
                                 throw new Exception(getString(R.string.msg_device_not_supported));
 
-                            Log.d("TAG", DEVICE_PART);
-
                             Scanner s = new Scanner(DEVICE_PART);
                             while (s.hasNextLine()) {
                                 String line = s.nextLine();
