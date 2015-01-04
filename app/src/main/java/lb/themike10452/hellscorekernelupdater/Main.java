@@ -379,7 +379,7 @@ public class Main extends Activity {
                         }
                     });
                 } else {
-                    System.setProperty("http.proxySet", "true");
+                    System.setProperty("http.proxySet", "false");
                 }
                 connection = (HttpURLConnection) new URL(preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE)).openConnection();
 
