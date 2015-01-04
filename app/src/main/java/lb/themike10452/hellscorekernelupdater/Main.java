@@ -90,6 +90,8 @@ public class Main extends Activity {
         chuckNorris();
 
         refreshView((LinearLayout) findViewById(R.id.main), true);
+        ((TextView) findViewById(R.id.bottom_msg)).setText(getString(R.string.msg_troubleProxy, getString(R.string.activity_settings), getString(R.string.settings_btn_useProxy)));
+        findViewById(R.id.bottom_bar).setVisibility(preferences.getBoolean(Keys.KEY_SETTINGS_USEPROXY, false) ? View.GONE : View.VISIBLE);
 
     }
 
@@ -135,7 +137,7 @@ public class Main extends Activity {
 
         main.removeAllViews();
         final View v1 = LayoutInflater.from(Main.this).inflate(R.layout.kernel_info_layout, null);
-        ((TextView) v1.findViewById(R.id.text)).setText(tools.getFormattedKernelVersion());
+        ((TextView) v1.findViewById(R.id.text)).setText(Tools.getFormattedKernelVersion());
 
         final TextView tag = new TextView(Main.this);
         tag.setTextAppearance(Main.this, android.R.style.TextAppearance_Small);
@@ -171,6 +173,14 @@ public class Main extends Activity {
                         }
                     });
                     return b;
+                } catch (final InvalidResponseException ire) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), ire.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    return false;
                 } catch (DeviceNotSupportedException e) {
                     DEVICE_SUPPORTED = false;
                     return true;
@@ -346,7 +356,8 @@ public class Main extends Activity {
         return set;
     }
 
-    private boolean getDevicePart() throws DeviceNotSupportedException {
+    private boolean getDevicePart() throws DeviceNotSupportedException, InvalidResponseException {
+        boolean valid = false;
         HttpURLConnection connection = null;
         Scanner s = null;
         DEVICE_PART = "";
@@ -354,7 +365,27 @@ public class Main extends Activity {
         boolean DEVICE_SUPPORTED = false;
         try {
             try {
+                if (preferences.getBoolean(Keys.KEY_SETTINGS_USEPROXY, false)) {
+                    final String proxyHost = preferences.getString(Keys.KEY_SETTINGS_PROXYHOST, Keys.DEFAULT_PROXY);
+                    System.setProperty("http.proxySet", "true");
+                    System.setProperty("http.proxyHost", proxyHost.substring(0, proxyHost.indexOf(":")));
+                    System.setProperty("http.proxyPort", proxyHost.substring(proxyHost.indexOf(":") + 1));
+                    System.setProperty("https.proxyHost", proxyHost.substring(0, proxyHost.indexOf(":")));
+                    System.setProperty("https.proxyPort", proxyHost.substring(proxyHost.indexOf(":") + 1));
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Proxy: " + proxyHost, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    System.setProperty("http.proxySet", "true");
+                }
                 connection = (HttpURLConnection) new URL(preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE)).openConnection();
+
+                if (connection.getResponseCode() != 200)
+                    return false;
+
                 s = new Scanner(connection.getInputStream());
             } catch (final Exception e) {
                 runOnUiThread(new Runnable() {
@@ -367,11 +398,19 @@ public class Main extends Activity {
             }
             String pattern = String.format("<%s>", DEVICE);
             while (s.hasNextLine()) {
-                if (s.nextLine().equalsIgnoreCase(pattern)) {
+                String line = s.nextLine();
+                if (line.equals(Keys.VALIDITY_KEY))
+                    valid = true;
+
+                if (line.equalsIgnoreCase(pattern)) {
                     DEVICE_SUPPORTED = true;
                     break;
                 }
             }
+
+            if (!valid)
+                throw new InvalidResponseException();
+
             if (DEVICE_SUPPORTED) {
                 String line;
                 while (s.hasNextLine()) {
@@ -573,6 +612,9 @@ public class Main extends Activity {
 
         if (preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, null) == null)
             editor.putString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator);
+
+        if (!preferences.getBoolean(Keys.KEY_SETTINGS_USEPROXY, false))
+            editor.putBoolean(Keys.KEY_SETTINGS_USEPROXY, false);
 
         if (!preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false))
             editor.putBoolean(Keys.KEY_SETTINGS_USEANDM, false);

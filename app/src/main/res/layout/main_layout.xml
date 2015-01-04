@@ -5,18 +5,41 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottom_bar">
+
+            <LinearLayout
+                android:id="@+id/main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+            </LinearLayout>
+        </ScrollView>
+
         <LinearLayout
-            android:id="@+id/main"
+            android:id="@+id/bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:padding="5dp">
 
+            <TextView
+                android:id="@+id/bottom_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/msg_troubleProxy"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/card_text" />
         </LinearLayout>
-    </ScrollView>
+    </RelativeLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

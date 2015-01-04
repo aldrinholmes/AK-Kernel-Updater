@@ -154,6 +154,32 @@ public class Tools {
         return newString;
     }
 
+    public static boolean validateIP(String ip) {
+        int dc = 0;
+        boolean valid = !ip.contains("..") && !ip.startsWith(".") && !ip.endsWith(".");
+
+        if (valid)
+            for (char c : ip.toCharArray()) {
+                if (c == '.')
+                    dc++;
+                else if (!Character.isDigit(c)) {
+                    valid = false;
+                    break;
+                }
+            }
+
+        if (valid && dc == 3) {
+            String[] parts = ip.split("\\.");
+            for (String s : parts) {
+                if (Integer.parseInt(s) > 255)
+                    return false;
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void showRootFailDialog() {
         hasRootAccess = false;
         userDialog = new AlertDialog.Builder(C)

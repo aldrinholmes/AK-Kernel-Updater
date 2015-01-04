@@ -8,8 +8,8 @@ android {
         applicationId "lb.themike10452.hellscorekernelupdater"
         minSdkVersion 19
         targetSdkVersion 21
-        versionCode 10
-        versionName "2.0"
+        versionCode 13
+        versionName "2.1"
     }
 
     buildTypes {

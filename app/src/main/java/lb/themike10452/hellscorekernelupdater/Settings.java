@@ -10,12 +10,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
-import android.util.Log;
+import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -98,6 +100,68 @@ public class Settings extends Activity {
             if (getActionBar() != null)
                 getActionBar().setElevation(5);
         }
+
+        ((CheckBox) findViewById(R.id.checkbox_useProxy)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean b) {
+                Main.preferences.edit().putBoolean(Keys.KEY_SETTINGS_USEPROXY, b).apply();
+                findViewById(R.id.title0).setEnabled(b);
+                findViewById(R.id.btn_editProxy).setEnabled(b);
+            }
+        });
+
+        findViewById(R.id.btn_editProxy).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog d = new Dialog(Settings.this);
+                d.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                d.setContentView(R.layout.dialog_proxy);
+                d.setCancelable(true);
+                d.show();
+
+                final EditText IP = (EditText) d.findViewById(R.id.ip), PORT = (EditText) d.findViewById(R.id.port);
+                String currentHost = Main.preferences.getString(Keys.KEY_SETTINGS_PROXYHOST, Keys.DEFAULT_PROXY);
+                IP.setText(currentHost.substring(0, currentHost.indexOf(":")));
+                PORT.setText(currentHost.substring(currentHost.indexOf(":") + 1));
+
+                SpannableString ss0 = new SpannableString(getString(R.string.proxy_list));
+                ss0.setSpan(new UnderlineSpan(), 0, ss0.length(), 0);
+                ((TextView) d.findViewById(R.id.pl)).setText(ss0);
+
+                SpannableString ss1 = new SpannableString(getString(R.string.defaultt));
+                ss1.setSpan(new UnderlineSpan(), 0, ss1.length(), 0);
+                ((TextView) d.findViewById(R.id.dp)).setText(ss1);
+
+                d.findViewById(R.id.dp).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String host = Keys.DEFAULT_PROXY;
+                        IP.setText(host.substring(0, host.indexOf(":")));
+                        PORT.setText(host.substring(host.indexOf(":") + 1));
+                    }
+                });
+
+                d.findViewById(R.id.pl).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Keys.PROXY_LIST));
+                        startActivity(intent);
+                    }
+                });
+
+                d.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        String ip = IP.getText().toString(), port = PORT.getText().toString();
+                        if (Tools.validateIP(ip) && port.length() > 0) {
+                            Main.preferences.edit().putString(Keys.KEY_SETTINGS_PROXYHOST, ip + ":" + port).apply();
+                            return;
+                        }
+                        Toast.makeText(getApplicationContext(), R.string.msg_invalidProxy, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
 
         ((CheckBox) findViewById(R.id.checkbox_useAndDM)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -446,6 +510,8 @@ public class Settings extends Activity {
     private void updateScreen() {
         ((Switch) findViewById(R.id.switch_bkg_check)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true));
         ((TextView) findViewById(R.id.textView_dlLoc)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, ""));
+        ((TextView) findViewById(R.id.proxyHost)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_PROXYHOST, Keys.DEFAULT_PROXY));
+        ((CheckBox) findViewById(R.id.checkbox_useProxy)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_USEPROXY, false));
         ((CheckBox) findViewById(R.id.checkbox_useAndDM)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false));
         ((CheckBox) findViewById(R.id.checkbox_receiveBeta)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, true));
 

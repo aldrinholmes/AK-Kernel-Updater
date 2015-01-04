@@ -84,5 +84,10 @@
     <string name="prompt_android_version">Welche Android Version nutzt Du?</string>
     <string name="prompt_blankDefault">Leer lassen für Standard</string>
     <string name="prompt_zipExtension">Vergiss nicht die Dateiendung .zip</string>
+    <string name="settings_category_proxy">Proxy</string>
+    <string name="settings_btn_useProxy">Use proxy</string>
+    <string name="proxy_list">Proxy List</string>
+    <string name="msg_invalidProxy">Invalid proxy configuration</string>
+    <string name="msg_troubleProxy">Having trouble connecting? %1$s > %2$s</string>
 
 </resources>
