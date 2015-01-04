@@ -18,6 +18,7 @@
     <string name="defaultt">Default</string>
     <string name="undefined">Indefinito</string>
     <string name="onReboot">Riavvio in corso…</string>
+    <string name="proxy_list">Proxy List</string>
 
     <string name="dialog_title_downloading">Download in corso …</string>
     <string name="dialog_title_changelog">Changelog</string>
@@ -46,6 +47,8 @@
     <string name="msg_twrp">L\'istallazione automatica funziona solo con la TWRP recovery. La CWM non è supportata.</string>
     <string name="msg_activeDownloads">Non si può lasciare, hai i download attivi</string>
     <string name="msg_invalidFilename">Il nome del file non è valido</string>
+    <string name="msg_invalidProxy">Invalid proxy configuration</string>
+    <string name="msg_troubleProxy">Having trouble connecting? %1$s > %2$s</string>
     <string name="msg_updateRequired">Si prega di aggiornare l\'applicazione alla versione più recente dal Play Store</string>
     <string name="msgTitle_versionObs">Versione obsoleta</string>
     <string name="msg_textHighlighted">>Il testo evidenziato in giallo</string>
@@ -61,6 +64,7 @@
     <string name="btn_downloadAgain">Scarica di nuovo</string>
 
     <string name="settings_category_backgroundCheck">ATTIVA IN BACKGROUND</string>
+    <string name="settings_category_proxy">PROXY</string>
     <string name="settings_category_downloads">DOWNLOADS</string>
     <string name="settings_category_romBase">ROM BASE</string>
 
@@ -68,6 +72,7 @@
     <string name="settings_textView_backgroundCheckInterval">Attiva in Background ad Intervalli</string>
 
     <string name="settings_checkbox_useAndroidDM">Usa l\'applcazione Download</string>
+    <string name="settings_btn_useProxy">Use proxy</string>
     <string name="settings_btn_downloadLocation">Percorso Download</string>
     <string name="settings_btn_staticFilename">Nome del file statico</string>
     <string name="settings_btn_receiveBeta">Ricevi il kernel in test</string>
@@ -84,10 +89,5 @@
     <string name="prompt_android_version">Che versione Android avete?</string>
     <string name="prompt_blankDefault">Lasciare in bianco per impostazione predefinita</string>
     <string name="prompt_zipExtension">Non dimenticate di aggiungere l\'estensione .zip al file</string>
-    <string name="settings_category_proxy">Proxy</string>
-    <string name="settings_btn_useProxy">Use proxy</string>
-    <string name="proxy_list">Proxy List</string>
-    <string name="msg_invalidProxy">Invalid proxy configuration</string>
-    <string name="msg_troubleProxy">Having trouble connecting? %1$s > %2$s</string>
 
 </resources>
