@@ -17,6 +17,7 @@
     <string name="defaultt">Par défaut</string>
     <string name="undefined">Non défini</string>
     <string name="onReboot">Redémarrage …</string>
+    <string name="proxy_list">Liste de proxy</string>
 
     <string name="dialog_title_downloading">Téléchargement en cours …</string>
     <string name="dialog_title_changelog">Change log</string>
@@ -45,7 +46,9 @@
     <string name="msg_twrp">L\'installation automatique fonctionne uniquement avec le recovery TWRP. CWM n\'est pas supporté.</string>
     <string name="msg_activeDownloads">Vous ne pouvez pas partir, vous avez des téléchargements actifs</string>
     <string name="msg_invalidFilename">Nom de fichier invalide</string>
-    <string name="msg_updateRequired">Veuillez mettre à jour vers la dernière version de l\'application à partir du Google Play</string>
+    <string name="msg_invalidProxy">Configuration du proxy incorrect</string>
+    <string name="msg_troubleProxy">Vous avez des problèmes de connexion ? %1$s > %2$s</string>
+	<string name="msg_updateRequired">Veuillez mettre à jour vers la dernière version de l\'application à partir du Google Play</string>
     <string name="msgTitle_versionObs">version obsolète</string>
     <string name="msg_textHighlighted">Texte surligné en jaune</string>
     <string name="msg_textNotFound">Rien trouvé</string>
@@ -60,6 +63,7 @@
     <string name="btn_downloadAgain">Télécharger à nouveau</string>
 
     <string name="settings_category_backgroundCheck">VERIFICATION EN ARRIERE PLAN</string>
+	<string name="settings_category_proxy">PROXY</string>
     <string name="settings_category_downloads">TELECHARGEMENT</string>
     <string name="settings_category_romBase">BASE DE LA ROM</string>
 
@@ -67,7 +71,8 @@
     <string name="settings_textView_backgroundCheckInterval">Intervalle de vérification en arrière plan</string>
 
     <string name="settings_checkbox_useAndroidDM">utiliser le gestionnaire de téléchargement Android</string>
-    <string name="settings_btn_downloadLocation">Emplacement du téléchargement</string>
+    <string name="settings_btn_useProxy">Utiliser un proxy</string>
+	<string name="settings_btn_downloadLocation">Emplacement du téléchargement</string>
     <string name="settings_btn_staticFilename">Nom de fichier statique</string>
     <string name="settings_btn_receiveBeta">Recevoir les versions tests</string>
     <string name="settings_btn_updateSource">Source de mise à jour</string>
@@ -83,9 +88,5 @@
     <string name="prompt_android_version">Quelle est la version d\'Android que vous utilisez ?</string>
     <string name="prompt_blankDefault">Laisser le vide par défaut</string>
     <string name="prompt_zipExtension">N\'oubliez pas d\'ajouter l\'extension de fichier .zip</string>
-    <string name="msg_invalidProxy">Invalid proxy configuration</string>
-    <string name="msg_troubleProxy">Having trouble connecting? %1$s > %2$s</string>
-    <string name="proxy_list">Proxy List</string>
-    <string name="settings_btn_useProxy">Use proxy</string>
-    <string name="settings_category_proxy">PROXY</string>
+
 </resources>
