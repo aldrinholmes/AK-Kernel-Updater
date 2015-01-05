@@ -747,31 +747,32 @@ public class Main extends Activity {
 
         d.dismiss();
 
-        if (bases != null)
+        if (bases != null) {
             if (bases.length == 1) {
                 preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, bases[0]).apply();
                 return;
             }
 
-        final String[] choices = bases;
+            final String[] choices = bases;
 
-        new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.prompt_romBase))
-                .setCancelable(false)
-                .setSingleChoiceItems(bases, Tools.findIndex(bases, preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "null")), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, choices[i]).apply();
-                    }
-                })
-                .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        startService(new Intent(Main.this, BackgroundAutoCheckService.class));
-                        onCreate(null);
-                    }
-                })
-                .show();
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.prompt_romBase))
+                    .setCancelable(false)
+                    .setSingleChoiceItems(bases, Tools.findIndex(bases, preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "null")), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            preferences.edit().putString(Keys.KEY_SETTINGS_ROMBASE, choices[i]).apply();
+                        }
+                    })
+                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startService(new Intent(Main.this, BackgroundAutoCheckService.class));
+                            onCreate(null);
+                        }
+                    })
+                    .show();
+        }
     }
 
     @Override
