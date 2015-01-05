@@ -1,7 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Translated by Renaud Rolland -->
+
 <resources>
     <string name="app_name">HellsCore U2D</string>
     <string name="version">Version</string>
-    <string name="action_log" translatable="false">last_kmsg</string>
     <string name="action_about">À propos</string>
     <string name="action_search">Rechercher</string>
     <string name="action_save">Sauvegarder</string>
@@ -80,4 +83,9 @@
     <string name="prompt_android_version">Quelle est la version d\'Android que vous utilisez ?</string>
     <string name="prompt_blankDefault">Laisser le vide par défaut</string>
     <string name="prompt_zipExtension">N\'oubliez pas d\'ajouter l\'extension de fichier .zip</string>
+    <string name="msg_invalidProxy">Invalid proxy configuration</string>
+    <string name="msg_troubleProxy">Having trouble connecting? %1$s > %2$s</string>
+    <string name="proxy_list">Proxy List</string>
+    <string name="settings_btn_useProxy">Use proxy</string>
+    <string name="settings_category_proxy">PROXY</string>
 </resources>
