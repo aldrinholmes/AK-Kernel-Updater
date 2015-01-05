@@ -47,8 +47,8 @@
     <string name="msg_twrp">L\'istallazione automatica funziona solo con la TWRP recovery. La CWM non è supportata.</string>
     <string name="msg_activeDownloads">Non si può lasciare, hai i download attivi</string>
     <string name="msg_invalidFilename">Il nome del file non è valido</string>
-    <string name="msg_invalidProxy">Invalid proxy configuration</string>
-    <string name="msg_troubleProxy">Having trouble connecting? %1$s > %2$s</string>
+    <string name="msg_invalidProxy">Configurazione proxy non valida</string>
+    <string name="msg_troubleProxy">Problemi di collegamento? %1$s > %2$s</string>
     <string name="msg_updateRequired">Si prega di aggiornare l\'applicazione alla versione più recente dal Play Store</string>
     <string name="msgTitle_versionObs">Versione obsoleta</string>
     <string name="msg_textHighlighted">>Il testo evidenziato in giallo</string>
