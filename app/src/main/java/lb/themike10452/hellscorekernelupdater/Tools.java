@@ -47,35 +47,33 @@ public class Tools {
     public static String ACTION_INSTALL = "THEMIKE10452.TOOLS.KERNEL.INSTALL";
     public static String ACTION_DISMISS = "THEMIKE10452.TOOLS.DISMISS";
 
-    public static int EXTRA_SHOW_INSTALL_DIALOG = 1;
     public static boolean isDownloading;
     public static Activity activity;
 
     public static Dialog userDialog;
     public static String INSTALLED_KERNEL_VERSION = "";
     private static Tools instance;
-    private static boolean hasRootAccess;
     private static Shell.Interactive interactiveShell;
     public boolean cancelDownload;
     public int downloadSize, downloadedSize;
     public File lastDownloadedFile;
     private Context C;
 
-    public Tools(Context context) {
+    private Tools(Context context) {
         C = context;
         instance = this;
         if (interactiveShell == null)
             interactiveShell = new Shell.Builder().useSU().setWatchdogTimeout(5).setMinimalLogging(true).open(new Shell.OnCommandResultListener() {
                 @Override
                 public void onCommandResult(int commandCode, int exitCode, List<String> output) {
-                    if (hasRootAccess = exitCode != SHELL_RUNNING)
+                    if (exitCode != SHELL_RUNNING)
                         showRootFailDialog();
                 }
             });
     }
 
-    public static Tools getInstance() {
-        return instance;
+    public static Tools getInstance(Context c) {
+        return instance == null ? new Tools(c) : instance;
     }
 
     public static String getFileExtension(File f) {
@@ -181,7 +179,6 @@ public class Tools {
     }
 
     public void showRootFailDialog() {
-        hasRootAccess = false;
         userDialog = new AlertDialog.Builder(C)
                 .setTitle(R.string.dialog_title_rootFail)
                 .setMessage(R.string.prompt_rootFail)
@@ -553,16 +550,6 @@ public class Tools {
                 }
             }.execute();
 
-        }
-    }
-
-    public static void sniffKernels(String data) {
-        String[] parameters = data.split("\\+kernel");
-        KernelManager.getFreshInstance();
-        for (String params : parameters) {
-            if (params == parameters[0])
-                continue;
-            KernelManager.getInstance().add(new Kernel(params));
         }
     }
 

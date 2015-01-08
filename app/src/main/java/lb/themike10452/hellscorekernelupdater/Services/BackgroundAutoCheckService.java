@@ -1,9 +1,10 @@
 package lb.themike10452.hellscorekernelupdater.Services;
 
-import android.app.IntentService;
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -29,10 +30,16 @@ import lb.themike10452.hellscorekernelupdater.Tools;
 /**
  * Created by Mike on 9/26/2014.
  */
-public class BackgroundAutoCheckService extends IntentService {
+public class BackgroundAutoCheckService extends Service {
 
-    public static boolean running = false;
-    private static BroadcastReceiver broadcastReceiver;
+    private static final String ACTION = "lb.themike10452.hellscore-u2d.kick";
+
+    private static BroadcastReceiver connectivityReceiver, receiver;
+
+    private static AlarmManager manager;
+
+    private static PendingIntent pendingIntent;
+
     //this is the background check task
     private Runnable run = new Runnable() {
         @Override
@@ -58,9 +65,9 @@ public class BackgroundAutoCheckService extends IntentService {
             //the app will have to wait another 24 hours to check again...
             //but no! we have to find another way
 
-            if (!CONNECTED && broadcastReceiver == null) { //if the phone was not connected by the time
+            if (!CONNECTED && connectivityReceiver == null) { //if the phone was not connected by the time
                 //set up a broadcast receiver that detects when the phone is connected to the internet
-                broadcastReceiver = new BroadcastReceiver() {
+                connectivityReceiver = new BroadcastReceiver() {
                     @Override
                     public void onReceive(Context context, Intent intent) {
                         ConnectivityManager manager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
@@ -71,7 +78,7 @@ public class BackgroundAutoCheckService extends IntentService {
                             //unregister the broadcast receiver when it receives the targeted intent
                             //so it doesn't interfere with any newly created receivers in the future
                             unregisterReceiver(this);
-                            broadcastReceiver = null;
+                            connectivityReceiver = null;
                             //then launch a new cycle
                             //by stopping and relaunching the service
                             stopSelf();
@@ -80,15 +87,15 @@ public class BackgroundAutoCheckService extends IntentService {
                     }
                 };
                 //here we register the broadcast receiver to catch any connectivity change action
-                registerReceiver(broadcastReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+                registerReceiver(connectivityReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
             } else if (CONNECTED) { //else if the phone was connected by the time, we need to check for an update
 
                 //get installed and latest kernel info, and compare them
                 Tools.getFormattedKernelVersion();
                 String installed = Tools.INSTALLED_KERNEL_VERSION;
-                Tools.sniffKernels(DEVICE_PART);
-                Kernel properKernel = KernelManager.getInstance().getProperKernel(getApplicationContext());
+                KernelManager.getInstance(getApplicationContext()).sniffKernels(DEVICE_PART);
+                Kernel properKernel = KernelManager.getInstance(getApplicationContext()).getProperKernel();
                 String latest = properKernel != null ? properKernel.getVERSION() : null;
 
                 //if the user hasn't opened the app and selected which ROM base he uses (AOSP/CM/MIUI etc...)
@@ -120,7 +127,7 @@ public class BackgroundAutoCheckService extends IntentService {
     private String DEVICE_PART;
 
     public BackgroundAutoCheckService() {
-        super("BackgroundAutoCheckService");
+        super();
     }
 
     @Override
@@ -129,11 +136,9 @@ public class BackgroundAutoCheckService extends IntentService {
     }
 
     @Override
-    protected void onHandleIntent(Intent intent) {
+    public void onCreate() {
 
         //actual work starts here
-
-        running = true;
 
         preferences = getSharedPreferences("Settings", MODE_MULTI_PROCESS);
 
@@ -152,20 +157,19 @@ public class BackgroundAutoCheckService extends IntentService {
         //parse them into integers and transform the total amount of time into seconds
         int T = (Integer.parseInt(hr) * 3600) + (Integer.parseInt(mn) * 60);
 
-        //run the check task at a fixed rate
-        //I created a boolean to break the endless loop whenever I want to stop it
-        while (running) {
-
-            if (!Tools.isDownloading)
+        //prepare the broadcast receiver
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
                 new Thread(run).start();
-
-            try {
-                //sleep for T milliseconds
-                Thread.sleep(T * 1000); //transform T from seconds to milliseconds
-            } catch (InterruptedException ignored) {
             }
+        };
+        registerReceiver(receiver, new IntentFilter(ACTION));
 
-        }
+        //run the check task at a fixed rate
+        manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0, T * 1000, pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, new Intent(ACTION), 0));
+
     }
 
     private boolean getDevicePart() throws DeviceNotSupportedException {
@@ -220,6 +224,9 @@ public class BackgroundAutoCheckService extends IntentService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        running = false;
+        if (manager != null && pendingIntent != null)
+            manager.cancel(pendingIntent);
+        if (receiver != null)
+            unregisterReceiver(receiver);
     }
 }

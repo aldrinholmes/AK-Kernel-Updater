@@ -52,6 +52,7 @@
     <string name="msgTitle_versionObs">version obsolète</string>
     <string name="msg_textHighlighted">Texte surligné en jaune</string>
     <string name="msg_textNotFound">Rien trouvé</string>
+    <string name="msg_restartApplication">Changes will take effect after restarting the application.</string>
 
     <string name="btn_whatsNew">Voir les nouveautés</string>
     <string name="btn_getIt">L\'obtenir maintenant</string>

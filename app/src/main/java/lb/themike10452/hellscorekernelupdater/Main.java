@@ -61,7 +61,7 @@ public class Main extends Activity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        if (preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true) && !BackgroundAutoCheckService.running) {
+        if (preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true)) {
             startService(new Intent(this, BackgroundAutoCheckService.class));
         }
     }
@@ -82,7 +82,7 @@ public class Main extends Activity {
                 getActionBar().setElevation(5);
         }
 
-        this.tools = new Tools(this);
+        this.tools = Tools.getInstance(this);
 
         preferences = getSharedPreferences("Settings", MODE_MULTI_PROCESS);
         running = true;
@@ -248,9 +248,9 @@ public class Main extends Activity {
 
                     }
 
-                    Tools.sniffKernels(DEVICE_PART);
+                    KernelManager.getInstance(getApplicationContext()).sniffKernels(DEVICE_PART);
 
-                    if (KernelManager.getInstance().getProperKernel(getApplicationContext()) == null) {
+                    if (KernelManager.getInstance(getApplicationContext()).getProperKernel() == null) {
 
                         if (!KernelManager.baseMatchedOnce) {
                             displayOnScreenMessage(main, getString(R.string.msg_noKernelForYourROM, preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase(), DEVICE.toUpperCase()));
@@ -261,13 +261,13 @@ public class Main extends Activity {
                         }
                     }
 
-                    if (Tools.INSTALLED_KERNEL_VERSION.equalsIgnoreCase(KernelManager.getInstance().getProperKernel(getApplicationContext()).getVERSION())) {
+                    if (Tools.INSTALLED_KERNEL_VERSION.equalsIgnoreCase(KernelManager.getInstance(getApplicationContext()).getProperKernel().getVERSION())) {
                         displayOnScreenMessage(main, R.string.msg_up_to_date);
                         return;
                     }
 
                     View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.new_kernel_layout, null);
-                    String ver = KernelManager.getInstance().getProperKernel(getApplicationContext()).getVERSION();
+                    String ver = KernelManager.getInstance(getApplicationContext()).getProperKernel().getVERSION();
 
                     ((TextView) v.findViewById(R.id.text)).setText(ver);
 
@@ -456,7 +456,7 @@ public class Main extends Activity {
     }
 
     private void getIt() {
-        final String link = KernelManager.getInstance().getProperKernel(getApplicationContext()).getHTTPLINK();
+        final String link = KernelManager.getInstance(getApplicationContext()).getProperKernel().getHTTPLINK();
         if (link != null) {
             final boolean b = preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false);
             String destination = preferences
@@ -487,7 +487,7 @@ public class Main extends Activity {
                         } else {
                             d = builder.setTitle(R.string.dialog_title_md5mismatch)
                                     .setCancelable(false)
-                                    .setMessage(getString(R.string.prompt_md5mismatch, KernelManager.getInstance().getProperKernel(getApplicationContext()).getMD5(), intent.getStringExtra("md5")))
+                                    .setMessage(getString(R.string.prompt_md5mismatch, KernelManager.getInstance(getApplicationContext()).getProperKernel().getMD5(), intent.getStringExtra("md5")))
                                     .setPositiveButton(R.string.btn_downloadAgain, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -547,7 +547,7 @@ public class Main extends Activity {
             registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_DOWNLOAD_COMPLETE));
             registerReceiver(downloadHandler, new IntentFilter(Tools.EVENT_DOWNLOADEDFILE_EXISTS));
 
-            tools.downloadFile(link, destination, KernelManager.getInstance().getProperKernel(getApplicationContext()).getZIPNAME(), KernelManager.getInstance().getProperKernel(getApplicationContext()).getMD5(), b);
+            tools.downloadFile(link, destination, KernelManager.getInstance(getApplicationContext()).getProperKernel().getZIPNAME(), KernelManager.getInstance(getApplicationContext()).getProperKernel().getMD5(), b);
         }
     }
 
@@ -627,8 +627,11 @@ public class Main extends Activity {
         else if (!Tools.isAllDigits(preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, null).replace(":", "")))
             editor.putString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:0");
 
+        if (!preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, false))
+            editor.putBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, false);
+
         if (!preferences.getBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, false))
-            editor.putBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, false).apply();
+            editor.putBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, false);
 
         editor.apply();
 

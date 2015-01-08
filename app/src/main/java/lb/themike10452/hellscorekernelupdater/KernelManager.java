@@ -2,9 +2,7 @@ package lb.themike10452.hellscorekernelupdater;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import java.util.HashSet;
-import java.util.Set;
+import android.util.Log;
 
 /**
  * Created by Mike on 10/23/2014.
@@ -15,64 +13,62 @@ public class KernelManager {
 
     private static KernelManager instance = null;
 
-    private static Set<Kernel> kernelSet;
+    private static UniqueSet<Kernel> kernelSet;
 
-    public KernelManager() {
-        kernelSet = new HashSet<Kernel>(5, 0.8f);
+    private SharedPreferences preferences;
+
+    private KernelManager(Context c) {
+        kernelSet = new UniqueSet<>();
         baseMatchedOnce = false;
+        preferences = c.getSharedPreferences("Settings", Context.MODE_MULTI_PROCESS);
         instance = this;
     }
 
-    public static KernelManager getFreshInstance() {
-        if (instance != null) {
-            baseMatchedOnce = false;
-            kernelSet.clear();
-            return instance;
-        } else {
-            return instance = new KernelManager();
-        }
-    }
-
-    public static KernelManager getInstance() {
-        return instance == null ? new KernelManager() : instance;
+    public static KernelManager getInstance(Context c) {
+        return instance == null ? new KernelManager(c) : instance;
     }
 
     public boolean add(Kernel k) {
         return kernelSet.add(k);
     }
 
-    public Kernel getProperKernel(Context c) {
+    public void sniffKernels(String data) {
+        String[] parameters = data.split("\\+kernel");
+        kernelSet.clear();
+        for (String params : parameters) {
+            if (params.equals(parameters[0]))
+                continue;
+            add(new Kernel(params));
+        }
+    }
+
+    public Kernel getProperKernel() {
         apiMatchedOnce = false;
+        baseMatchedOnce = false;
 
         if (kernelSet.isEmpty()) {
             return null;
         }
 
-        SharedPreferences preferences = c.getSharedPreferences("Settings", Context.MODE_MULTI_PROCESS);
-
-        Kernel res = null;
-
         for (Kernel k : kernelSet) {
             try {
+                Log.d("TAG", "went over " + k.getZIPNAME());
                 boolean a = k.getBASE().contains(preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase());
                 boolean b = k.getAPI().contains(preferences.getString(Keys.KEY_SETTINGS_ROMAPI, "").toUpperCase());
                 if (a)
-                    baseMatchedOnce = a;
+                    baseMatchedOnce = true;
                 if (b)
-                    apiMatchedOnce = b;
+                    apiMatchedOnce = true;
                 if (a & b) {
-                    if (k.isTestBuild() && !preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, true)) {
-                        res = null;
-                    } else {
-                        res = k;
-                        break;
+                    if (!k.isTestBuild() || preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, false)) {
+                        return k;
                     }
                 }
             } catch (NullPointerException ignored) {
             }
         }
 
-        return res;
+        return null;
     }
 
 }

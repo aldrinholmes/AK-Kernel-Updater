@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * Created by Mike on 10/23/2014.
  */
-public class Kernel {
+public class Kernel implements Comparable<Kernel> {
 
     public Set<String> getBASE() {
         String[] all = BASE.split(",");
@@ -91,4 +91,8 @@ public class Kernel {
         return String.format("%s %s %s", VERSION, ISTESTBUILD, API);
     }
 
+    @Override
+    public int compareTo(Kernel another) {
+        return getMD5().compareTo(another.getMD5());
+    }
 }

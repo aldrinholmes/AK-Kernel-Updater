@@ -155,9 +155,10 @@ public class Settings extends Activity {
                         String ip = IP.getText().toString(), port = PORT.getText().toString();
                         if (Tools.validateIP(ip) && port.length() > 0) {
                             Main.preferences.edit().putString(Keys.KEY_SETTINGS_PROXYHOST, ip + ":" + port).apply();
-                            return;
+                            Toast.makeText(getApplicationContext(), R.string.msg_restartApplication, Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), R.string.msg_invalidProxy, Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(getApplicationContext(), R.string.msg_invalidProxy, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -490,10 +491,13 @@ public class Settings extends Activity {
                 for (int i = 0; i < (linearLayout).getChildCount(); i++) {
                     linearLayout.getChildAt(i).setEnabled(b);
                 }
-                if (!b && BackgroundAutoCheckService.running)
+                if (!b) {
                     stopService(new Intent(Settings.this, BackgroundAutoCheckService.class));
-                else if (b && !BackgroundAutoCheckService.running)
-                    startService(new Intent(Settings.this, BackgroundAutoCheckService.class));
+                } else {
+                    Intent i = new Intent(Settings.this, BackgroundAutoCheckService.class);
+                    stopService(i);
+                    startService(i);
+                }
             }
         });
 
@@ -513,7 +517,7 @@ public class Settings extends Activity {
         ((TextView) findViewById(R.id.proxyHost)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_PROXYHOST, Keys.DEFAULT_PROXY));
         ((CheckBox) findViewById(R.id.checkbox_useProxy)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_USEPROXY, false));
         ((CheckBox) findViewById(R.id.checkbox_useAndDM)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false));
-        ((CheckBox) findViewById(R.id.checkbox_receiveBeta)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, true));
+        ((CheckBox) findViewById(R.id.checkbox_receiveBeta)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, false));
 
         AC_H.setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[0]);
         AC_M.setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[1]);

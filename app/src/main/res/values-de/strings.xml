@@ -53,6 +53,7 @@
     <string name="msgTitle_versionObs">Version obsolete</string>
     <string name="msg_textHighlighted">Text highlighted in yellow</string>
     <string name="msg_textNotFound">Nothing found</string>
+    <string name="msg_restartApplication">Changes will take effect after restarting the application.</string>
 
     <string name="btn_whatsNew">Was ist neu?</string>
     <string name="btn_getIt">Jetzt herunterladen</string>
