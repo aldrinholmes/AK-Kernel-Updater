@@ -197,7 +197,7 @@ public class Settings extends Activity {
         findViewById(R.id.btn_upSrc).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String currentSource = Main.preferences.getString(Keys.KEY_SETTINGS_SOURCE, null);
+                String currentSource = Main.preferences.getString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE);
 
                 if (Keys.DEFAULT_SOURCE.equalsIgnoreCase(currentSource))
                     currentSource = "";
@@ -517,7 +517,7 @@ public class Settings extends Activity {
         ((TextView) findViewById(R.id.proxyHost)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_PROXYHOST, Keys.DEFAULT_PROXY));
         ((CheckBox) findViewById(R.id.checkbox_useProxy)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_USEPROXY, false));
         ((CheckBox) findViewById(R.id.checkbox_useAndDM)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false));
-        ((CheckBox) findViewById(R.id.checkbox_receiveBeta)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, false));
+        ((CheckBox) findViewById(R.id.checkbox_receiveBeta)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, true));
 
         AC_H.setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[0]);
         AC_M.setText(Main.preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:00").split(":")[1]);

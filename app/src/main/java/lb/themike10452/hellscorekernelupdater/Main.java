@@ -600,8 +600,8 @@ public class Main extends Activity {
 
         SharedPreferences.Editor editor = preferences.edit();
 
-        if (preferences.getString(Keys.KEY_SETTINGS_SOURCE, null) == null) {
-            editor.putString(Keys.KEY_SETTINGS_SOURCE, Keys.DEFAULT_SOURCE);
+        if (preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, null) == null) {
+            editor.putString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator);
             Dialog d = new AlertDialog.Builder(this)
                     .setMessage(R.string.msg_twrp)
                     .setNeutralButton(R.string.btn_ok, null)
@@ -610,28 +610,10 @@ public class Main extends Activity {
             ((TextView) d.findViewById(android.R.id.message)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
         }
 
-        if (preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, null) == null)
-            editor.putString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath() + File.separator);
-
-        if (!preferences.getBoolean(Keys.KEY_SETTINGS_USEPROXY, false))
-            editor.putBoolean(Keys.KEY_SETTINGS_USEPROXY, false);
-
-        if (!preferences.getBoolean(Keys.KEY_SETTINGS_USEANDM, false))
-            editor.putBoolean(Keys.KEY_SETTINGS_USEANDM, false);
-
-        if (preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true))
-            editor.putBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true);
-
         if (preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, null) == null)
             editor.putString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:0");
         else if (!Tools.isAllDigits(preferences.getString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, null).replace(":", "")))
             editor.putString(Keys.KEY_SETTINGS_AUTOCHECK_INTERVAL, "12:0");
-
-        if (!preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, false))
-            editor.putBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, false);
-
-        if (!preferences.getBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, false))
-            editor.putBoolean(Keys.KEY_SETTINGS_USESTATICFILENAME, false);
 
         editor.apply();
 
