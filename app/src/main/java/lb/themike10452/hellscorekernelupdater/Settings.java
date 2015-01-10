@@ -107,6 +107,7 @@ public class Settings extends Activity {
                 Main.preferences.edit().putBoolean(Keys.KEY_SETTINGS_USEPROXY, b).apply();
                 findViewById(R.id.title0).setEnabled(b);
                 findViewById(R.id.btn_editProxy).setEnabled(b);
+                Toast.makeText(getApplicationContext(), R.string.msg_restartApplication, Toast.LENGTH_LONG).show();
             }
         });
 
