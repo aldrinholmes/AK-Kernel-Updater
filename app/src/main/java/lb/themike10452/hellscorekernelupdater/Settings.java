@@ -46,6 +46,7 @@ public class Settings extends Activity {
 
     private Activity activity;
     private String DEVICE_PART;
+    private boolean screenUpdating;
 
     private TextView AC_H, AC_M;
     private TextWatcher intervalChanger = new TextWatcher() {
@@ -107,7 +108,8 @@ public class Settings extends Activity {
                 Main.preferences.edit().putBoolean(Keys.KEY_SETTINGS_USEPROXY, b).apply();
                 findViewById(R.id.title0).setEnabled(b);
                 findViewById(R.id.btn_editProxy).setEnabled(b);
-                Toast.makeText(getApplicationContext(), R.string.msg_restartApplication, Toast.LENGTH_LONG).show();
+                if (!screenUpdating)
+                    Toast.makeText(getApplicationContext(), R.string.msg_restartApplication, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -513,6 +515,7 @@ public class Settings extends Activity {
     }
 
     private void updateScreen() {
+        screenUpdating = true;
         ((Switch) findViewById(R.id.switch_bkg_check)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true));
         ((TextView) findViewById(R.id.textView_dlLoc)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, ""));
         ((TextView) findViewById(R.id.proxyHost)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_PROXYHOST, Keys.DEFAULT_PROXY));
@@ -535,6 +538,7 @@ public class Settings extends Activity {
         ((TextView) findViewById(R.id.textView_romBase)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "n/a").toUpperCase());
 
         ((TextView) findViewById(R.id.textView_romApi)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_ROMAPI, "n/a").toUpperCase());
+        screenUpdating = false;
     }
 
     private Object[] showDialog(String msg, String hint, String editTextContent) {
