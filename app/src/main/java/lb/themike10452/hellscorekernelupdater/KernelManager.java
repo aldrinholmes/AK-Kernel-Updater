@@ -2,7 +2,8 @@ package lb.themike10452.hellscorekernelupdater;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
+
+import java.util.Iterator;
 
 /**
  * Created by Mike on 10/23/2014.
@@ -50,9 +51,11 @@ public class KernelManager {
             return null;
         }
 
-        for (Kernel k : kernelSet) {
+        Iterator<Kernel> iterator = kernelSet.iterator();
+
+        while (iterator.hasNext()) {
+            Kernel k = iterator.next();
             try {
-                Log.d("TAG", "went over " + k.getZIPNAME());
                 boolean a = k.getBASE().contains(preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase());
                 boolean b = k.getAPI().contains(preferences.getString(Keys.KEY_SETTINGS_ROMAPI, "").toUpperCase());
                 if (a)
@@ -60,7 +63,7 @@ public class KernelManager {
                 if (b)
                     apiMatchedOnce = true;
                 if (a & b) {
-                    if (!k.isTestBuild() || preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, false)) {
+                    if (!k.isTestBuild() || preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, true)) {
                         return k;
                     }
                 }
