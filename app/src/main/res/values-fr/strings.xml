@@ -22,13 +22,13 @@
     <string name="dialog_title_downloading">Téléchargement en cours …</string>
     <string name="dialog_title_changelog">Change log</string>
     <string name="dialog_title_readyToInstall">Prêt à installer</string>
-    <string name="dialog_title_md5mismatch">Non-correspondance du MD5</string>
+    <string name="dialog_title_md5mismatch">Le MD5 ne correspond pas</string>
     <string name="dialog_title_rootFail">Le root est nécessaire</string>
 
     <string name="dialog_content_about">Développé par %1$s</string>
 
     <string name="card_title_latestVersion">Dernière version</string>
-    <string name="card_title_installedKernel">Noyau installé</string>
+    <string name="card_title_installedKernel">Kernel installé</string>
 
     <string name="field_filesize">Taille du fichier</string>
     <string name="filed_filename">Nom du fichier</string>
@@ -48,11 +48,11 @@
     <string name="msg_invalidFilename">Nom de fichier invalide</string>
     <string name="msg_invalidProxy">Configuration du proxy incorrect</string>
     <string name="msg_troubleProxy">Vous avez des problèmes de connexion ? %1$s > %2$s</string>
-	<string name="msg_updateRequired">Veuillez mettre à jour vers la dernière version de l\'application à partir du Google Play</string>
+    <string name="msg_updateRequired">Veuillez mettre à jour vers la dernière version de l\'application à partir du Google Play</string>
     <string name="msgTitle_versionObs">version obsolète</string>
     <string name="msg_textHighlighted">Texte surligné en jaune</string>
     <string name="msg_textNotFound">Rien trouvé</string>
-    <string name="msg_restartApplication">Changes will take effect after restarting the application.</string>
+    <string name="msg_restartApplication">Les changements prendront effet après le redémarrage de l\'application.</string>
 
     <string name="btn_whatsNew">Voir les nouveautés</string>
     <string name="btn_getIt">L\'obtenir maintenant</string>
@@ -63,17 +63,17 @@
     <string name="btn_installAnyway">Installer quand même</string>
     <string name="btn_downloadAgain">Télécharger à nouveau</string>
 
-    <string name="settings_category_backgroundCheck">VERIFICATION EN ARRIERE PLAN</string>
-	<string name="settings_category_proxy">PROXY</string>
+    <string name="settings_category_backgroundCheck">VERIFICATION EN ARRIERE-PLAN</string>
+    <string name="settings_category_proxy">PROXY</string>
     <string name="settings_category_downloads">TELECHARGEMENT</string>
     <string name="settings_category_romBase">BASE DE LA ROM</string>
 
-    <string name="settings_switch_backgroundCheck">Vérification en arrière plan</string>
-    <string name="settings_textView_backgroundCheckInterval">Intervalle de vérification en arrière plan</string>
+    <string name="settings_switch_backgroundCheck">Vérification en arrière-plan</string>
+    <string name="settings_textView_backgroundCheckInterval">Intervalle de vérification en arrière-plan</string>
 
-    <string name="settings_checkbox_useAndroidDM">utiliser le gestionnaire de téléchargement Android</string>
+    <string name="settings_checkbox_useAndroidDM">Gestionnaire de téléchargement Android</string>
     <string name="settings_btn_useProxy">Utiliser un proxy</string>
-	<string name="settings_btn_downloadLocation">Emplacement du téléchargement</string>
+    <string name="settings_btn_downloadLocation">Emplacement du téléchargement</string>
     <string name="settings_btn_staticFilename">Nom de fichier statique</string>
     <string name="settings_btn_receiveBeta">Recevoir les versions tests</string>
     <string name="settings_btn_updateSource">Source de mise à jour</string>
@@ -87,7 +87,6 @@
     <string name="prompt_rootFail">Impossible d\'obtenir un accès root.\nVous pouvez continuer et télécharger les mises à jour du noyau via l\'application mais l\'installation du noyau ne fonctionnera pas sans Root.\nVeuillez vérifier votre application SuperSU ou Superuser.</string>
     <string name="prompt_romBase">Quelle est votre base de ROM ?</string>
     <string name="prompt_android_version">Quelle est la version d\'Android que vous utilisez ?</string>
-    <string name="prompt_blankDefault">Laisser le vide par défaut</string>
+    <string name="prompt_blankDefault">Laisser vide pour la source par défaut</string>
     <string name="prompt_zipExtension">N\'oubliez pas d\'ajouter l\'extension de fichier .zip</string>
-
 </resources>
