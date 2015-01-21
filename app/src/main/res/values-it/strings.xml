@@ -7,7 +7,7 @@
     <string name="app_name">HellsCore U2D</string>
     <string name="version">Versione</string>
     <string name="action_about">Info</string>
-    <string name="action_search">Search</string>
+    <string name="action_search">Cerca</string>
     <string name="action_save">Salva</string>
 
     <string name="activity_settings">Impostazioni</string>
@@ -18,7 +18,7 @@
     <string name="defaultt">Default</string>
     <string name="undefined">Indefinito</string>
     <string name="onReboot">Riavvio in corso…</string>
-    <string name="proxy_list">Proxy List</string>
+    <string name="proxy_list">Lista Proxy</string>
 
     <string name="dialog_title_downloading">Download in corso …</string>
     <string name="dialog_title_changelog">Changelog</string>
@@ -53,7 +53,7 @@
     <string name="msgTitle_versionObs">Versione obsoleta</string>
     <string name="msg_textHighlighted">>Il testo evidenziato in giallo</string>
     <string name="msg_textNotFound">Non abbiamo trovato nulla</string>
-    <string name="msg_restartApplication">Changes will take effect after restarting the application.</string>
+    <string name="msg_restartApplication">Le modifiche avranno effetto dopo il riavvio dell'applicazione.</string>
 
     <string name="btn_whatsNew">Cosa c\'è di nuovo</string>
     <string name="btn_getIt">Scarica l\'ultimo aggiornamento</string>
@@ -73,7 +73,7 @@
     <string name="settings_textView_backgroundCheckInterval">Attiva in Background ad Intervalli</string>
 
     <string name="settings_checkbox_useAndroidDM">Usa l\'applcazione Download</string>
-    <string name="settings_btn_useProxy">Use proxy</string>
+    <string name="settings_btn_useProxy">Usa proxy</string>
     <string name="settings_btn_downloadLocation">Percorso Download</string>
     <string name="settings_btn_staticFilename">Nome del file statico</string>
     <string name="settings_btn_receiveBeta">Ricevi il kernel in test</string>
