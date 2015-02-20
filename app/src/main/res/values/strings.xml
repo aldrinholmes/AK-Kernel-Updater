@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HellsCore U2D</string>
+    <string name="app_name">AK Kernel Updater</string>
     <string name="version">Version</string>
     <string name="action_log" translatable="false">last_kmsg</string>
     <string name="action_about">About</string>

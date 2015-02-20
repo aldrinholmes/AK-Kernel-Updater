@@ -1,13 +1,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="android:actionBarStyle">@style/CustomActionBar</item>
-    </style>
-
-    <style name="CustomActionBar" parent="android:Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/blue_marine</item>
+    <style name="AppTheme" parent="@android:style/Theme.Material.Light">
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorPrimaryDark">@color/primary_dark</item>
+        <item name="android:colorAccent">@color/accent</item>
     </style>
 
 </resources>

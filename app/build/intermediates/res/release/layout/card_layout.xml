@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/card_background"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/card_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/card_text"
+            android:textStyle="normal" />
+
+        <RelativeLayout
+            android:id="@+id/additional"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/card_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="@dimen/separator_marginBottom"
+        android:layout_marginTop="5dp"
+        android:background="@color/card_separator" />
+
+    <LinearLayout
+        android:id="@+id/card_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical" />
+
+</LinearLayout><!-- From: file:/F:/AH_Kernel_Updater/app/src/main/res/layout/card_layout.xml -->

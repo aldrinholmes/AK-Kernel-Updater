@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_pageUp"
+        android:icon="@drawable/ic_action_pageup"
+        android:showAsAction="always"
+        android:title="" />
+    <item
+        android:id="@+id/action_pageDown"
+        android:icon="@drawable/ic_action_pagedown"
+        android:showAsAction="always"
+        android:title="" />
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_action_search"
+        android:showAsAction="always"
+        android:title="@string/action_search" />
+    <item
+        android:id="@+id/action_save"
+        android:icon="@drawable/ic_action_save"
+        android:showAsAction="always"
+        android:title="@string/action_save" />
+</menu><!-- From: file:/F:/AH_Kernel_Updater/app/src/main/res/menu/log_menu.xml -->
