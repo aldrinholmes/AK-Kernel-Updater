@@ -1,26 +1,28 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+    }
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
-
     defaultConfig {
-        applicationId "lb.themike10452.hellscorekernelupdater"
-        minSdkVersion 19
+        applicationId 'com.aldrinholmes.akupdater'
+        minSdkVersion 21
         targetSdkVersion 21
-        versionCode 15
-        versionName "2.3"
+        versionCode 10
+        versionName '1.0'
     }
-
     buildTypes {
         release {
             zipAlignEnabled true
             minifyEnabled false
         }
     }
+    productFlavors {
+    }
 }
 
 dependencies {
-    compile "com.android.support:support-v4:21.0.3"
+    compile 'com.android.support:support-v4:21.0.3'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

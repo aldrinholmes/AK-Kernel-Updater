@@ -566,29 +566,35 @@ public class Main extends Activity {
 
         TextView text2 = new TextView(this);
         text2.setTextAppearance(this, android.R.style.TextAppearance_Small);
-        try {
-            text2.setText("v" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
-        } catch (PackageManager.NameNotFoundException ignored) {
-        }
-        params.setMargins(0, 40, 0, 0);
+        text2.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
+        text2.setText(getString(R.string.dialog_content_about1, "ALDRIN HOLMES"));
         contentView.addView(text2, params);
-
-        SpannableString content = new SpannableString("Github");
-        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
 
         TextView text3 = new TextView(this);
         text3.setTextAppearance(this, android.R.style.TextAppearance_Small);
-        text3.setTextColor(getResources().getColor(R.color.blue_marine));
-        text3.setText(content);
-        text3.setClickable(true);
-        text3.setOnClickListener(new View.OnClickListener() {
+        try {
+            text3.setText("v" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        params.setMargins(0, 40, 0, 0);
+        contentView.addView(text3, params);
+
+        SpannableString content = new SpannableString("GITHUB");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+
+        TextView text4 = new TextView(this);
+        text4.setTextAppearance(this, android.R.style.TextAppearance_Small);
+        text4.setTextColor(getResources().getColor(R.color.blue_marine));
+        text4.setText(content);
+        text4.setClickable(true);
+        text4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(Keys.SOURCE_CODE));
                 startActivity(intent);
             }
         });
-        contentView.addView(text3, params);
+        contentView.addView(text4, params);
 
         Dialog d = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);

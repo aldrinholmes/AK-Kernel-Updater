@@ -6,6 +6,10 @@
         <option name="name" value="app: lb.themike10452.hellscorekernelupdater" />
         <option name="packageNamePattern" value="lb.themike10452.hellscorekernelupdater" />
       </filter>
+      <filter>
+        <option name="name" value="app: com.aldrinholmes.akupdater" />
+        <option name="packageNamePattern" value="com.aldrinholmes.akupdater" />
+      </filter>
     </filters>
   </component>
   <component name="AndroidLayouts">
@@ -21,7 +25,7 @@
     </layouts>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: lb.themike10452.hellscorekernelupdater" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.aldrinholmes.akupdater" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f33a930b-6048-48ea-a9c7-f21d21da9e99" name="Default" comment="">
@@ -52,43 +56,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Debug.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/eu/chainfire/libsuperuser/Debug.java">
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="6" max-vertical-offset="3570">
-              <caret line="28" column="28" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="289">
-              <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1071">
+              <caret line="41" column="10" selection-start-line="41" selection-start-column="10" selection-end-line="41" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="BackgroundAutoCheckService.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aldrinholmes/akkernelupdater/Services/BackgroundAutoCheckService.java">
+      <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2991" max-vertical-offset="3400">
-              <caret line="232" column="0" selection-start-line="232" selection-start-column="0" selection-end-line="232" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="425">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="styles.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values-v21/styles.xml">
+      <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="272">
-              <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
+              <caret line="10" column="3" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
               <folding />
             </state>
           </provider>
@@ -97,31 +89,8 @@
       <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.08" vertical-offset="0" max-vertical-offset="1615">
-              <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="colors.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="374">
-              <caret line="15" column="45" selection-start-line="15" selection-start-column="45" selection-end-line="15" selection-end-column="45" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="card_layout.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/card_layout.xml">
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-13.851851" vertical-offset="0" max-vertical-offset="935">
-              <caret line="22" column="31" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
+            <state vertical-scroll-proportion="-1.8113208" vertical-offset="1315" max-vertical-offset="1632">
+              <caret line="83" column="119" selection-start-line="83" selection-start-column="117" selection-end-line="83" selection-end-column="119" />
               <folding />
             </state>
           </provider>
@@ -130,31 +99,70 @@
       <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aldrinholmes/akkernelupdater/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="6" max-vertical-offset="12563">
-              <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+            <state vertical-scroll-proportion="-3.7142856" vertical-offset="8277" max-vertical-offset="11662">
+              <caret line="581" column="61" selection-start-line="581" selection-start-column="61" selection-end-line="581" selection-end-column="61" />
               <folding>
-                <element signature="e#3483#3484#0" expanded="true" />
-                <element signature="e#3573#3574#0" expanded="true" />
-                <element signature="e#5977#5978#0" expanded="true" />
-                <element signature="e#6047#6048#0" expanded="true" />
-                <element signature="e#7133#7134#0" expanded="true" />
-                <element signature="e#7233#7234#0" expanded="true" />
-                <element signature="e#13603#13604#0" expanded="true" />
-                <element signature="e#13666#13667#0" expanded="true" />
+                <element signature="e#2956#3074#0" expanded="true" />
+                <element signature="e#2993#3030#0" expanded="true" />
+                <element signature="e#3032#3073#0" expanded="true" />
+                <element signature="e#5081#5127#0" expanded="true" />
+                <element signature="e#6892#6921#0" expanded="true" />
+                <element signature="e#7448#7477#0" expanded="true" />
+                <element signature="e#7633#7666#0" expanded="true" />
+                <element signature="e#8071#8098#0" expanded="true" />
+                <element signature="e#8146#8174#0" expanded="true" />
+                <element signature="e#8231#8246#0" expanded="true" />
+                <element signature="e#8248#9351#0" expanded="true" />
+                <element signature="e#9312#9313#0" expanded="true" />
+                <element signature="e#9408#9427#0" expanded="true" />
+                <element signature="e#10347#10479#0" expanded="true" />
+                <element signature="e#10608#10785#0" expanded="true" />
+                <element signature="e#11084#11107#0" expanded="true" />
+                <element signature="e#12897#12928#0" expanded="true" />
+                <element signature="e#13042#13062#0" expanded="true" />
+                <element signature="e#13754#13798#0" expanded="true" />
+                <element signature="e#17218#17450#0" expanded="true" />
+                <element signature="e#17431#17432#0" expanded="true" />
+                <element signature="e#20834#20870#0" expanded="true" />
+                <element signature="e#20978#21079#0" expanded="true" />
+                <element signature="e#21014#21045#0" expanded="true" />
+                <element signature="e#21047#21078#0" expanded="true" />
+                <element signature="e#21136#21156#0" expanded="true" />
+                <element signature="e#21632#21652#0" expanded="true" />
+                <element signature="e#21837#21870#0" expanded="true" />
+                <element signature="e#21978#22125#0" expanded="true" />
+                <element signature="e#22182#22208#0" expanded="true" />
+                <element signature="e#22591#22617#0" expanded="true" />
+                <element signature="e#23092#23112#0" expanded="true" />
+                <element signature="e#23526#23562#0" expanded="true" />
+                <element signature="e#23662#23763#0" expanded="true" />
+                <element signature="e#23698#23729#0" expanded="true" />
+                <element signature="e#23731#23762#0" expanded="true" />
+                <element signature="e#23816#23836#0" expanded="true" />
+                <element signature="e#24288#24308#0" expanded="true" />
+                <element signature="e#25102#25131#0" expanded="true" />
+                <element signature="e#26605#26661#0" expanded="true" />
+                <element signature="e#26941#26999#0" expanded="true" />
+                <element signature="e#28855#28872#0" expanded="true" />
+                <element signature="e#28912#28927#0" expanded="true" />
+                <element signature="e#30019#30053#0" expanded="true" />
+                <element signature="e#31715#31730#0" expanded="true" />
+                <element signature="e#32127#32158#0" expanded="true" />
+                <element signature="e#33058#33092#0" expanded="true" />
+                <element signature="e#34278#34312#0" expanded="true" />
+                <element signature="e#34840#34855#0" expanded="true" />
+                <element signature="e#35418#35446#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <file leaf-file-name="Keys.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aldrinholmes/akkernelupdater/Keys.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6979472" vertical-offset="0" max-vertical-offset="1071">
-              <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
-              <folding>
-                <element signature="e#806#824#0" expanded="true" />
-                <element signature="e#975#993#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.44868034" vertical-offset="0" max-vertical-offset="782">
+              <caret line="9" column="87" selection-start-line="9" selection-start-column="87" selection-end-line="9" selection-end-column="87" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -602,7 +610,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4273322846777" />
+        <entry key="$PROJECT_DIR$" value="4273335960638" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -855,11 +863,13 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/aldrinholmes/ahkernelupdater/UniqueSet.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/eu/chainfire/libsuperuser/Debug.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/aldrinholmes/ahkernelupdater/Keys.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values-v21/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/aldrinholmes/akkernelupdater/Services/BackgroundAutoCheckService.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/aldrinholmes/akkernelupdater/Main.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/aldrinholmes/akkernelupdater/Keys.java" />
       </list>
     </option>
   </component>
@@ -883,7 +893,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator currentView="AndroidView" proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -971,7 +981,88 @@
         </subPane>
       </pane>
       <pane id="AndroidView">
-        <subPane />
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HellsCore Kernel Updater" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Gradle Scripts" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HellsCore Kernel Updater" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HellsCore Kernel Updater" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HellsCore Kernel Updater" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HellsCore Kernel Updater" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="akkernelupdater" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="HellsCore Kernel Updater" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
       </pane>
       <pane id="PackagesPane">
         <subPane>
@@ -1004,6 +1095,8 @@
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
     <property name="LayoutCode.rearrangeEntries" value="false" />
+    <property name="android.project.structure.last.selected" value="app" />
+    <property name="android.project.structure.proportion" value="0.15" />
   </component>
   <component name="RunManager" selected="Android Application.app">
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
@@ -1200,12 +1293,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="6" y="6" width="1359" height="726" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297546" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32948422" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32864675" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32864675" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -1215,10 +1308,10 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24942264" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32864675" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32864675" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32948422" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32864675" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32948422" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32864675" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24942264" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -1294,29 +1387,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_proxy.xml">
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.851852" vertical-offset="644" max-vertical-offset="1462">
-          <caret line="44" column="35" selection-start-line="44" selection-start-column="35" selection-end-line="44" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/app.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1666">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.08" vertical-offset="0" max-vertical-offset="1615">
-          <caret line="6" column="3" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
           <folding />
         </state>
       </provider>
@@ -1363,50 +1437,132 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="374">
-          <caret line="15" column="45" selection-start-line="15" selection-start-column="45" selection-end-line="15" selection-end-column="45" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/card_layout.xml">
       <provider editor-type-id="android-designer">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-13.851851" vertical-offset="0" max-vertical-offset="935">
+        <state vertical-scroll-proportion="1.1910828" vertical-offset="0" max-vertical-offset="935">
           <caret line="22" column="31" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6723164" vertical-offset="17" max-vertical-offset="374">
+          <caret line="15" column="45" selection-start-line="15" selection-start-column="45" selection-end-line="15" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1071">
+          <caret line="41" column="10" selection-start-line="41" selection-start-column="10" selection-end-line="41" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="541">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="578">
+          <caret line="10" column="3" selection-start-line="10" selection-start-column="3" selection-end-line="10" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/dialog_proxy.xml">
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.3821657" vertical-offset="0" max-vertical-offset="1462">
+          <caret line="44" column="35" selection-start-line="44" selection-start-column="35" selection-end-line="44" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.8113208" vertical-offset="1315" max-vertical-offset="1632">
+          <caret line="83" column="119" selection-start-line="83" selection-start-column="117" selection-end-line="83" selection-end-column="119" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aldrinholmes/akkernelupdater/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6" max-vertical-offset="12563">
-          <caret line="59" column="0" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
+        <state vertical-scroll-proportion="-3.7142856" vertical-offset="8277" max-vertical-offset="11662">
+          <caret line="581" column="61" selection-start-line="581" selection-start-column="61" selection-end-line="581" selection-end-column="61" />
           <folding>
-            <element signature="e#3483#3484#0" expanded="true" />
-            <element signature="e#3573#3574#0" expanded="true" />
-            <element signature="e#5977#5978#0" expanded="true" />
-            <element signature="e#6047#6048#0" expanded="true" />
-            <element signature="e#7133#7134#0" expanded="true" />
-            <element signature="e#7233#7234#0" expanded="true" />
-            <element signature="e#13603#13604#0" expanded="true" />
-            <element signature="e#13666#13667#0" expanded="true" />
+            <element signature="e#2956#3074#0" expanded="true" />
+            <element signature="e#2993#3030#0" expanded="true" />
+            <element signature="e#3032#3073#0" expanded="true" />
+            <element signature="e#5081#5127#0" expanded="true" />
+            <element signature="e#6892#6921#0" expanded="true" />
+            <element signature="e#7448#7477#0" expanded="true" />
+            <element signature="e#7633#7666#0" expanded="true" />
+            <element signature="e#8071#8098#0" expanded="true" />
+            <element signature="e#8146#8174#0" expanded="true" />
+            <element signature="e#8231#8246#0" expanded="true" />
+            <element signature="e#8248#9351#0" expanded="true" />
+            <element signature="e#9312#9313#0" expanded="true" />
+            <element signature="e#9408#9427#0" expanded="true" />
+            <element signature="e#10347#10479#0" expanded="true" />
+            <element signature="e#10608#10785#0" expanded="true" />
+            <element signature="e#11084#11107#0" expanded="true" />
+            <element signature="e#12897#12928#0" expanded="true" />
+            <element signature="e#13042#13062#0" expanded="true" />
+            <element signature="e#13754#13798#0" expanded="true" />
+            <element signature="e#17218#17450#0" expanded="true" />
+            <element signature="e#17431#17432#0" expanded="true" />
+            <element signature="e#20834#20870#0" expanded="true" />
+            <element signature="e#20978#21079#0" expanded="true" />
+            <element signature="e#21014#21045#0" expanded="true" />
+            <element signature="e#21047#21078#0" expanded="true" />
+            <element signature="e#21136#21156#0" expanded="true" />
+            <element signature="e#21632#21652#0" expanded="true" />
+            <element signature="e#21837#21870#0" expanded="true" />
+            <element signature="e#21978#22125#0" expanded="true" />
+            <element signature="e#22182#22208#0" expanded="true" />
+            <element signature="e#22591#22617#0" expanded="true" />
+            <element signature="e#23092#23112#0" expanded="true" />
+            <element signature="e#23526#23562#0" expanded="true" />
+            <element signature="e#23662#23763#0" expanded="true" />
+            <element signature="e#23698#23729#0" expanded="true" />
+            <element signature="e#23731#23762#0" expanded="true" />
+            <element signature="e#23816#23836#0" expanded="true" />
+            <element signature="e#24288#24308#0" expanded="true" />
+            <element signature="e#25102#25131#0" expanded="true" />
+            <element signature="e#26605#26661#0" expanded="true" />
+            <element signature="e#26941#26999#0" expanded="true" />
+            <element signature="e#28855#28872#0" expanded="true" />
+            <element signature="e#28912#28927#0" expanded="true" />
+            <element signature="e#30019#30053#0" expanded="true" />
+            <element signature="e#31715#31730#0" expanded="true" />
+            <element signature="e#32127#32158#0" expanded="true" />
+            <element signature="e#33058#33092#0" expanded="true" />
+            <element signature="e#34278#34312#0" expanded="true" />
+            <element signature="e#34840#34855#0" expanded="true" />
+            <element signature="e#35418#35446#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/aldrinholmes/akkernelupdater/Keys.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6979472" vertical-offset="0" max-vertical-offset="1071">
-          <caret line="14" column="29" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
-          <folding>
-            <element signature="e#806#824#0" expanded="true" />
-            <element signature="e#975#993#0" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.44868034" vertical-offset="0" max-vertical-offset="782">
+          <caret line="9" column="87" selection-start-line="9" selection-start-column="87" selection-end-line="9" selection-end-column="87" />
+          <folding />
         </state>
       </provider>
     </entry>

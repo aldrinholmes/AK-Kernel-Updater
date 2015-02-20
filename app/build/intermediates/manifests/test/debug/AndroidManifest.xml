@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="lb.themike10452.hellscorekernelupdater.test">
+    package="com.aldrinholmes.akupdater.test">
 
-    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="21" />
+    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="21" />
 
     <application>
         <uses-library android:name="android.test.runner" />
     </application>
 
     <instrumentation android:name="android.test.InstrumentationTestRunner"
-                     android:targetPackage="lb.themike10452.hellscorekernelupdater"
+                     android:targetPackage="com.aldrinholmes.akupdater"
                      android:handleProfiling="false"
                      android:functionalTest="false"
-                     android:label="Tests for lb.themike10452.hellscorekernelupdater"/>
+                     android:label="Tests for com.aldrinholmes.akupdater"/>
 </manifest>

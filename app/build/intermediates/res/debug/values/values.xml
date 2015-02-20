@@ -42,6 +42,7 @@
     <string name="card_title_latestVersion">Latest Version</string>
     <string name="defaultt">Default</string>
     <string name="dialog_content_about">Developed by %1$s</string>
+    <string name="dialog_content_about1">Modified by Aldrin Holmes</string>
     <string name="dialog_title_changelog">Changelog</string>
     <string name="dialog_title_downloading">Download in progress …</string>
     <string name="dialog_title_md5mismatch">MD5 mismatch</string>

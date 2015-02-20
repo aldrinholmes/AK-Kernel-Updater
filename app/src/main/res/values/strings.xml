@@ -23,6 +23,7 @@
     <string name="dialog_title_rootFail">Root is required</string>
 
     <string name="dialog_content_about">Developed by %1$s</string>
+    <string name="dialog_content_about1">Modified by ALDRIN HOLMES</string>
 
     <string name="card_title_latestVersion">Latest Version</string>
     <string name="card_title_installedKernel">Installed kernel</string>
