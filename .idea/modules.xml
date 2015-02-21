@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/AH_Kernel_Updater.iml" filepath="$PROJECT_DIR$/AH_Kernel_Updater.iml" />
       <module fileurl="file://$PROJECT_DIR$/AK_Kernel_Updater.iml" filepath="$PROJECT_DIR$/AK_Kernel_Updater.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

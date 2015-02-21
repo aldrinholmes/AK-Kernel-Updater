@@ -72,7 +72,7 @@
 
             <TextView
                 android:id="@+id/editText_autocheck_h"
-                android:layout_width="70dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/translucent_blue_circle"
                 android:clickable="true"
@@ -89,7 +89,7 @@
 
             <TextView
                 android:id="@+id/editText_autocheck_m"
-                android:layout_width="70dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/translucent_blue_circle"
                 android:gravity="center"
