@@ -112,7 +112,7 @@ public class BackgroundAutoCheckService extends Service {
                     PendingIntent pendingIntent = PendingIntent.getActivity(BackgroundAutoCheckService.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
                     Notification notif = new Notification.Builder(getApplicationContext())
                             .setContentIntent(pendingIntent)
-                            .setSmallIcon(R.drawable.ic_launcher)
+                            .setSmallIcon(R.drawable.ic_notification)
                             .setContentTitle(getString(R.string.app_name))
                             .setContentText(getString(R.string.msg_updateFound)).build();
                     notif.flags = Notification.FLAG_AUTO_CANCEL;

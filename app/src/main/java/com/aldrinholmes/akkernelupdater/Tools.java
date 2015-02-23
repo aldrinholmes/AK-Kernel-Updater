@@ -396,7 +396,7 @@ public class Tools {
                                                 .setContentTitle(C.getString(R.string.dialog_title_readyToInstall))
                                                 .setContentText(bigText)
                                                 .setStyle(new Notification.BigTextStyle().bigText(bigText))
-                                                .setSmallIcon(R.drawable.ic_launcher)
+                                                .setSmallIcon(R.drawable.ic_notification)
                                                 .addAction(R.drawable.ic_action_flash_on, C.getString(R.string.btn_install), PendingIntent.getBroadcast(activity, 0, new Intent(ACTION_INSTALL), 0))
                                                 .build();
 
@@ -481,7 +481,7 @@ public class Tools {
                                         bigText = bigText.split("\n")[0] + "\n" + bigText.split("\n")[1];
 
                                         Notification notification = new Notification.Builder(C.getApplicationContext())
-                                                .setSmallIcon(R.drawable.ic_launcher)
+                                                .setSmallIcon(R.drawable.ic_notification)
                                                 .setContentTitle(C.getString(R.string.msg_downloadComplete))
                                                 .setContentText(bigText)
                                                 .addAction(R.drawable.ic_action_flash_on, C.getString(R.string.btn_install), PendingIntent.getBroadcast(activity, 0, intent1, 0))
@@ -506,7 +506,7 @@ public class Tools {
                                     } else {
 
                                         Notification notification = new Notification.Builder(C.getApplicationContext())
-                                                .setSmallIcon(R.drawable.ic_launcher)
+                                                .setSmallIcon(R.drawable.ic_notification)
                                                 .setContentTitle(C.getString(R.string.dialog_title_md5mismatch))
                                                 .setContentText(C.getString(R.string.prompt_md5mismatch, MD5hash, md5))
                                                 .addAction(R.drawable.ic_action_flash_on, C.getString(R.string.btn_install), PendingIntent.getBroadcast(activity, 0, intent1, 0))
