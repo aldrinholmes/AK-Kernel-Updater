@@ -596,7 +596,7 @@ public class Main extends Activity {
         });
         contentView.addView(text4, params);
 
-        Dialog d = new Dialog(this, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
+        Dialog d = new Dialog(this, android.R.style.Theme_Material_Dialog_MinWidth);
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.setContentView(contentView);
         d.show();
