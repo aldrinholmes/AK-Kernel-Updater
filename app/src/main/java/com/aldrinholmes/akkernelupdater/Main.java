@@ -17,6 +17,8 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
@@ -35,7 +37,6 @@ import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +50,7 @@ import java.util.Scanner;
 /**
  * Created by Mike on 9/19/2014.
  */
-public class Main extends ActionBarActivity {
+public class Main extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     public static SharedPreferences preferences;
     public static boolean running;
@@ -57,6 +58,182 @@ public class Main extends ActionBarActivity {
     private String DEVICE_PART, CHANGELOG;
     private Tools tools;
     private SwipeRefreshLayout refreshLayout;
+    private LinearLayout main;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (refreshLayout != null)
+                refreshLayout.setRefreshing(true);
+
+            main.removeAllViews();
+            final View v1 = LayoutInflater.from(Main.this).inflate(R.layout.kernel_info_layout, null);
+            ((TextView) v1.findViewById(R.id.text)).setText(Tools.getFormattedKernelVersion());
+
+            final TextView tag = new TextView(Main.this);
+            tag.setTextAppearance(Main.this, android.R.style.TextAppearance_Small);
+            tag.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"), Typeface.BOLD);
+            tag.setTextSize(10f);
+
+            final Card card1 = new Card(Main.this, getString(R.string.card_title_installedKernel), tag, false, v1);
+            card1.getPARENT().setAnimation(getIntroSet(1000, 0));
+
+            main.addView(card1.getPARENT());
+            card1.getPARENT().animate();
+
+            new AsyncTask<Void, Void, Boolean>() {
+                Card card;
+                boolean DEVICE_SUPPORTED;
+
+                @Override
+                protected Boolean doInBackground(Void... voids) {
+                    try {
+                        DEVICE_SUPPORTED = true;
+                        boolean b = getDevicePart();
+                        Main.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                initSettings();
+                            }
+                        });
+                        return b;
+                    } catch (final InvalidResponseException ire) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), ire.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        return false;
+                    } catch (DeviceNotSupportedException e) {
+                        DEVICE_SUPPORTED = false;
+                        return true;
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(Boolean success) {
+                    super.onPostExecute(success);
+                    try {
+
+                        tag.setText(preferences.getString(Keys.KEY_SETTINGS_ROMBASE, getString(R.string.undefined)).toUpperCase());
+
+                        if (!success) {
+                            displayOnScreenMessage(main, R.string.msg_failed_try_again);
+                            return;
+                        }
+
+                        if (!DEVICE_SUPPORTED) {
+                            displayOnScreenMessage(main, R.string.msg_device_not_supported);
+                            return;
+                        }
+
+                        try {
+                            if (Tools.getMinVer(DEVICE_PART) != null && Tools.getMinVer(DEVICE_PART) > Double.parseDouble(Tools.retainDigits(getPackageManager().getPackageInfo(getPackageName(), 0).versionName))) {
+                                new AlertDialog.Builder(Main.this)
+                                        .setMessage(R.string.msg_updateRequired)
+                                        .setTitle(R.string.msgTitle_versionObs)
+                                        .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                try {
+                                                    Intent intent = getPackageManager().getLaunchIntentForPackage("com.android.vending");
+                                                    ComponentName comp = new ComponentName("com.android.vending", "com.google.android.finsky.activities.LaunchUrlHandlerActivity"); // package name and activity
+                                                    intent.setComponent(comp);
+                                                    intent.setData(Uri.parse("market://details?id=" + getPackageName()));
+                                                    startActivity(intent);
+                                                    finish();
+                                                } catch (Exception ignored) {
+
+                                                }
+                                            }
+                                        })
+                                        .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        Main.this.finish();
+                                                    }
+                                                }
+                                        )
+                                        .show();
+                                return;
+                            }
+                        } catch (Exception ignored) {
+
+                        }
+
+                        KernelManager.getInstance(getApplicationContext()).sniffKernels(DEVICE_PART);
+
+                        if (KernelManager.getInstance(getApplicationContext()).getProperKernel() == null) {
+
+                            if (!KernelManager.baseMatchedOnce) {
+                                displayOnScreenMessage(main, getString(R.string.msg_noKernelForYourROM, preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase(), DEVICE.toUpperCase()));
+                                return;
+                            } else {
+                                displayOnScreenMessage(main, getString(R.string.msg_noKernelForYourROM, preferences.getString(Keys.KEY_SETTINGS_ROMAPI, "").toUpperCase(), preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase()));
+                                return;
+                            }
+                        }
+
+                        if (Tools.INSTALLED_KERNEL_VERSION.equalsIgnoreCase(KernelManager.getInstance(getApplicationContext()).getProperKernel().getVERSION())) {
+                            displayOnScreenMessage(main, R.string.msg_up_to_date);
+                            return;
+                        }
+
+                        View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.new_kernel_layout, null);
+                        String ver = KernelManager.getInstance(getApplicationContext()).getProperKernel().getVERSION();
+
+                        ((TextView) v.findViewById(R.id.text)).setText(ver);
+
+                        ((Button) v.findViewById(R.id.btn_changelog)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"), Typeface.BOLD);
+                        ((Button) v.findViewById(R.id.btn_getLatestVersion)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"), Typeface.BOLD);
+
+                        v.findViewById(R.id.btn_changelog).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                TextView textView = new TextView(Main.this);
+                                textView.setText(CHANGELOG);
+                                textView.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Small);
+                                textView.setTextColor(getResources().getColor(R.color.card_text));
+                                ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+                                View view1 = LayoutInflater.from(Main.this).inflate(R.layout.blank_view, null);
+                                view1.setPadding(15, 15, 15, 15);
+                                ((LinearLayout) view1).addView(textView, params);
+                                new AlertDialog.Builder(Main.this)
+                                        .setView(view1)
+                                        .setTitle(R.string.dialog_title_changelog)
+                                        .setCancelable(false)
+                                        .setNeutralButton(R.string.btn_dismiss, null)
+                                        .show();
+
+                                textView.setHorizontallyScrolling(true);
+                                textView.setHorizontalScrollBarEnabled(true);
+                                textView.setMovementMethod(new ScrollingMovementMethod());
+
+                            }
+                        });
+
+                        v.findViewById(R.id.btn_getLatestVersion).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(final View view) {
+                                getIt();
+                            }
+                        });
+
+                        card = new Card(getApplicationContext(), getString(R.string.card_title_latestVersion), false, v);
+
+                        main.addView(card.getPARENT());
+                        card.getPARENT().startAnimation(getIntroSet(1000, 200));
+
+                    } finally {
+                        if (refreshLayout != null && refreshLayout.isRefreshing())
+                            refreshLayout.setRefreshing(false);
+                    }
+                }
+            }.execute();
+        }
+    };
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -76,33 +253,69 @@ public class Main extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
+        running = true;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (getSupportActionBar() != null)
                 getSupportActionBar().setElevation(5);
         }
 
-        this.tools = Tools.getInstance(this);
-
+        tools = Tools.getInstance(this);
         preferences = getSharedPreferences("Settings", MODE_MULTI_PROCESS);
-        running = true;
+        main = (LinearLayout) findViewById(R.id.main);
+        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        refreshLayout.setOnRefreshListener(this);
 
-        chuckNorris();
-
-        refreshView((LinearLayout) findViewById(R.id.main), true);
         ((TextView) findViewById(R.id.bottom_msg)).setText(getString(R.string.msg_troubleProxy, getString(R.string.activity_settings), getString(R.string.settings_btn_useProxy)));
         findViewById(R.id.bottom_bar).setVisibility(preferences.getBoolean(Keys.KEY_SETTINGS_USEPROXY, false) ? View.GONE : View.VISIBLE);
 
+        main.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                onRefresh();
+            }
+        }, 100);
     }
 
-    private void chuckNorris() {
-        refreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                refreshView((LinearLayout) findViewById(R.id.main), false);
+    @Override
+    public void onRefresh() {
+        if (main.getChildCount() > 0) {
+            int count = main.getChildCount();
+            final View lastChild = main.getChildAt(count - 1);
+            for (int i = 0; i < count; i++) {
+                final View v = main.getChildAt(i);
+                AnimationSet set = getOutroSet(500, (count - 1 - i) * 200);
+                set.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        main.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                main.removeView(v);
+                                if (v == lastChild) {
+                                    mHandler.sendEmptyMessage(0);
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                v.startAnimation(set);
             }
-        });
+
+        } else {
+            mHandler.sendEmptyMessage(0);
+        }
     }
 
     @Override
@@ -130,196 +343,6 @@ public class Main extends ActionBarActivity {
         return false;
     }
 
-    private void refreshView(final LinearLayout main, final boolean showProgress) {
-
-        if (refreshLayout != null)
-            refreshLayout.setRefreshing(true);
-
-        main.removeAllViews();
-        final View v1 = LayoutInflater.from(Main.this).inflate(R.layout.kernel_info_layout, null);
-        ((TextView) v1.findViewById(R.id.text)).setText(Tools.getFormattedKernelVersion());
-
-        final TextView tag = new TextView(Main.this);
-        tag.setTextAppearance(Main.this, android.R.style.TextAppearance_Small);
-        tag.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"), Typeface.BOLD);
-        tag.setTextSize(10f);
-
-        final Card card1 = new Card(Main.this, getString(R.string.card_title_installedKernel), tag, false, v1);
-        card1.getPARENT().setAnimation(getIntroSet(1000, 0));
-
-        main.addView(card1.getPARENT());
-        card1.getPARENT().animate();
-
-        final ProgressBar progressBar = new ProgressBar(Main.this);
-        if (showProgress) {
-            progressBar.setAnimation(getIntroSet(1000, 400));
-            main.addView(progressBar);
-            progressBar.animate();
-        }
-
-        new AsyncTask<Void, Void, Boolean>() {
-            Card card;
-            boolean DEVICE_SUPPORTED;
-
-            @Override
-            protected Boolean doInBackground(Void... voids) {
-                try {
-                    DEVICE_SUPPORTED = true;
-                    boolean b = getDevicePart();
-                    Main.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            initSettings();
-                        }
-                    });
-                    return b;
-                } catch (final InvalidResponseException ire) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getApplicationContext(), ire.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    return false;
-                } catch (DeviceNotSupportedException e) {
-                    DEVICE_SUPPORTED = false;
-                    return true;
-                }
-            }
-
-            @Override
-            protected void onPostExecute(Boolean success) {
-                super.onPostExecute(success);
-                try {
-
-                    tag.setText(preferences.getString(Keys.KEY_SETTINGS_ROMBASE, getString(R.string.undefined)).toUpperCase());
-
-                    if (showProgress) {
-                        progressBar.postOnAnimation(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
-                        progressBar.startAnimation(getOutroSet(600, 0));
-                    }
-
-                    if (!success) {
-                        displayOnScreenMessage(main, R.string.msg_failed_try_again);
-                        return;
-                    }
-
-                    if (!DEVICE_SUPPORTED) {
-                        displayOnScreenMessage(main, R.string.msg_device_not_supported);
-                        return;
-                    }
-
-                    try {
-                        if (Tools.getMinVer(DEVICE_PART) != null && Tools.getMinVer(DEVICE_PART) > Double.parseDouble(Tools.retainDigits(getPackageManager().getPackageInfo(getPackageName(), 0).versionName))) {
-                            new AlertDialog.Builder(Main.this)
-                                    .setMessage(R.string.msg_updateRequired)
-                                    .setTitle(R.string.msgTitle_versionObs)
-                                    .setPositiveButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            try {
-                                                Intent intent = getPackageManager().getLaunchIntentForPackage("com.android.vending");
-                                                ComponentName comp = new ComponentName("com.android.vending", "com.google.android.finsky.activities.LaunchUrlHandlerActivity"); // package name and activity
-                                                intent.setComponent(comp);
-                                                intent.setData(Uri.parse("market://details?id=" + getPackageName()));
-                                                startActivity(intent);
-                                                finish();
-                                            } catch (Exception ignored) {
-
-                                            }
-                                        }
-                                    })
-                                    .setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialogInterface, int i) {
-                                                    Main.this.finish();
-                                                }
-                                            }
-                                    )
-                                    .show();
-                            return;
-                        }
-                    } catch (Exception ignored) {
-
-                    }
-
-                    KernelManager.getInstance(getApplicationContext()).sniffKernels(DEVICE_PART);
-
-                    if (KernelManager.getInstance(getApplicationContext()).getProperKernel() == null) {
-
-                        if (!KernelManager.baseMatchedOnce) {
-                            displayOnScreenMessage(main, getString(R.string.msg_noKernelForYourROM, preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase(), DEVICE.toUpperCase()));
-                            return;
-                        } else {
-                            displayOnScreenMessage(main, getString(R.string.msg_noKernelForYourROM, preferences.getString(Keys.KEY_SETTINGS_ROMAPI, "").toUpperCase(), preferences.getString(Keys.KEY_SETTINGS_ROMBASE, "").toUpperCase()));
-                            return;
-                        }
-                    }
-
-                    if (Tools.INSTALLED_KERNEL_VERSION.equalsIgnoreCase(KernelManager.getInstance(getApplicationContext()).getProperKernel().getVERSION())) {
-                        displayOnScreenMessage(main, R.string.msg_up_to_date);
-                        return;
-                    }
-
-                    View v = LayoutInflater.from(getApplicationContext()).inflate(R.layout.new_kernel_layout, null);
-                    String ver = KernelManager.getInstance(getApplicationContext()).getProperKernel().getVERSION();
-
-                    ((TextView) v.findViewById(R.id.text)).setText(ver);
-
-                    ((Button) v.findViewById(R.id.btn_changelog)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"), Typeface.BOLD);
-                    ((Button) v.findViewById(R.id.btn_getLatestVersion)).setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Light.ttf"), Typeface.BOLD);
-
-                    v.findViewById(R.id.btn_changelog).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            TextView textView = new TextView(Main.this);
-                            textView.setText(CHANGELOG);
-                            textView.setTextAppearance(getApplicationContext(), android.R.style.TextAppearance_Small);
-                            textView.setTextColor(getResources().getColor(R.color.card_text));
-                            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-                            View view1 = LayoutInflater.from(Main.this).inflate(R.layout.blank_view, null);
-                            view1.setPadding(15, 15, 15, 15);
-                            ((LinearLayout) view1).addView(textView, params);
-                            new AlertDialog.Builder(Main.this)
-                                    .setView(view1)
-                                    .setTitle(R.string.dialog_title_changelog)
-                                    .setCancelable(false)
-                                    .setNeutralButton(R.string.btn_dismiss, null)
-                                    .show();
-
-                            textView.setHorizontallyScrolling(true);
-                            textView.setHorizontalScrollBarEnabled(true);
-                            textView.setMovementMethod(new ScrollingMovementMethod());
-
-                        }
-                    });
-
-                    v.findViewById(R.id.btn_getLatestVersion).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(final View view) {
-                            getIt();
-                        }
-                    });
-
-                    card = new Card(getApplicationContext(), getString(R.string.card_title_latestVersion), false, v);
-
-                    main.addView(card.getPARENT());
-                    card.getPARENT().startAnimation(getIntroSet(1000, 200));
-
-                } finally {
-                    if (refreshLayout != null && refreshLayout.isRefreshing())
-                        refreshLayout.setRefreshing(false);
-                }
-            }
-        }.execute();
-    }
-
     private AnimationSet getIntroSet(int duration, int startOffset) {
         AlphaAnimation animation1 = new AlphaAnimation(0, 1);
 
@@ -338,14 +361,14 @@ public class Main extends ActionBarActivity {
         return set;
     }
 
-    private AnimationSet getOutroSet(int duration, int startOffset) {
+    private synchronized AnimationSet getOutroSet(int duration, int startOffset) {
         AlphaAnimation animation1 = new AlphaAnimation(1, 0);
 
         TranslateAnimation animation2 = new TranslateAnimation(
-                Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, 10);
+                Animation.RELATIVE_TO_PARENT, 0,
+                Animation.RELATIVE_TO_PARENT, 0,
+                Animation.RELATIVE_TO_PARENT, 0,
+                Animation.RELATIVE_TO_PARENT, 1);
 
         final AnimationSet set = new AnimationSet(false);
         set.addAnimation(animation1);
