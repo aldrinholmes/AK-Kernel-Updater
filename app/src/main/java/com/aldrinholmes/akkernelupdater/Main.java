@@ -710,7 +710,7 @@ public class Main extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                         public void onClick(DialogInterface dialogInterface, int i) {
                             if (chooseRomBase)
                                 showRomBaseChooserDialog();
-                            else onCreate(null);
+                            else onRefresh();
                         }
                     })
                     .setTitle(R.string.prompt_android_version)
@@ -772,7 +772,7 @@ public class Main extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             startService(new Intent(Main.this, BackgroundAutoCheckService.class));
-                            onCreate(null);
+                            onRefresh();
                         }
                     })
                     .show();
