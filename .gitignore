@@ -2,3 +2,4 @@
 **/taskArtifacts
 .gradle/
 .idea/
+*.db
