@@ -90,13 +90,13 @@ public class Settings extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         activity = this;
+        overridePendingTransition(R.anim.slide_in_rtl, R.anim.slide_out_rtl);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
-        overridePendingTransition(R.anim.slide_in_rtl, R.anim.slide_out_rtl);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (getSupportActionBar() != null)

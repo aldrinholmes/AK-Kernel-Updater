@@ -60,7 +60,6 @@ public class LogActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.log_layout);
-        overridePendingTransition(R.anim.slide_in_rtl, R.anim.slide_out_rtl);
 
         assert getSupportActionBar() != null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -133,6 +132,12 @@ public class LogActivity extends ActionBarActivity {
                     }, 500);
             }
         }.execute();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(R.anim.slide_in_rtl, R.anim.slide_out_rtl);
     }
 
     @Override

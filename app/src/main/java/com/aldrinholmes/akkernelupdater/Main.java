@@ -244,8 +244,8 @@ public class Main extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         overridePendingTransition(R.anim.slide_in_ltr, R.anim.slide_out_ltr);
     }
 
