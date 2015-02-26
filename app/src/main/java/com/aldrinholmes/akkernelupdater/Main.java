@@ -720,16 +720,6 @@ public class Main extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
     }
 
     private void showRomBaseChooserDialog() {
-        /*View child = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.blank_view, null);
-        LinearLayout layout = (LinearLayout) child;
-        TextView text1 = new TextView(this);
-        text1.setText(R.string.prompt_romBase);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(10, 10, 10, 10);
-        TextView text2 = new TextView(this);
-        text2.setText(R.string.msg_changeable);
-        layout.addView(text1, params);
-        layout.addView(text2, params);*/
 
         ProgressDialog d;
 
