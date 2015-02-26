@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue_marine_translucent"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <TextView
@@ -31,7 +31,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
-        android:background="@color/blue_marine"
+        android:background="@color/black_seeThrough"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -41,7 +41,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="Select" />
+            android:text="@android:string/ok" />
 
         <Button
             android:id="@+id/btn_cancel"
@@ -49,6 +49,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="Cancel" />
+            android:text="@android:string/cancel" />
     </LinearLayout>
 </RelativeLayout>

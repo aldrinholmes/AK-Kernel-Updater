@@ -33,7 +33,7 @@ public class Adapter extends ArrayAdapter {
             convertView = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.file_browser_list_item, null);
 
         if (files.get(position).isDirectory()) {
-            convertView.findViewById(R.id.imageView1).setBackground(context.getResources().getDrawable(R.drawable.folder_blue));
+            convertView.findViewById(R.id.imageView1).setBackground(context.getResources().getDrawable(R.drawable.ic_folder_white_24dp));
         } else if (Tools.getFileExtension(files.get(position)).equalsIgnoreCase(".zip")) {
             convertView.findViewById(R.id.imageView1).setBackground(context.getResources().getDrawable(R.drawable.archive_blue));
         } else {
