@@ -558,7 +558,7 @@ public class Settings extends ActionBarActivity {
         textView.setText(msg);
         ((LinearLayout) child).addView(textView, params);
         ((LinearLayout) child).addView(editText, params);
-        Dialog dialog = new Dialog(activity, android.R.style.Theme_DeviceDefault_Light_Dialog_NoActionBar_MinWidth);
+        Dialog dialog = new Dialog(activity, android.R.style.Theme_DeviceDefault_Dialog_NoActionBar_MinWidth);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(child);
         dialog.show();
