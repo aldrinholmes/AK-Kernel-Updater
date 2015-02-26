@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_about"
         android:icon="@drawable/ic_action_about"
-        android:showAsAction="always"
-        android:title="@string/action_about" />
+        android:title="@string/action_about"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_log"
         android:icon="@drawable/ic_action_view_log"
-        android:showAsAction="always"
-        android:title="@string/action_log" />
+        android:title="@string/action_log"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_action_settings"
-        android:showAsAction="always"
-        android:title="@string/activity_settings" />
+        android:title="@string/activity_settings"
+        app:showAsAction="always" />
 </menu>

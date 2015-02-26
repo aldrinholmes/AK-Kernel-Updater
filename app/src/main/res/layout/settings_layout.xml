@@ -31,15 +31,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Switch
+            <android.support.v7.widget.SwitchCompat
                 android:id="@+id/switch_bkg_check"
-                style="?android:attr/switchPreferenceStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:checked="true"
-                android:text="@string/settings_switch_backgroundCheck"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:text="@string/settings_switch_backgroundCheck" />
         </LinearLayout>
 
         <TextView
@@ -180,7 +178,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_toLeftOf="@+id/checkbox_useAndDM"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="3dp">
 
                 <TextView
                     android:id="@+id/title1"
@@ -227,8 +226,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_toLeftOf="@+id/checkbox_useStaticFilename"
-                android:background="@drawable/translucent_button"
-                android:orientation="vertical">
+                android:background="?android:attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="3dp">
 
                 <TextView
                     android:id="@+id/title2"
@@ -285,6 +285,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
+                android:padding="3dp"
                 android:text="@string/settings_btn_receiveBeta" />
 
             <CheckBox
@@ -311,9 +312,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/translucent_button"
+            android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="3dp">
 
             <TextView
                 style="?android:attr/preferenceLayoutChild"
@@ -343,9 +345,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/translucent_button"
+            android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="3dp">
 
             <TextView
                 style="?android:attr/preferenceLayoutChild"
@@ -383,9 +386,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/translucent_button"
+            android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="3dp">
 
             <TextView
                 style="?android:attr/preferenceLayoutChild"
@@ -416,9 +420,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:background="@drawable/translucent_button"
+            android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="3dp">
 
             <TextView
                 style="?android:attr/preferenceLayoutChild"

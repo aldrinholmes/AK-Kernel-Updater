@@ -1,6 +1,5 @@
 package com.aldrinholmes.akkernelupdater;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -19,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
 import android.text.method.ScrollingMovementMethod;
 import android.text.style.UnderlineSpan;
@@ -49,7 +49,7 @@ import java.util.Scanner;
 /**
  * Created by Mike on 9/19/2014.
  */
-public class Main extends Activity {
+public class Main extends ActionBarActivity {
 
     public static SharedPreferences preferences;
     public static boolean running;
@@ -554,7 +554,7 @@ public class Main extends Activity {
     private void showAboutDialog() {
         LinearLayout contentView = (LinearLayout) ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.blank_view, null);
         contentView.setGravity(Gravity.CENTER);
-        contentView.setPadding(30, 40, 30, 40);
+        contentView.setPadding(60, 20, 60, 40);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
@@ -596,7 +596,7 @@ public class Main extends Activity {
         });
         contentView.addView(text4, params);
 
-        Dialog d = new Dialog(this, android.R.style.Theme_Material_Dialog_MinWidth);
+        Dialog d = new Dialog(this);
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.setContentView(contentView);
         d.show();

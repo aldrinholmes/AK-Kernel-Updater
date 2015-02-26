@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
@@ -28,7 +30,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,7 +43,7 @@ import java.util.Scanner;
 /**
  * Created by Mike on 9/22/2014.
  */
-public class Settings extends Activity {
+public class Settings extends ActionBarActivity {
 
     private Activity activity;
     private String DEVICE_PART;
@@ -98,8 +99,8 @@ public class Settings extends Activity {
         overridePendingTransition(R.anim.slide_in_rtl, R.anim.slide_out_rtl);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (getActionBar() != null)
-                getActionBar().setElevation(5);
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setElevation(5);
         }
 
         ((CheckBox) findViewById(R.id.checkbox_useProxy)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -439,7 +440,7 @@ public class Settings extends Activity {
             }
         });
 
-        ((Switch) findViewById(R.id.switch_bkg_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ((SwitchCompat) findViewById(R.id.switch_bkg_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 Main.preferences.edit().putBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, b).apply();
@@ -486,7 +487,7 @@ public class Settings extends Activity {
             }
         });
 
-        ((Switch) findViewById(R.id.switch_bkg_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ((SwitchCompat) findViewById(R.id.switch_bkg_check)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 Main.preferences.edit().putBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, b).apply();
@@ -516,7 +517,7 @@ public class Settings extends Activity {
 
     private void updateScreen() {
         screenUpdating = true;
-        ((Switch) findViewById(R.id.switch_bkg_check)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true));
+        ((SwitchCompat) findViewById(R.id.switch_bkg_check)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_AUTOCHECK_ENABLED, true));
         ((TextView) findViewById(R.id.textView_dlLoc)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_DOWNLOADLOCATION, ""));
         ((TextView) findViewById(R.id.proxyHost)).setText(Main.preferences.getString(Keys.KEY_SETTINGS_PROXYHOST, Keys.DEFAULT_PROXY));
         ((CheckBox) findViewById(R.id.checkbox_useProxy)).setChecked(Main.preferences.getBoolean(Keys.KEY_SETTINGS_USEPROXY, false));

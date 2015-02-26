@@ -2,7 +2,6 @@ package com.aldrinholmes.akkernelupdater;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -15,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.ActionBarActivity;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.RelativeSizeSpan;
@@ -46,7 +46,7 @@ import java.util.Date;
 /**
  * Created by Mike on 12/13/2014.
  */
-public class LogActivity extends Activity {
+public class LogActivity extends ActionBarActivity {
 
     private TextView text;
     private ScrollView scrollView;
@@ -62,13 +62,13 @@ public class LogActivity extends Activity {
         setContentView(R.layout.log_layout);
         overridePendingTransition(R.anim.slide_in_rtl, R.anim.slide_out_rtl);
 
-        assert getActionBar() != null;
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        assert getSupportActionBar() != null;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         preferences = getSharedPreferences("Settings", MODE_MULTI_PROCESS);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            getActionBar().setElevation(5);
+            getSupportActionBar().setElevation(5);
 
         scrollView = (ScrollView) findViewById(R.id.scroller);
         text = (TextView) findViewById(R.id.text);
