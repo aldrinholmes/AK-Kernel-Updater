@@ -36,8 +36,6 @@ public class Adapter extends ArrayAdapter {
             convertView.findViewById(R.id.imageView1).setBackground(context.getResources().getDrawable(R.drawable.ic_folder_white_24dp));
         } else if (Tools.getFileExtension(files.get(position)).equalsIgnoreCase(".zip")) {
             convertView.findViewById(R.id.imageView1).setBackground(context.getResources().getDrawable(R.drawable.archive_blue));
-        } else {
-            convertView.findViewById(R.id.imageView1).setBackground(context.getResources().getDrawable(R.drawable.unknown));
         }
         ((TextView) convertView.findViewById(android.R.id.text1)).setText(files.get(position).isDirectory() ? position == 0 ? ".." : File.separator + files.get(position).getName() : files.get(position).getName());
 
