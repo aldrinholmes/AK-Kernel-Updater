@@ -9,4 +9,16 @@
         <item name="android:windowBackground">@color/background</item>
     </style>
 
+    <style name="AppTheme.preferenceStyle">
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="AppTheme.preferenceInformationStyle">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textColor">@color/secondaryText</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

@@ -78,8 +78,8 @@ public class Main extends ActionBarActivity {
         setContentView(R.layout.main_layout);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (getActionBar() != null)
-                getActionBar().setElevation(5);
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setElevation(5);
         }
 
         this.tools = Tools.getInstance(this);

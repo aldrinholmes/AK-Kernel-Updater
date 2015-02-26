@@ -13,5 +13,7 @@
     <color name="primary">#E53935</color>
     <color name="primary_dark">#C62828</color>
     <color name="accent">#ffffaa21</color>
-    <color name="navBarColor">#303F9F</color>
+    <color name="navBarColor">#C62828</color>
+    <color name="primaryText">#ffffff</color>
+    <color name="secondaryText">#a1a1a1</color>
 </resources>
