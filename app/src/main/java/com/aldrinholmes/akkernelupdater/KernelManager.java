@@ -63,7 +63,7 @@ public class KernelManager {
                 if (b)
                     apiMatchedOnce = true;
                 if (a & b) {
-                    if (!k.isTestBuild() || preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, true)) {
+                    if (!k.isTestBuild() || preferences.getBoolean(Keys.KEY_SETTINGS_LOOKFORBETA, false)) {
                         return k;
                     }
                 }

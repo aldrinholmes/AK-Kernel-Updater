@@ -279,6 +279,15 @@
             android:layout_height="wrap_content"
             android:padding="5dp">
 
+            <LinearLayout
+                android:id="@+id/btn_experimentalbuilds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/checkbox_receiveBeta"
+                android:background="?android:attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:padding="3dp">
 
             <TextView
                 android:id="@+id/title3"
@@ -287,8 +296,17 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginBottom="5dp"
-                android:padding="3dp"
                 android:text="@string/settings_btn_receiveBeta" />
+
+            <TextView
+                style="@style/AppTheme.preferenceInformationStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="36dp"
+                android:text="@string/settings_info_experimental" />
+            </LinearLayout>
+
 
             <CheckBox
                 android:id="@+id/checkbox_receiveBeta"

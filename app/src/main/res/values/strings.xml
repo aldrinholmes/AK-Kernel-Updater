@@ -36,7 +36,7 @@
     <string name="msg_up_to_date">You\'re up-to-date</string>
     <string name="msg_failed_try_again">Failed, please try again later</string>
     <string name="msg_device_not_supported">Device not supported</string>
-    <string name="msg_downloadCanceled">Download canceled</string>
+    <string name="msg_downloadCanceled">Download cancelled</string>
     <string name="msg_downloadComplete">Download complete</string>
     <string name="msg_updateFound">A new kernel version was found</string>
     <string name="msg_changeable">This setting can be changed from the settings section</string>
@@ -73,7 +73,8 @@
     <string name="settings_btn_useProxy">Use proxy</string>
     <string name="settings_btn_downloadLocation">Download location</string>
     <string name="settings_btn_staticFilename">Static filename</string>
-    <string name="settings_btn_receiveBeta">Receive test builds</string>
+    <string name="settings_btn_receiveBeta">Experimental builds</string>
+    <string name="settings_info_experimental" translatable="false">Tick to receive experimental builds</string>
     <string name="settings_btn_updateSource">Update source</string>
 
     <string name="settings_info_useAndroidDM">Use system\'s built-in download manager to handle downloads</string>
