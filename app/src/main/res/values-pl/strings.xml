@@ -11,12 +11,12 @@
 
     <string name="hours">Godziny</string>
     <string name="minutes">Minuty</string>
-    <string name="defaultt">Domyślne</string>
+    <string name="defaultt">Domyślnie</string>
     <string name="undefined">Niezdefiniowane</string>
-    <string name="onReboot">Ponowne uruchamianie …</string>
+    <string name="onReboot">Ponowne uruchamianie…</string>
     <string name="proxy_list">Lista proxy</string>
 
-    <string name="dialog_title_downloading">Pobieranie w toku …</string>
+    <string name="dialog_title_downloading">Pobieranie w toku…</string>
     <string name="dialog_title_changelog">List zmian</string>
     <string name="dialog_title_readyToInstall">Gotowe do instalacji</string>
     <string name="dialog_title_md5mismatch">Błąd MD5</string>
@@ -25,14 +25,14 @@
     <string name="dialog_content_about">Stworzone przez %1$s</string>
     <string name="dialog_content_about1">Zmodyfikowane przez ALDRIN HOLMES</string>
 
-    <string name="card_title_latestVersion">Najnowsza wersja</string>
-    <string name="card_title_installedKernel">Obecne jądro</string>
+    <string name="card_title_latestVersion">Najnowsze jądro</string>
+    <string name="card_title_installedKernel">Obecne zainstalowane jądro</string>
 
     <string name="field_filesize">Rozmiar pliku</string>
     <string name="filed_filename">Nazwa pliku</string>
     <string name="field_downloaded">Pobrane</string>
 
-    <string name="msg_pleaseWait">Proszę czekać …</string>
+    <string name="msg_pleaseWait">Proszę czekać…</string>
     <string name="msg_up_to_date">Posiadasz aktualne jądro</string>
     <string name="msg_failed_try_again">Niepowodzenie, spróbuj ponownie później</string>
     <string name="msg_device_not_supported">Twoje urządzenie nie jest wspierane</string>
@@ -42,7 +42,7 @@
     <string name="msg_changeable">To ustawienie może zostać zmienione w sekcji ustawień</string>
     <string name="msg_noKernelForYourROM">Brak jądra %1$s dla %2$s</string>
     <string name="msg_twrp">Automatyczna aktualizacja działa tylko z TWRP. CWM nie jest wspierane.</string>
-    <string name="msg_activeDownloads">Nie możesz wyjść, masz aktywne pobierania</string>
+    <string name="msg_activeDownloads">Nie możesz wyjść, pobieranie w toku</string>
     <string name="msg_invalidFilename">Nieprawidłowa nazwa pliku</string>
     <string name="msg_invalidProxy">Nieprawidłowa konfiguracja proxy</string>
     <string name="msg_troubleProxy">Problem z połączeniem? %1$s > %2$s</string>
@@ -66,8 +66,8 @@
     <string name="settings_category_downloads">POBIERANIE</string>
     <string name="settings_category_romBase">ROM</string>
 
-    <string name="settings_switch_backgroundCheck">Sprawdzanie aktualizacji w tle</string>
-    <string name="settings_textView_backgroundCheckInterval">Interwał sprawdzenia</string>
+    <string name="settings_switch_backgroundCheck">Sprawdzanie w tle</string>
+    <string name="settings_textView_backgroundCheckInterval">Interwał sprawdzania</string>
 
     <string name="settings_checkbox_useAndroidDM">Używaj Menedżera Pobierania</string>
     <string name="settings_btn_useProxy">Użyj proxy</string>
@@ -77,7 +77,7 @@
     <string name="settings_btn_updateSource">Źródło aktualizacji</string>
 
     <string name="settings_info_useAndroidDM">Używaj wbudowanego w system menedżera do obsługi pobierania</string>
-    <string name="settings_info_useStaticFilename">Użyjwaj tej samej nazwy plików dla wszystkich pobierań</string>
+    <string name="settings_info_useStaticFilename">Używaj tej samej nazwy dla wszystkich pobranych plików</string>
 
     <string name="prompt_install1">Jądro zostało pobrane pomyślnie.\nKliknij %1$s aby uruchomić ponownie i zainstalować je teraz.\nKliknij %2$s aby zainstalować później.</string>
     <string name="prompt_install2">
