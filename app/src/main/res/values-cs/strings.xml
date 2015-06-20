@@ -46,7 +46,7 @@
   <string name="msg_textNotFound">Nic nenalezeno</string>
   <string name="msg_restartApplication">Změny se projeví po restartování aplikace.</string>
   <string name="btn_whatsNew">Novinky</string>
-  <string name="btn_getIt">Dostat teď</string>
+  <string name="btn_getIt">Stáhnout hned</string>
   <string name="btn_ok">Okej</string>
   <string name="btn_cancel">Storno</string>
   <string name="btn_dismiss">Zavřít</string>
@@ -55,7 +55,7 @@
   <string name="btn_downloadAgain">Znovu stáhnout</string>
   <string name="settings_category_backgroundCheck">OVĚŘENÍ SPOLEHLIVOSTI</string>
   <string name="settings_category_proxy">SERVER PROXY</string>
-  <string name="settings_category_downloads">SOUBORY KE STAŽENÍ</string>
+  <string name="settings_category_downloads">STAŽENÉ SOUBORY</string>
   <string name="settings_category_romBase">Verze ROM</string>
   <string name="settings_switch_backgroundCheck">Ověření spolehlivosti</string>
   <string name="settings_textView_backgroundCheckInterval">Interval kontroly pozadí</string>
