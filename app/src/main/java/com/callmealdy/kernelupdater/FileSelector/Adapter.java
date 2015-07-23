@@ -1,4 +1,4 @@
-package com.aldrinholmes.akkernelupdater.FileSelector;
+package com.callmealdy.kernelupdater.FileSelector;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.aldrinholmes.akkernelupdater.R;
-import com.aldrinholmes.akkernelupdater.Tools;
+import com.callmealdy.kernelupdater.R;
+import com.callmealdy.kernelupdater.Tools;
 
 import java.io.File;
 import java.util.ArrayList;

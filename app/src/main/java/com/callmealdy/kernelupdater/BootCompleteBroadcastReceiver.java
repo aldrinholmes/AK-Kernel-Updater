@@ -1,11 +1,11 @@
-package com.aldrinholmes.akkernelupdater;
+package com.callmealdy.kernelupdater;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.aldrinholmes.akkernelupdater.Services.BackgroundAutoCheckService;
+import com.callmealdy.kernelupdater.Services.BackgroundAutoCheckService;
 
 /**
  * Created by Mike on 9/26/2014.

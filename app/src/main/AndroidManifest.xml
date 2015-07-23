@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.aldrinholmes.akkernelupdater">
+    package="com.callmealdy.kernelupdater">
 
     <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -16,7 +16,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.aldrinholmes.akkernelupdater.Main"
+            android:name="com.callmealdy.kernelupdater.Main"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -24,28 +24,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.aldrinholmes.akkernelupdater.Settings"
-            android:label="@string/activity_settings"
-            android:parentActivityName="com.aldrinholmes.akkernelupdater.Main"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.aldrinholmes.akkernelupdater.FileSelector.FileBrowser"
-            android:label="@string/activity_fileBrowser"
-            android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.aldrinholmes.akkernelupdater.LogActivity"
-            android:label="@string/action_log"
+            android:name="com.callmealdy.kernelupdater.Settings"
+            android:label="@string/activity_settings"
+            android:parentActivityName="com.callmealdy.kernelupdater.Main"
             android:screenOrientation="portrait" />
 
         <service
-            android:name="com.aldrinholmes.akkernelupdater.Services.BackgroundAutoCheckService"
+            android:name="com.callmealdy.kernelupdater.Services.BackgroundAutoCheckService"
             android:enabled="true"
             android:singleUser="true" />
 
+        <activity
+            android:name="com.callmealdy.kernelupdater.LogActivity"
+            android:label="@string/action_log"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.callmealdy.kernelupdater.FileSelector.FileBrowser"
+            android:label="@string/activity_fileBrowser"
+            android:screenOrientation="portrait" />
+
         <receiver
-            android:name="com.aldrinholmes.akkernelupdater.BootCompleteBroadcastReceiver"
+            android:name="com.callmealdy.kernelupdater.BootCompleteBroadcastReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

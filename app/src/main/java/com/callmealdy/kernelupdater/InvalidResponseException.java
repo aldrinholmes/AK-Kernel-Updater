@@ -1,4 +1,4 @@
-package com.aldrinholmes.akkernelupdater;
+package com.callmealdy.kernelupdater;
 
 /**
  * Created by Mike on 1/4/2015.

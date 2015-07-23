@@ -1,4 +1,4 @@
-package com.aldrinholmes.akkernelupdater;
+package com.callmealdy.kernelupdater;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -40,7 +40,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aldrinholmes.akkernelupdater.Services.BackgroundAutoCheckService;
+import com.callmealdy.kernelupdater.Services.BackgroundAutoCheckService;
 
 import java.io.File;
 import java.net.HttpURLConnection;

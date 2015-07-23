@@ -1,4 +1,4 @@
-package com.aldrinholmes.akkernelupdater;
+package com.callmealdy.kernelupdater;
 
 import android.app.Activity;
 import android.app.AlertDialog;

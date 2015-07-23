@@ -1,4 +1,4 @@
-package com.aldrinholmes.akkernelupdater;
+package com.callmealdy.kernelupdater;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,8 +33,8 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aldrinholmes.akkernelupdater.FileSelector.FileBrowser;
-import com.aldrinholmes.akkernelupdater.Services.BackgroundAutoCheckService;
+import com.callmealdy.kernelupdater.FileSelector.FileBrowser;
+import com.callmealdy.kernelupdater.Services.BackgroundAutoCheckService;
 
 import java.net.HttpURLConnection;
 import java.net.URL;

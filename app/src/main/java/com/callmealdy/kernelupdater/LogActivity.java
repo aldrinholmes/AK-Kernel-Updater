@@ -1,4 +1,4 @@
-package com.aldrinholmes.akkernelupdater;
+package com.callmealdy.kernelupdater;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -31,7 +31,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aldrinholmes.akkernelupdater.FileSelector.FileBrowser;
+import com.callmealdy.kernelupdater.FileSelector.FileBrowser;
 
 import java.io.BufferedReader;
 import java.io.File;

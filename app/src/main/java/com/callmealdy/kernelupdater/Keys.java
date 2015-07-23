@@ -1,4 +1,4 @@
-package com.aldrinholmes.akkernelupdater;
+package com.callmealdy.kernelupdater;
 
 /**
  * Created by Mike on 9/20/2014.
@@ -7,8 +7,8 @@ public class Keys {
 
     public static String DEFAULT_SOURCE = "https://docs.google.com/uc?authuser=0&id=0B8S4T0fxh3guU09FUS1wWkIwd1U&export=download";
     public static String SOURCE_CODE = "https://github.com/CallMeAldy/AK-Kernel-Updater";
-    public static String TAG_NOTIF = "ALDRINHOLMES.AKKERNELUPDATER.UPDNOTIF";
-    public static String VALIDITY_KEY = "::COM.ALDRINHOLMES.AKKERNELUPDATER::";
+    public static String TAG_NOTIF = "CALLMEALDY.KERNELUPDATER.UPDNOTIF";
+    public static String VALIDITY_KEY = "::COM.CALLMEALDY.KERNELUPDATER::";
     public static String DEFAULT_PROXY = "202.38.95.66:8080";
     public static String PROXY_LIST = "http://proxylist.hidemyass.com/";
 

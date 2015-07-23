@@ -1,4 +1,4 @@
-package com.aldrinholmes.akkernelupdater.Services;
+package com.callmealdy.kernelupdater.Services;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -15,13 +15,13 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.IBinder;
 
-import com.aldrinholmes.akkernelupdater.DeviceNotSupportedException;
-import com.aldrinholmes.akkernelupdater.Kernel;
-import com.aldrinholmes.akkernelupdater.KernelManager;
-import com.aldrinholmes.akkernelupdater.Keys;
-import com.aldrinholmes.akkernelupdater.Main;
-import com.aldrinholmes.akkernelupdater.R;
-import com.aldrinholmes.akkernelupdater.Tools;
+import com.callmealdy.kernelupdater.DeviceNotSupportedException;
+import com.callmealdy.kernelupdater.Kernel;
+import com.callmealdy.kernelupdater.KernelManager;
+import com.callmealdy.kernelupdater.Keys;
+import com.callmealdy.kernelupdater.Main;
+import com.callmealdy.kernelupdater.R;
+import com.callmealdy.kernelupdater.Tools;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
