@@ -590,7 +590,7 @@ public class Main extends ActionBarActivity implements SwipeRefreshLayout.OnRefr
         TextView text2 = new TextView(this);
         text2.setTextAppearance(this, android.R.style.TextAppearance_Small);
         text2.setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Regular.ttf"));
-        text2.setText(getString(R.string.dialog_content_about1, "ALDRIN HOLMES"));
+        text2.setText(getString(R.string.dialog_content_about1, "CALLMEALDY"));
         contentView.addView(text2, params);
 
         TextView text3 = new TextView(this);
