@@ -3,14 +3,14 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
     }
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
     defaultConfig {
         applicationId 'com.aldrinholmes.akupdater'
         minSdkVersion 19
-        targetSdkVersion 21
-        versionCode 11
-        versionName '1.1'
+        targetSdkVersion 22
+        versionCode 12
+        versionName '1.2'
     }
     buildTypes {
         release {
