@@ -15,7 +15,7 @@
   <string name="onReboot">Redémarrage ...</string>
   <string name="proxy_list">Liste de proxy</string>
   <string name="dialog_title_downloading">Téléchargement en cours &#8230;</string>
-  <string name="dialog_title_changelog">Changelog</string>
+  <string name="dialog_title_changelog">Notes de version</string>
   <string name="dialog_title_readyToInstall">Prêt à installer</string>
   <string name="dialog_title_md5mismatch">Le MD5 ne correspond pas</string>
   <string name="dialog_title_rootFail">Le root est nécessaire</string>
@@ -63,7 +63,7 @@
   <string name="settings_btn_useProxy">Utiliser un proxy</string>
   <string name="settings_btn_downloadLocation">Emplacement du téléchargement</string>
   <string name="settings_btn_staticFilename">Nom de fichier statique</string>
-  <string name="settings_btn_receiveBeta">Recevoir les versions d\'essai</string>
+  <string name="settings_btn_receiveBeta">Recevoir les versions béta</string>
   <string name="settings_btn_updateSource">Source de mise à jour</string>
   <string name="settings_info_useAndroidDM">Utiliser le gestionnaire système intégré pour gérer les téléchargements</string>
   <string name="settings_info_useStaticFilename">Utilisez le même nom de fichier pour tous les téléchargements</string>
@@ -73,6 +73,6 @@
   <string name="prompt_rootFail">Impossible d\'obtenir un accès root.\nVous pouvez continuer et télécharger les mises à jour du kernel via l\'application mais l\'installation de ce dernier ne fonctionnera pas sans root.\nVeuillez vérifier votre application SuperSU ou Superuser.</string>
   <string name="prompt_romBase">Quelle est la base de  votre ROM ?</string>
   <string name="prompt_android_version">Quelle version d\'Android utilisez-vous ?</string>
-  <string name="prompt_blankDefault">Laissez vide par défaut</string>
+  <string name="prompt_blankDefault">Laisser vide pour défaut</string>
   <string name="prompt_zipExtension">N\'oubliez pas d\'ajouter l\'extension de fichier .zip</string>
 </resources>
