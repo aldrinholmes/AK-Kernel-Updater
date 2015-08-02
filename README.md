@@ -18,6 +18,10 @@ A simple application to stay up to date with the latest version of AK Kernel ava
 * Md5sum checker.
 * Reboot and flash.
 
-### *Pre-requisites*
+## *Pre-requisites*
 
 * Root is required for the app to reboot into recovery and flash the kernel.
+
+## *Translations*
+
+* Contribute by submitting your translations via [Crowdin](https://crowdin.com/project/ak-kernel-updater)
