@@ -1,5 +1,7 @@
-**/build
-**/taskArtifacts
-.gradle/
+.gradle
+/local.properties
 .idea/
-*.db
+.DS_Store
+build/
+captures
+*.iml
