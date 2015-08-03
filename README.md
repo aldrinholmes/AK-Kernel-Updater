@@ -1,11 +1,18 @@
 # *AK-Kernel-Updater*
+
+A simple application to stay up to date with the latest version of AK Kernel available for your device.
+
+## *Travis-Ci Build Status*
+
+[![Build Status](https://travis-ci.org/CallMeAldy/AK-Kernel-Updater.svg?branch=master)](https://travis-ci.org/CallMeAldy/AK-Kernel-Updater)
+
+## *Downloads*
+
 ### Latest Release
 [![Downloads](https://img.shields.io/github/downloads/CallMeAldy/AK-Kernel-Updater/latest/total.svg)](https://github.com/CallMeAldy/AK-Kernel-Updater/releases/latest)
 
 ### Release v1.2
 [![Github Releases (by Release)](https://img.shields.io/github/downloads/CallMeAldy/AK-Kernel-Updater/v1.2/total.svg)](https://github.com/CallMeAldy/AK-Kernel-Updater/releases/tag/v1.2)
-
-A simple application to stay up to date with the latest version of AK Kernel available for your device.
 
 ## *Supported Devices*
 
