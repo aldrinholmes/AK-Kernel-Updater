@@ -18,6 +18,7 @@ A simple application to stay up to date with the latest version of AK Kernel ava
 
 * Nexus 4. (mako)
 * OnePlus One. (bacon/A0001)
+* OnePlus Two.
 
 ## *AK Kernel Updater features*
 
