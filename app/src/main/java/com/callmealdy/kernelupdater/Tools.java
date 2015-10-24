@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.MessageDigest;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -92,12 +94,39 @@ public class Tools {
     }
 
     public static String getMD5Hash(String filePath) {
-        String res = null;
+        String md5hash = "";
+        FileInputStream inputStream = null;
+
         try {
-            return new Scanner(Runtime.getRuntime().exec(String.format("md5 %s", filePath)).getInputStream()).next();
-        } catch (Exception e) {
-            return res;
+
+            inputStream = new FileInputStream(filePath);
+            MessageDigest md = MessageDigest.getInstance("MD5");
+
+            byte[] buffer = new byte[1024];
+
+            int read;
+            while ((read = inputStream.read(buffer)) != -1) {
+                md.update(buffer, 0, read);
+            }
+
+            byte[] digestData = md.digest();
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b : digestData) {
+                sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+            }
+
+            md5hash = sb.toString();
+
+        } catch (Exception ignored) {
+        } finally {
+            if (inputStream != null)
+                try {
+                    inputStream.close();
+                } catch (Exception ignored){}
         }
+
+        return md5hash;
     }
 
     public static String getFormattedKernelVersion() {
