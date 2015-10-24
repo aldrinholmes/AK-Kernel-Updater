@@ -8,8 +8,11 @@ A simple application to stay up to date with the latest version of AK Kernel ava
 
 ## *Downloads*
 
-### Latest Release
+### Latest Release v1.4
 [![Downloads](https://img.shields.io/github/downloads/CallMeAldy/AK-Kernel-Updater/latest/total.svg)](https://github.com/CallMeAldy/AK-Kernel-Updater/releases/latest)
+
+### Release v1.3
+[![Github Releases (by Release)](https://img.shields.io/github/downloads/CallMeAldy/AK-Kernel-Updater/v1.3/total.svg)](https://github.com/CallMeAldy/AK-Kernel-Updater/releases/tag/v1.3)
 
 ### Release v1.2
 [![Github Releases (by Release)](https://img.shields.io/github/downloads/CallMeAldy/AK-Kernel-Updater/v1.2/total.svg)](https://github.com/CallMeAldy/AK-Kernel-Updater/releases/tag/v1.2)
