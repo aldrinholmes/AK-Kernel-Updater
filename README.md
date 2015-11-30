@@ -20,6 +20,7 @@ A simple application to stay up to date with the latest version of AK Kernel ava
 ## *Supported Devices*
 
 * Nexus 4. (mako)
+* Nexus 6P. (angler)
 * OnePlus One. (bacon/A0001)
 * OnePlus Two.
 
