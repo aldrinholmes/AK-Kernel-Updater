@@ -40,3 +40,8 @@ A simple application to stay up to date with the latest version of AK Kernel ava
 ## *Translations*
 
 * Contribute by submitting your translations via [Crowdin](https://crowdin.com/project/ak-kernel-updater)
+
+
+## *Visit*
+
+[Codelax Creative](https://www.codelaxcreative.in)
